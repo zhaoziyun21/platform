@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.platform.dao.TblClientDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.platform.entity.TblClient">
+        <id column="id" property="id" />
+        <result column="clientName" property="clientName" />
+        <result column="clientTel" property="clientTel" />
+        <result column="clientType" property="clientType" />
+        <result column="clientManagerId" property="clientManagerId" />
+        <result column="clientManagerName" property="clientManagerName" />
+        <result column="noTrackOrder" property="noTrackOrder" />
+        <result column="isVisit" property="isVisit" />
+        <result column="socialSecurityPay" property="socialSecurityPay" />
+        <result column="socialSecurityYears" property="socialSecurityYears" />
+        <result column="gjjPay" property="gjjPay" />
+        <result column="gjjYears" property="gjjYears" />
+        <result column="salaryType" property="salaryType" />
+        <result column="salaryYears" property="salaryYears" />
+        <result column="isRecordCost" property="isRecordCost" />
+        <result column="cost" property="cost" />
+        <result column="createTime" property="createTime" />
+        <result column="actionTime" property="actionTime" />
+        <result column="createUser" property="createUser" />
+        <result column="updateUser" property="updateUser" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, clientName, clientTel, clientType, clientManagerId, clientManagerName, noTrackOrder, isVisit,
+        socialSecurityPay, socialSecurityYears, gjjPay,
+        gjjYears, salaryType, salaryYears, isRecordCost, cost, createTime,
+         actionTime,createUser,updateUser
+    </sql>
+
+    <select id="selectTblClientPage" resultType="com.platform.entity.TblClient">
+        select
+        <include refid="Base_Column_List"/>
+        from tbl_client
+        where  clientManagerId = '${params.clientManagerId}'
+        <if test="params.clientTel != null and params.clientTel.trim() != ''">
+            AND clientTel =  '${params.clientTel}'
+        </if>
+    </select>
+
+    <select id="queryObject" resultType="com.platform.entity.TblClient">
+        select
+        <include refid="Base_Column_List"/>
+         from tbl_client where id = #{value}
+    </select>
+
+    <insert id="save" useGeneratedKeys="true" keyProperty="id" parameterType="com.platform.entity.TblClient" >
+        insert into tbl_client
+        (
+        `clientName`,
+        `clientTel`,
+        `clientType`,
+        `clientManagerId`,
+        `clientManagerName`,
+        `noTrackOrder`,
+        `isVisit`,
+        `socialSecurityPay`,
+        `socialSecurityYears`,
+        `gjjPay`,
+        `gjjYears`,
+        `salaryType`,
+        `salaryYears`,
+        `isRecordCost`,
+        `cost`,
+        `createTime`,
+        `updateUser`,
+        `createUser`
+        )
+        values
+        (
+        #{clientName},
+        #{clientTel},
+        #{clientType},
+        #{clientManagerId},
+        #{clientManagerName},
+        #{noTrackOrder},
+        #{isVisit},
+        #{socialSecurityPay},
+        #{socialSecurityYears},
+        #{gjjPay},
+        #{gjjYears},
+        #{salaryType},
+        #{salaryYears},
+        #{isRecordCost},
+        #{cost},
+        #{createTime},
+        #{clientManagerName},
+        #{clientManagerName}
+        )
+    </insert>
+    <update id="update" parameterType="com.platform.entity.TblClient">
+        update tbl_client
+        <set>
+            <if test="clientName != null">`clientName` = #{clientName},</if>
+            <if test="clientTel != null">`clientTel` = #{clientTel},</if>
+            <if test="clientType != null">`clientType` = #{clientType},</if>
+            <if test="clientManagerId != null">`clientManagerId` = #{clientManagerId},</if>
+            <if test="clientManagerName != null">`clientManagerName` = #{clientManagerName},</if>
+            <if test="noTrackOrder != null">`noTrackOrder` = #{noTrackOrder},</if>
+            <if test="isVisit != null">`isVisit` = #{isVisit},</if>
+            <if test="socialSecurityPay != null">`socialSecurityPay` = #{socialSecurityPay},</if>
+            <if test="socialSecurityYears != null">`socialSecurityYears` = #{socialSecurityYears},</if>
+            <if test="gjjPay != null">`gjjPay` = #{gjjPay},</if>
+            <if test="gjjYears != null">`gjjYears` = #{gjjYears},</if>
+            <if test="salaryType != null">`salaryType` = #{salaryType},</if>
+            <if test="salaryYears != null">`salaryYears` = #{salaryYears},</if>
+            <if test="cost != null">`cost` = #{cost},</if>
+            <if test="updateUser != null">`updateUser` = #{clientManagerName},</if>
+            <if test="createUser != null">`createUser` = #{clientManagerName},</if>
+            `actionTime` = now()
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

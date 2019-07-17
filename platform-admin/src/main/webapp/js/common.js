@@ -261,7 +261,14 @@ function getQueryString(name) {
     }
     return null;
 }
-
+function getQueryStringNew(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = decodeURI(window.location.search).substr(1).match(reg);
+    if (r != null) {
+        return unescape(r[2]);
+    }
+    return null;
+}
 /**
  * 主要功能:导出功能公共方法
  *

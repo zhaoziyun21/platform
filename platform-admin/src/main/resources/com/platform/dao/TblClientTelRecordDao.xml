@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.platform.dao.TblClientTelRecordDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.platform.entity.TblClientTelRecord">
+        <id column="id" property="id" />
+        <result column="createTime" property="createTime" />
+        <result column="actionTime" property="actionTime" />
+        <result column="createUser" property="createUser" />
+        <result column="updateUser" property="updateUser" />
+        <result column="clientId" property="clientId" />
+        <result column="clientManagerId" property="clientManagerId" />
+        <result column="tel" property="tel" />
+        <result column="clientName" property="clientName" />
+        <result column="status" property="status" />
+        <result column="clientManagerName" property="clientManagerName" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, createTime, actionTime, createUser, updateUser,
+        clientId, clientManagerId, tel, clientName, status,clientManagerName
+    </sql>
+
+    <insert id="batchSave" parameterType="java.util.List">
+        insert into tbl_client_tel_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            createTime,
+            createUser,
+            updateUser,
+            clientId,
+            clientManagerId,
+            tel,
+            clientName,
+            status,
+            clientManagerName
+        </trim>
+        values
+        <foreach collection="records" item="record" separator=",">
+            <trim prefix="(" suffix=")">
+                #{record.createTime},
+                #{record.createUser},
+                #{record.updateUser},
+                #{record.clientId},
+                #{record.clientManagerId},
+                #{record.tel},
+                #{record.clientName},
+                #{record.status},
+                #{record.clientManagerName}
+            </trim>
+        </foreach>
+    </insert>
+
+    <select id="selectTblClientTelRecordByClientId" resultType="com.platform.entity.TblClientTelRecord">
+        select
+        <include refid="Base_Column_List"/>
+        from tbl_client_tel_record
+        where clientId =  '${params.clientId}'
+    </select>
+
+    <update id="update" parameterType="com.platform.entity.TblClientTelRecord">
+        update tbl_client_tel_record
+        <set>
+            <if test="updateUser != null">`updateUser` = #{updateUser},</if>
+            <if test="clientManagerId != null">`clientManagerId` = #{clientManagerId},</if>
+            <if test="createTime != null">`createTime` = #{createTime},</if>
+            <if test="createUser != null">`createUser` = #{createUser},</if>
+            <if test="clientId != null">`clientId` = #{clientId},</if>
+            <if test="tel != null">`tel` = #{tel},</if>
+            <if test="clientName != null">`clientName` = #{clientName},</if>
+            <if test="status != null">`status` = #{status},</if>
+            <if test="clientManagerName != null">`clientManagerName` = #{clientManagerName},</if>
+            `actionTime` = now()
+        </set>
+        where id = #{id}
+    </update>
+    <update id="divide" parameterType="java.util.Map">
+        update tbl_client_tel_record
+        <set>
+            <if test="updateUser != null">`updateUser` = #{updateUser},</if>
+            <if test="clientManagerId != null">`clientManagerId` = #{clientManagerId},</if>
+            <if test="createTime != null">`createTime` = #{createTime},</if>
+            <if test="createUser != null">`createUser` = #{createUser},</if>
+            <if test="clientId != null">`clientId` = #{clientId},</if>
+            <if test="tel != null">`tel` = #{tel},</if>
+            <if test="clientName != null">`clientName` = #{clientName},</if>
+            <if test="status != null">`status` = #{status},</if>
+            <if test="clientManagerName != null">`clientManagerName` = #{clientManagerName},</if>
+            `actionTime` = now()
+        </set>
+        where id in
+        <foreach  collection="idList"  item="id" index="index" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+    <update id="updateTelRecord" parameterType="com.platform.entity.TblClientTelRecord">
+        update tbl_client_tel_record
+        <set>
+            <if test="updateUser != null">`updateUser` = #{updateUser},</if>
+            <if test="clientManagerId != null">`clientManagerId` = #{clientManagerId},</if>
+            `actionTime` = now()
+        </set>
+        where clientId = #{clientId}
+    </update>
+
+    <select id="selectTblClientTelRecordPage" resultType="com.platform.entity.TblClientTelRecord">
+        select
+        <include refid="Base_Column_List"/>
+        from tbl_client_tel_record
+        where 1 = 1
+        <if test="params.status != null and params.status.trim() != ''">
+            AND status  =  '${params.status}'
+        </if>
+        <if test="params.tel != null and params.tel.trim() != ''">
+            AND tel  =  '${params.tel}'
+        </if>
+    </select>
+
+    <update id="updatePublishClient" parameterType="com.platform.entity.TblClientTelRecord">
+        update tbl_client_tel_record
+        <set>
+           `status` = 2
+        </set>
+        where status = 1
+        and TIMESTAMPDIFF(SECOND,actionTime,DATE_FORMAT(now(), '%Y-%m-%d %H:%i:%s')) >= 259200
+    </update>
+
+    <insert id="save" parameterType="java.util.List">
+        insert into tbl_client_tel_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            createTime,
+            createUser,
+            updateUser,
+            clientId,
+            clientManagerId,
+            tel,
+            clientName,
+            status,
+            clientManagerName
+        </trim>
+        values
+            <trim prefix="(" suffix=")">
+                #{createTime},
+                #{createUser},
+                #{updateUser},
+                #{clientId},
+                #{clientManagerId},
+                #{tel},
+                #{clientName},
+                #{status},
+                #{clientManagerName}
+            </trim>
+    </insert>
+
+    <select id="queryObject" resultType="com.platform.entity.TblClientTelRecord">
+        select
+        <include refid="Base_Column_List"/>
+        from tbl_client_tel_record where id = #{value}
+    </select>
+</mapper>

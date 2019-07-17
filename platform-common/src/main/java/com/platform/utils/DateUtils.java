@@ -71,7 +71,9 @@ public class DateUtils {
         Date time = strToDate(timeStr);
         return time.getTime() / 1000;
     }
-
+    public static long dateTime(Date date) {
+        return date.getTime() / 1000;
+    }
 
     /**
      * 转换为时间类型格式

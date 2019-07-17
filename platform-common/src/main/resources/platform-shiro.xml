@@ -50,6 +50,7 @@
 				/api/**=noSessionCreation
 	        	/login.html=anon
 	        	/sys/login=anon
+	        	/client/list=anon
 	        	/captcha.jpg=anon
 	        	/**=authc
 	        </value>
