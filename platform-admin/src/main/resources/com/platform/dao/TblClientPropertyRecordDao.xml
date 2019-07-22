@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.platform.dao.TblClientPropertyRecordDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.platform.entity.TblClientPropertyRecord">
+        <id column="id" property="id" />
+        <result column="createTime" property="createTime" />
+        <result column="actionTime" property="actionTime" />
+        <result column="createUser" property="createUser" />
+        <result column="updateUser" property="updateUser" />
+        <result column="clientId" property="clientId" />
+        <result column="clientManagerId" property="clientManagerId" />
+        <result column="propertyType" property="propertyType" />
+        <result column="propertyName" property="propertyName" />
+        <result column="buyTime" property="buyTime" />
+        <result column="propertyAmount" property="propertyAmount" />
+        <result column="clientManagerName" property="clientManagerName" />
+        <result column="remark" property="remark" />
+        <result column="clientName" property="clientName" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, createTime, actionTime, createUser, updateUser, clientId, clientManagerId,
+        propertyType, propertyName, buyTime, propertyAmount,clientManagerName,remark,clientName
+    </sql>
+    <select id="selectTblClientPropertyRecordPage" resultType="com.platform.entity.TblClientPropertyRecord">
+        select
+        <include refid="Base_Column_List"/>
+        from tbl_client_property_record
+        where   clientId  =  '${params.clientId}'
+    </select>
+    <select id="queryObject" resultType="com.platform.entity.TblClientPropertyRecord">
+        select
+        <include refid="Base_Column_List"/>
+        from tbl_client_property_record
+        where   id = #{id}
+    </select>
+
+    <insert id="save" parameterType="com.platform.entity.TblClientPropertyRecord">
+        insert into tbl_client_property_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            createTime,
+            createUser,
+            updateUser,
+            clientId,
+            clientManagerId,
+            propertyType,
+            propertyName,
+            buyTime,
+            propertyAmount,
+            clientManagerName,
+            remark,
+            clientName
+        </trim>
+        values
+        <trim prefix="(" suffix=")">
+            #{createTime},
+            #{createUser},
+            #{updateUser},
+            #{clientId},
+            #{clientManagerId},
+            #{propertyType},
+            #{propertyName},
+            #{buyTime},
+            #{propertyAmount},
+            #{clientManagerName},
+            #{remark},
+            #{clientName}
+        </trim>
+    </insert>
+    <update id="update" parameterType="com.platform.entity.TblClientPropertyRecord">
+        update tbl_client_property_record
+        <set>
+            <if test="updateUser != null">`updateUser` = #{updateUser},</if>
+            <if test="clientId != null">`clientId` = #{clientId},</if>
+            <if test="clientName != null">`clientName` = #{clientName},</if>
+            <if test="clientManagerId != null">`clientManagerId` = #{clientManagerId},</if>
+            <if test="propertyType != null">`propertyType` = #{propertyType},</if>
+            <if test="propertyName != null">`propertyName` = #{propertyName},</if>
+            <if test="buyTime != null">`buyTime` = #{buyTime},</if>
+            <if test="propertyAmount != null">`propertyAmount` = #{propertyAmount},</if>
+            <if test="clientManagerName != null">`clientManagerName` = #{clientManagerName},</if>
+            <if test="remark != null">`remark` = #{remark},</if>
+            `actionTime` = now()
+        </set>
+        where id = #{id}
+    </update>
+</mapper>

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.platform.dao.TblClientSignRecordDao">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.platform.entity.TblClientSignRecord">
+        <id column="id" property="id" />
+        <result column="createTime" property="createTime" />
+        <result column="actionTime" property="actionTime" />
+        <result column="createUser" property="createUser" />
+        <result column="updateUser" property="updateUser" />
+        <result column="clientId" property="clientId" />
+        <result column="clientManagerId" property="clientManagerId" />
+        <result column="signType" property="signType" />
+        <result column="signAmount" property="signAmount" />
+        <result column="servicePoint" property="servicePoint" />
+        <result column="mortgageNums" property="mortgageNums" />
+        <result column="mortgageAmount" property="mortgageAmount" />
+        <result column="clientManagerName" property="clientManagerName" />
+        <result column="remark" property="remark" />
+        <result column="clientName" property="clientName" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, createTime, actionTime, createUser, updateUser, clientId, clientManagerId, signType, signAmount,
+        servicePoint, mortgageNums, mortgageAmount,clientManagerName,remark,clientName
+    </sql>
+
+    <select id="selectTblClientSignRecordPage" resultType="com.platform.entity.TblClientSignRecord">
+        select
+        <include refid="Base_Column_List"/>
+        from tbl_client_sign_record
+        where   clientId  =  '${params.clientId}'
+    </select>
+    <select id="queryObject" resultType="com.platform.entity.TblClientSignRecord">
+        select
+        <include refid="Base_Column_List"/>
+        from tbl_client_sign_record
+        where   id = #{id}
+    </select>
+
+    <insert id="save" parameterType="com.platform.entity.TblClientSignRecord">
+        insert into tbl_client_sign_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            createTime,
+            createUser,
+            updateUser,
+            clientId,
+            clientManagerId,
+            signType,
+            signAmount,
+            servicePoint,
+            mortgageNums,
+            mortgageAmount,
+            clientManagerName,
+            remark,
+            clientName
+        </trim>
+        values
+        <trim prefix="(" suffix=")">
+            #{createTime},
+            #{createUser},
+            #{updateUser},
+            #{clientId},
+            #{clientManagerId},
+            #{signType},
+            #{signAmount},
+            #{servicePoint},
+            #{mortgageNums},
+            #{mortgageAmount},
+            #{clientManagerName},
+            #{remark},
+            #{clientName}
+        </trim>
+    </insert>
+    <update id="update" parameterType="com.platform.entity.TblClientLoanRecord">
+        update tbl_client_sign_record
+        <set>
+            <if test="updateUser != null">`updateUser` = #{updateUser},</if>
+            <if test="clientId != null">`clientId` = #{clientId},</if>
+            <if test="clientName != null">`clientName` = #{clientName},</if>
+            <if test="clientManagerName != null">`clientManagerName` = #{clientManagerName},</if>
+            <if test="clientManagerId != null">`clientManagerId` = #{clientManagerId},</if>
+            <if test="signType != null">`signType` = #{signType},</if>
+            <if test="signAmount != null">`signAmount` = #{signAmount},</if>
+            <if test="mortgageNums != null">`mortgageNums` = #{mortgageNums},</if>
+            <if test="mortgageAmount != null">`mortgageAmount` = #{mortgageAmount},</if>
+            <if test="remark != null">`remark` = #{remark},</if>
+            `actionTime` = now()
+        </set>
+        where id = #{id}
+    </update>
+
+
+</mapper>

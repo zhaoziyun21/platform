@@ -78,7 +78,8 @@
 		(
 			`user_id`, 
 			`username`, 
-			`password`, 
+			`realName`,
+			`password`,
 			`email`, 
 			`mobile`, 
 			`status`, 
@@ -90,7 +91,8 @@
 		(
 			#{userId}, 
 			#{username}, 
-			#{password}, 
+			#{realName},
+			#{password},
 			#{email}, 
 			#{mobile}, 
 			#{status}, 
@@ -104,6 +106,7 @@
 		update sys_user 
 		<set> 
 			<if test="username != null">`username` = #{username}, </if>
+			<if test="realName != null">`realName` = #{realName}, </if>
 			<if test="email != null">`email` = #{email}, </if>
 			<if test="mobile != null">`mobile` = #{mobile}, </if>
 			<if test="status != null">`status` = #{status}, </if>

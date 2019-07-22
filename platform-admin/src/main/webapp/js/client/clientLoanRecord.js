@@ -3,17 +3,22 @@ var clientName;
 $(function () {
     clientId = getQueryString("clientId");
     clientName = getQueryStringNew("clientName");
-    var url = '../clientFollowRecord/list';
+    var url = '../clientLoanRecord/list';
     if (clientId) {
         url += '?clientId=' + clientId ;
     }
     $("#jqGrid").Grid({
-        url: '../clientLoanRecord/list',
+        url: url,
         colModel: [
             {label: '贷款记录ID', name: 'id', index: "id", key: true, hidden: true},
             {label: '客户姓名', name: 'clientName', width: 75},
-            {label: '贷款名称', name: 'clientTel', width: 75},
+            {label: '贷款名称', name: 'loanName', width: 75},
             {label: '贷款类型', name: 'loanType', width: 75},
+            {label: '贷款总金额', name: 'loanAmount', width: 75},
+            {label: '服务费点位', name: 'servicePoint', width: 75},
+            {label: '按揭期数', name: 'mortgageNums', width: 75},
+            {label: '按揭金额', name: 'mortgageAmount', width: 75},
+            {label: '客户经理', name: 'clientManagerName', width: 75},
             {label: '备注', name: 'remark', width: 75}]
     });
 });
@@ -24,7 +29,25 @@ var vm = new Vue({
         showList: true,
         title: null,
         roleList: {},
-        clientFollowRecord: {
+        clientLoanRecord: {
+        },
+        ruleValidate: {
+            loanAmount: [
+                { pattern: /^[0-9]+(\.([0-9]{1,3}))$|^[0-9]+$/,message: '贷款总金额只能是整数或者小数', trigger: 'change'}
+            ],
+            servicePoint: [
+                { pattern: /^[0-9]+(\.([0-9]{1,3}))$|^[0-9]+$/,message: '服务费点位只能是整数或者小数', trigger: 'change'}
+            ],
+            mortgageNums: [
+                { pattern: /^[0-9]+$/,message: '按揭期数只能是整数', trigger: 'change'}
+            ],
+            mortgageAmount: [
+                { pattern: /^[0-9]+(\.([0-9]{1,3}))$|^[0-9]+$/,message: '按揭金额只能是整数或者小数', trigger: 'change'}
+            ]
+
+
+
+
         }
     },
     methods: {
@@ -34,7 +57,9 @@ var vm = new Vue({
         add: function () {
             vm.showList = false;
             vm.title = "新增";
-            vm.clientFollowRecord = {};
+            vm.clientLoanRecord = {
+                clientId :clientId,
+                clientName :clientName};
 
         },
         update: function () {
@@ -73,7 +98,7 @@ var vm = new Vue({
             vm.showList = true;
             var page = $("#jqGrid").jqGrid('getGridParam', 'page');
             $("#jqGrid").jqGrid('setGridParam', {
-                postData: {'clientTel': vm.q.clientTel},
+                // postData: {'clientTel': vm.q.clientTel},
                 page: page
             }).trigger("reloadGrid");
             vm.handleReset('formValidate');

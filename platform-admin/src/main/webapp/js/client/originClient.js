@@ -1,10 +1,10 @@
 $(function () {
     $("#jqGrid").Grid({
-        url: '../clientTelRecord/list',
+        url: '../client/list',
         colModel: [
             {label: '客户ID', name: 'clientId', index: "clientId", key: true, hidden: true},
             {label: '客户姓名', name: 'clientName', width: 75},
-            {label: '手机号', name: 'tel', width: 75},
+            {label: '手机号', name: 'clientTel', width: 75},
             {label: '客户经理', name: 'clientManagerName', width: 75},
             {label: '状态', name: 'status', width: 75, formatter: function (value) {
                 switch (value){
@@ -26,7 +26,7 @@ var vm = new Vue({
     data: {
         q: {
             status:null,
-            tel:""
+            clientTel:""
         },
         showList: true,
         title: null,
@@ -65,13 +65,23 @@ var vm = new Vue({
             $("#jqGrid").jqGrid('setGridParam', {
                 postData: {
                     'status': vm.q.status,
-                    'tel':vm.q.tel
+                    'clientTel':vm.q.clientTel
                 },
                 page: page
             }).trigger("reloadGrid");
             vm.handleReset('formValidate');
         },
-        importRecord: function () {
+        telImportRecord: function () {
+            openWindow({
+                title: '手机号导入',
+                type: 2,
+                content: encodeURI('../client/telImportRecord.html')
+            })
+        },
+        excelImportRecord: function () {
+            //待定
+        },
+        divideRecord: function () {
             //待定
         },
         handleSubmit: function (name) {

@@ -24,6 +24,12 @@
         <result column="actionTime" property="actionTime" />
         <result column="createUser" property="createUser" />
         <result column="updateUser" property="updateUser" />
+        <result column="status" property="status" />
+        <result column="followTime" property="followTime" />
+        <result column="signStatus" property="signStatus" />
+        <result column="applyPlatform" property="applyPlatform" />
+        <result column="applyAmount" property="applyAmount" />
+        <result column="applyTime" property="applyTime" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -31,16 +37,27 @@
         id, clientName, clientTel, clientType, clientManagerId, clientManagerName, noTrackOrder, isVisit,
         socialSecurityPay, socialSecurityYears, gjjPay,
         gjjYears, salaryType, salaryYears, isRecordCost, cost, createTime,
-         actionTime,createUser,updateUser
+         actionTime,createUser,updateUser,tbl_client.status,followTime,
+         signStatus,applyPlatform,applyAmount,applyTime
     </sql>
 
     <select id="selectTblClientPage" resultType="com.platform.entity.TblClient">
         select
         <include refid="Base_Column_List"/>
         from tbl_client
-        where  clientManagerId = '${params.clientManagerId}'
+        LEFT JOIN sys_user ON tbl_client.clientManagerId = sys_user.user_id
+        where  1=1
+        <!--  数据过滤  -->
+        <if test="params.filterSql != null and params.filterSql.trim() != ''">
+            ${params.filterSql}
+        </if>
+
         <if test="params.clientTel != null and params.clientTel.trim() != ''">
             AND clientTel =  '${params.clientTel}'
+        </if>
+
+        <if test="params.status != null and params.status.trim() != ''">
+            AND tbl_client.status  =  '${params.status}'
         </if>
     </select>
 
@@ -70,7 +87,13 @@
         `cost`,
         `createTime`,
         `updateUser`,
-        `createUser`
+        `createUser`,
+        `status`,
+        `followTime`,
+        `signStatus`,
+        `applyPlatform`,
+        `applyAmount`,
+        `applyTime`
         )
         values
         (
@@ -91,7 +114,13 @@
         #{cost},
         #{createTime},
         #{clientManagerName},
-        #{clientManagerName}
+        #{clientManagerName},
+        #{status},
+        #{followTime},
+        #{signStatus},
+        #{applyPlatform},
+        #{applyAmount},
+        #{applyTime}
         )
     </insert>
     <update id="update" parameterType="com.platform.entity.TblClient">
@@ -111,10 +140,72 @@
             <if test="salaryType != null">`salaryType` = #{salaryType},</if>
             <if test="salaryYears != null">`salaryYears` = #{salaryYears},</if>
             <if test="cost != null">`cost` = #{cost},</if>
-            <if test="updateUser != null">`updateUser` = #{clientManagerName},</if>
-            <if test="createUser != null">`createUser` = #{clientManagerName},</if>
+            <if test="updateUser != null">`updateUser` = #{updateUser},</if>
+            <if test="status != null">`status` = #{status},</if>
+            <if test="followTime != null">`followTime` = #{followTime},</if>
+            <if test="signStatus != null">`signStatus` = #{signStatus},</if>
+            <if test="applyPlatform != null">`applyPlatform` = #{applyPlatform},</if>
+            <if test="applyAmount != null">`applyAmount` = #{applyAmount},</if>
+            <if test="applyTime != null">`applyTime` = #{applyTime},</if>
             `actionTime` = now()
         </set>
         where id = #{id}
     </update>
+
+    <update id="updatePublishClient" parameterType="com.platform.entity.TblClient">
+        update tbl_client
+        <set>
+            `status` = 2
+        </set>
+        where status = 1
+        and TIMESTAMPDIFF(SECOND,followTime,DATE_FORMAT(now(), '%Y-%m-%d %H:%i:%s')) >= 259200
+    </update>
+
+    <update id="divide" parameterType="java.util.Map">
+        update tbl_client
+        <set>
+            <if test="updateUser != null">`updateUser` = #{updateUser},</if>
+            <if test="clientManagerId != null">`clientManagerId` = #{clientManagerId},</if>
+            <if test="createTime != null">`createTime` = #{createTime},</if>
+            <if test="createUser != null">`createUser` = #{createUser},</if>
+            <if test="clientTel != null">`clientTel` = #{clientTel},</if>
+            <if test="clientName != null">`clientName` = #{clientName},</if>
+            <if test="status != null">`status` = #{status},</if>
+            <if test="clientManagerName != null">`clientManagerName` = #{clientManagerName},</if>
+            <if test="followTime != null">`followTime` = #{followTime},</if>
+            `actionTime` = now()
+        </set>
+        where id in
+        <foreach  collection="idList"  item="id" index="index" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+
+    <insert id="batchSave" parameterType="java.util.List">
+        insert into tbl_client
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            createTime,
+            createUser,
+            updateUser,
+            clientManagerId,
+            clientTel,
+            clientName,
+            status,
+            clientManagerName
+        </trim>
+        values
+        <foreach collection="records" item="record" separator=",">
+            <trim prefix="(" suffix=")">
+                #{record.createTime},
+                #{record.createUser},
+                #{record.updateUser},
+                #{record.clientManagerId},
+                #{record.clientTel},
+                #{record.clientName},
+                #{record.status},
+                #{record.clientManagerName}
+            </trim>
+        </foreach>
+    </insert>
 </mapper>

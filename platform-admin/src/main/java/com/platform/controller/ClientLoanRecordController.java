@@ -38,7 +38,6 @@ public class ClientLoanRecordController {
      */
     @ResponseBody
     @RequestMapping("/list")
-    @RequiresPermissions("clientLoanRecord:list")
     public R list(@RequestParam Map<String, Object> params) {
         //查询列表数据查询列表数据
         PageUtilsPlus pageUtil = tblClientLoanRecordService.queryPage(params);
@@ -51,8 +50,7 @@ public class ClientLoanRecordController {
      * @return
      */
     @RequestMapping("/info/{id}")
-    @RequiresPermissions("clientLoanRecord:info")
-    public R info(@PathVariable("id") int id) {
+    public R info(@PathVariable("id") long id) {
         TblClientLoanRecord tblClientLoanRecord = tblClientLoanRecordService.queryObject(id);
 
         return R.ok().put("tblClientLoanRecord", tblClientLoanRecord);
@@ -69,7 +67,7 @@ public class ClientLoanRecordController {
         ValidatorUtils.validateEntity(tblClientLoanRecord);
         SysUserEntity user = UserUtil.getCurUser();
         tblClientLoanRecord.setClientManagerId(user.getUserId());
-        tblClientLoanRecord.setClientManagerName(user.getUsername());
+        tblClientLoanRecord.setClientManagerName(user.getRealName());
         tblClientLoanRecord.setCreateTime(new Date());
         tblClientLoanRecord.setCreateUser(user.getUsername());
         tblClientLoanRecord.setUpdateUser(user.getUsername());
@@ -86,7 +84,7 @@ public class ClientLoanRecordController {
         ValidatorUtils.validateEntity(tblClientLoanRecord);
         SysUserEntity user = UserUtil.getCurUser();
         tblClientLoanRecord.setClientManagerId(user.getUserId());
-        tblClientLoanRecord.setClientManagerName(user.getUsername());
+        tblClientLoanRecord.setClientManagerName(user.getRealName());
         tblClientLoanRecord.setUpdateUser(user.getUsername());
         tblClientLoanRecordService.updateClientLoanRecord(tblClientLoanRecord);
         return R.ok();

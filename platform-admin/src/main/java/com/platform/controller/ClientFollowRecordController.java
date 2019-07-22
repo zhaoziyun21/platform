@@ -38,7 +38,6 @@ public class ClientFollowRecordController {
      */
     @ResponseBody
     @RequestMapping("/list")
-    @RequiresPermissions("client:list")
     public R list(@RequestParam Map<String, Object> params) {
         //查询列表数据查询列表数据
         PageUtilsPlus pageUtil = tblClientFollowRecordService.queryPage(params);
@@ -57,7 +56,7 @@ public class ClientFollowRecordController {
         SysUserEntity user = UserUtil.getCurUser();
         tblClientFollowRecord.setClientManagerId(user.getUserId());
         tblClientFollowRecord.setCreateTime(new Date());
-        tblClientFollowRecord.setClientManagerName(user.getUsername());
+        tblClientFollowRecord.setClientManagerName(user.getRealName());
         tblClientFollowRecordService.saveFollowRecord(tblClientFollowRecord);
         return R.ok();
     }
@@ -78,8 +77,7 @@ public class ClientFollowRecordController {
      * @return
      */
     @RequestMapping("/info/{id}")
-    @RequiresPermissions("client:list")
-    public R info(@PathVariable("id") int id) {
+    public R info(@PathVariable("id") long id) {
         TblClientFollowRecord tblClientFollowRecord = tblClientFollowRecordService.queryObject(id);
         return R.ok().put("tblClientFollowRecord", tblClientFollowRecord);
     }

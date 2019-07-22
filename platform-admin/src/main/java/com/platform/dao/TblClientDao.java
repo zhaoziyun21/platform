@@ -3,6 +3,7 @@ package com.platform.dao;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.platform.entity.TblClient;
+import com.platform.entity.TblClientTelRecord;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
@@ -26,4 +27,10 @@ public interface TblClientDao extends BaseDao<TblClient> {
      * @return
      */
     List<TblClient> selectTblClientPage(IPage page, @Param("params")Map<String, Object> params);
+
+    int updatePublishClient();
+
+    void divide(@Param("params") Map<String, Object> params);
+
+    void batchSave(@Param("records")List<TblClient> tblClients);
 }

@@ -1,13 +1,13 @@
 $(function () {
     $("#jqGrid").Grid({
-        url: '../clientTelRecord/list',
+        url: '../client/list',
         postData: {
             status: "2"
         },
         colModel: [
             {label: '客户ID', name: 'clientId', index: "clientId", key: true, hidden: true},
             {label: '客户姓名', name: 'clientName', width: 75},
-            {label: '手机号', name: 'tel', width: 75},
+            {label: '手机号', name: 'clientTel', width: 75},
             {
                 label: '操作', width: 160, align: 'center', sortable: false, formatter: function (value, col, row) {
                     a=1;
@@ -68,7 +68,7 @@ var vm = new Vue({
                 }
                 Ajax.request({
                     type: "POST",
-                    url: "../clientTelRecord/secondKill",
+                    url: "../client/secondKill",
                     contentType: "application/json",
                     params: JSON.stringify(vm.clientFollowRecord),
                     successCallback: function (r) {

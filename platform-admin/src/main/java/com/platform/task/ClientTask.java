@@ -2,6 +2,7 @@ package com.platform.task;
 
 import com.platform.entity.SysUserEntity;
 import com.platform.service.SysUserService;
+import com.platform.service.TblClientService;
 import com.platform.service.TblClientTelRecordService;
 import com.platform.utils.DateUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -26,11 +27,11 @@ public class ClientTask {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private TblClientTelRecordService tblClientTelRecordService;
+    private TblClientService tblClientService;
 
     public void updatePublishClient() {
         logger.info("定时更新未跟进客户到公海，当前时间为：" + DateUtils.format(new Date(),DateUtils.DATE_TIME_PATTERN));
-        int rows = tblClientTelRecordService.updatePublishClient();
+        int rows = tblClientService.updatePublishClient();
         logger.info("定时更新未跟进客户到公海，受影响更新条数："+ rows +",当前时间为：" + DateUtils.format(new Date(),DateUtils.DATE_TIME_PATTERN));
     }
 }

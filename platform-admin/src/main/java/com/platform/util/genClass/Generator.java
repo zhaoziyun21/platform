@@ -37,7 +37,7 @@ public class Generator {
     //作者
     private static String authorName = "zhaoziyun";
     //要生成的表名
-    private static String[] tables = {"tbl_client_loan_record"};
+    private static String[] tables = {"tbl_client_property_record"};
     //table前缀
     private static String prefix = "tb_";
 

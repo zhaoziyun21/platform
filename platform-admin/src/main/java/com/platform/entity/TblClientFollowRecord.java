@@ -29,13 +29,13 @@ public class TblClientFollowRecord extends Model<TblClientFollowRecord> {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     /**
      * 客户id
      */
     @TableField("clientId")
-    private Integer clientId;
+    private Long clientId;
 
     /**
      * 客户姓名

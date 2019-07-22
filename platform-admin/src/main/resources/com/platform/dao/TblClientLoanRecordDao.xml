@@ -16,12 +16,17 @@
         <result column="clientManagerId" property="clientManagerId" />
         <result column="clientManagerName" property="clientManagerName" />
         <result column="remark" property="remark" />
+        <result column="loanAmount" property="loanAmount" />
+        <result column="servicePoint" property="servicePoint" />
+        <result column="mortgageNums" property="mortgageNums" />
+        <result column="mortgageAmount" property="mortgageAmount" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         id, clientId, clientName, loanName, loanType, createTime, actionTime, createUser,
-         updateUser,clientManagerName,clientManagerId,remark
+         updateUser,clientManagerName,clientManagerId,remark,loanAmount,servicePoint,
+         mortgageNums,mortgageAmount
     </sql>
     <select id="selectTblClientLoanRecordPage" resultType="com.platform.entity.TblClientLoanRecord">
         select
@@ -33,7 +38,7 @@
         select
         <include refid="Base_Column_List"/>
         from tbl_client_loan_record
-        where   id  =  '${id}'
+        where   id = #{id}
     </select>
 
     <insert id="save" parameterType="com.platform.entity.TblClientLoanRecord">
@@ -48,7 +53,11 @@
             updateUser,
             clientManagerName,
             clientManagerId,
-            remark
+            remark,
+            loanAmount,
+            servicePoint,
+            mortgageNums,
+            mortgageAmount
         </trim>
         values
         <trim prefix="(" suffix=")">
@@ -61,11 +70,15 @@
             #{updateUser},
             #{clientManagerName},
             #{clientManagerId},
-            #{remark}
+            #{remark},
+            #{loanAmount},
+            #{servicePoint},
+            #{mortgageNums},
+            #{mortgageAmount}
         </trim>
     </insert>
-    <update id="update" parameterType="com.platform.entity.TblClientTelRecord">
-        update tbl_client_tel_record
+    <update id="update" parameterType="com.platform.entity.TblClientLoanRecord">
+        update tbl_client_loan_record
         <set>
             <if test="clientId != null">`clientId` = #{clientId},</if>
             <if test="clientName != null">`clientName` = #{clientName},</if>
@@ -76,6 +89,10 @@
             <if test="clientManagerName != null">`clientManagerName` = #{clientManagerName},</if>
             <if test="clientManagerId != null">`clientManagerId` = #{clientManagerId},</if>
             <if test="remark != null">`remark` = #{remark},</if>
+            <if test="loanAmount != null">`remark` = #{loanAmount},</if>
+            <if test="servicePoint != null">`remark` = #{servicePoint},</if>
+            <if test="mortgageNums != null">`remark` = #{mortgageNums},</if>
+            <if test="mortgageAmount != null">`remark` = #{mortgageAmount},</if>
             `actionTime` = now()
         </set>
         where id = #{id}

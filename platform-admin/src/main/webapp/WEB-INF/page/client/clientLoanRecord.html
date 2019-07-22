@@ -23,15 +23,27 @@
 
     <Card v-show="!showList">
         <p slot="title">{{title}}</p>
-        <i-form ref="formValidate" :model="clientLoanRecord" :rules="ruleValidate" :label-width="80">
+        <i-form ref="formValidate" :model="clientLoanRecord"  :rules="ruleValidate" :label-width="80">
             <Form-item label="客户姓名" prop="clientName">
-                <i-input v-model="clientLoanRecord.clientName" placeholder="客户姓名"/>
+                <i-input v-model="clientLoanRecord.clientName" disabled placeholder="客户姓名"/>
             </Form-item>
             <Form-item label="贷款名称" prop="loanName">
                 <i-input v-model="clientLoanRecord.loanName" placeholder="贷款名称"/>
             </Form-item>
             <Form-item label="贷款类型" prop="loanType">
                 <i-input v-model="clientLoanRecord.loanType"  placeholder="贷款类型"/>
+            </Form-item>
+            <Form-item label="贷款总金额(元)" prop="loanAmount">
+                <i-input v-model="clientLoanRecord.loanAmount"  placeholder="贷款总金额"/>
+            </Form-item>
+            <Form-item label="服务费点位(%)" prop="servicePoint">
+                <i-input v-model="clientLoanRecord.servicePoint"  placeholder="服务费点位"/>
+            </Form-item>
+            <Form-item label="按揭期数" prop="mortgageNums">
+                <i-input v-model="clientLoanRecord.mortgageNums"  placeholder="按揭期数"/>
+            </Form-item>
+            <Form-item label="按揭金额(元)" prop="mortgageAmount">
+                <i-input v-model="clientLoanRecord.mortgageAmount"  placeholder="按揭金额"/>
             </Form-item>
             <Form-item label="备注" prop="remark">
                 <i-input v-model="clientLoanRecord.remark" placeholder="备注"/>

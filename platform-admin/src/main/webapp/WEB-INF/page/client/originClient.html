@@ -11,20 +11,21 @@
             <div class="search-group">
                 <i-col span="4">
                     <i-select v-model="q.status" placeholder="分配状态" @on-change="query">
+                        <i-option value="">全部</i-option>
                         <i-option value="0">未分配</i-option>
                         <i-option value="1">已分配</i-option>
                         <i-option value="2">公海</i-option>
                     </i-select>
                 </i-col>
                 <i-col span="4">
-                    <i-input v-model="q.tel" @on-enter="query" placeholder="手机号"/>
+                    <i-input v-model="q.clientTel" @on-enter="query" placeholder="手机号"/>
                 </i-col>
                 <i-button @click="query">查询</i-button>
             </div>
             <div class="buttons-group">
-                #if($shiro.hasPermission("clientTelRecord:save"))
-                <i-button type="warning" @click="importRecord"><i class="fa fa-plus"></i>&nbsp;导入客户</i-button>
-                #end
+                <i-button type="warning" @click="telImportRecord"><i class="fa fa-plus"></i>&nbsp;手机号导入客户</i-button>
+                <i-button type="warning" @click="excelImportRecord"><i class="fa fa-plus"></i>&nbsp;excel导入客户</i-button>
+                <i-button type="warning" @click="divideRecord"><i class="fa fa-plus"></i>&nbsp;分配客户</i-button>
             </div>
         </Row>
         <table id="jqGrid"></table>

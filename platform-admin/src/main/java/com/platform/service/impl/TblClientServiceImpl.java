@@ -1,6 +1,7 @@
 
 package com.platform.service.impl;
 
+import com.platform.annotation.DataFilter;
 import com.platform.dao.TblClientDao;
 import com.platform.dao.TblClientTelRecordDao;
 import com.platform.entity.TblClient;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,6 +34,7 @@ public class TblClientServiceImpl implements TblClientService {
     @Autowired
     private TblClientTelRecordDao tblClientTelRecordDao;
     @Override
+    @DataFilter(userAlias = "tbl_client.clientManagerId", deptAlias = "sys_user.dept_id")
     public PageUtilsPlus queryPage(Map<String, Object> params) {
         //排序
         params.put("sidx", "createTime");
@@ -41,7 +44,7 @@ public class TblClientServiceImpl implements TblClientService {
     }
 
     @Override
-    public TblClient queryObject(int id) {
+    public TblClient queryObject(long id) {
         return tblClientDao.queryObject(id);
     }
 
@@ -54,7 +57,7 @@ public class TblClientServiceImpl implements TblClientService {
         Map<String, Object> params = new HashMap<>();
         params.put("clientId",client.getId());
         TblClientTelRecord tblClientTelRecord = tblClientTelRecordDao.selectTblClientTelRecordByClientId(params);
-        int a = tblClientDao.save(client);
+        tblClientDao.save(client);
         //有客户原始记录   更新更新时间
         if(tblClientTelRecord == null){
             tblClientTelRecord = new TblClientTelRecord();
@@ -73,5 +76,25 @@ public class TblClientServiceImpl implements TblClientService {
     @Override
     public void update(TblClient client) {
         tblClientDao.update(client);
+    }
+
+    @Override
+    public int updatePublishClient() {
+        return tblClientDao.updatePublishClient();
+    }
+
+    @Override
+    public void secondKill(TblClient client) {
+        tblClientDao.update(client);
+    }
+
+    @Override
+    public void divideTelRecord(Map<String, Object> params) {
+        tblClientDao.divide(params);
+    }
+
+    @Override
+    public void batchSave(List<TblClient> tblClients) {
+        tblClientDao.batchSave(tblClients);
     }
 }

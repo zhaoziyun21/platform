@@ -33,5 +33,5 @@ public interface TblClientTelRecordService {
 
     void secondKill(TblClientTelRecord tblClientTelRecord);
 
-    TblClientTelRecord queryObject(int id);
+    TblClientTelRecord queryObject(long id);
 }

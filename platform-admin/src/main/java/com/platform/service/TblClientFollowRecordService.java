@@ -28,5 +28,5 @@ public interface TblClientFollowRecordService  {
 
     void updateFollowRecord(TblClientFollowRecord tblClientFollowRecord);
 
-    TblClientFollowRecord queryObject(int id);
+    TblClientFollowRecord queryObject(long id);
 }

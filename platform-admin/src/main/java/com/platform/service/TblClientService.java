@@ -2,7 +2,10 @@ package com.platform.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.platform.entity.TblClient;
+import com.platform.entity.TblClientTelRecord;
 import com.platform.utils.PageUtilsPlus;
+
+import java.util.List;
 import java.util.Map;
 
 
@@ -26,7 +29,7 @@ public interface TblClientService {
     PageUtilsPlus queryPage(Map<String, Object> params);
 
 
-    TblClient queryObject(int clientId);
+    TblClient queryObject(long clientId);
 
     /**
      * 保存客戶
@@ -39,4 +42,13 @@ public interface TblClientService {
      * 更新客戶
      */
     void update(TblClient client);
+
+    int updatePublishClient();
+
+    void secondKill(TblClient client);
+
+
+    public void divideTelRecord(Map<String, Object> params);
+
+    void batchSave(List<TblClient> tblClients);
 }

@@ -34,7 +34,7 @@ public class TblClientLoanRecordServiceImpl  implements TblClientLoanRecordServi
     }
 
     @Override
-    public TblClientLoanRecord queryObject(int id) {
+    public TblClientLoanRecord queryObject(long id) {
         return tblClientLoanRecordDao.queryObject(id);
     }
 

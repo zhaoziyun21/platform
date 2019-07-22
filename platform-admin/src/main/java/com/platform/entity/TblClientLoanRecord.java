@@ -2,6 +2,8 @@ package com.platform.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
@@ -29,13 +31,13 @@ public class TblClientLoanRecord extends Model<TblClientLoanRecord> {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     /**
      * 客户id
      */
     @TableField("clientId")
-    private Integer clientId;
+    private Long clientId;
 
     /**
      * 客户姓名
@@ -93,6 +95,26 @@ public class TblClientLoanRecord extends Model<TblClientLoanRecord> {
      */
     @TableField("remark")
     private String remark;
+    /**
+     *
+     */
+    @TableField("loanAmount")
+    private BigDecimal loanAmount;
+    /**
+     *
+     */
+    @TableField("servicePoint")
+    private BigDecimal servicePoint;
+    /**
+     *
+     */
+    @TableField("mortgageNums")
+    private BigDecimal mortgageNums;
+    /**
+     *
+     */
+    @TableField("mortgageAmount")
+    private BigDecimal mortgageAmount;
 
     @Override
     protected Serializable pkVal() {

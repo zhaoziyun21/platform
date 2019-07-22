@@ -29,7 +29,7 @@ public class TblClientTelRecord extends Model<TblClientTelRecord> {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     /**
      * 创建时间
@@ -59,7 +59,7 @@ public class TblClientTelRecord extends Model<TblClientTelRecord> {
      * 关联客户id
      */
     @TableField("clientId")
-    private Integer clientId;
+    private Long clientId;
 
     /**
      * 关联客户经理id

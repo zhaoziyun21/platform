@@ -55,6 +55,9 @@ public class DataFilterAspect {
             if (user.getUserId() != Constant.SUPER_ADMIN) {
                 Map map = (Map) params;
                 map.put("filterSql", getFilterSQL(user, point));
+            }else{
+                Map map = (Map) params;
+                map.put("filterSql", "");
             }
 
             return;

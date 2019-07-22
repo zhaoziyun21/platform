@@ -34,6 +34,8 @@ public class TblClientFollowRecordServiceImpl implements TblClientFollowRecordSe
     private TblClientFollowRecordDao tblClientFollowRecordDao;
     @Autowired
     private TblClientTelRecordDao tblClientTelRecordDao;
+    @Autowired
+    private TblClientDao tblClientDao;
     @Override
     public PageUtilsPlus queryPage(Map<String, Object> params) {
         //排序
@@ -48,31 +50,30 @@ public class TblClientFollowRecordServiceImpl implements TblClientFollowRecordSe
     public void saveFollowRecord(TblClientFollowRecord tblClientFollowRecord) {
         Map<String, Object> params = new HashMap<>();
         params.put("clientId",tblClientFollowRecord.getClientId());
-        TblClientTelRecord tblClientTelRecord = tblClientTelRecordDao.selectTblClientTelRecordByClientId(params);
-        //有客户原始记录   更新更新时间
-        if(tblClientTelRecord != null){
-            tblClientTelRecord.setClientManagerId(tblClientFollowRecord.getClientManagerId());
-            tblClientTelRecord.setUpdateUser(tblClientFollowRecord.getClientManagerName());
-            tblClientTelRecordDao.update(tblClientTelRecord);
+        TblClient tblClient = tblClientDao.queryObject(tblClientFollowRecord.getClientId());
+        //有客户记录   更新更新时间
+        if(tblClient != null){
+            tblClient.setClientManagerId(tblClientFollowRecord.getClientManagerId());
+            tblClient.setUpdateUser(tblClientFollowRecord.getClientManagerName());
+            tblClient.setFollowTime(new Date());
+            tblClientDao.update(tblClient);
             tblClientFollowRecordDao.save(tblClientFollowRecord);
         }
-
     }
 
     @Override
     @Transactional
     public void updateFollowRecord(TblClientFollowRecord tblClientFollowRecord) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("clientId",tblClientFollowRecord.getClientId());
-        TblClientTelRecord tblClientTelRecord = tblClientTelRecordDao.selectTblClientTelRecordByClientId(params);
-        tblClientTelRecord.setClientManagerId(tblClientFollowRecord.getClientManagerId());
-        tblClientTelRecord.setUpdateUser(tblClientFollowRecord.getClientManagerName());
-        tblClientTelRecordDao.updateTelRecord(tblClientTelRecord);
+        TblClient tblClient = tblClientDao.queryObject(tblClientFollowRecord.getClientId());
+        tblClient.setClientManagerId(tblClientFollowRecord.getClientManagerId());
+        tblClient.setUpdateUser(tblClientFollowRecord.getClientManagerName());
+        tblClient.setFollowTime(new Date());
+        tblClientDao.update(tblClient);
         tblClientFollowRecordDao.update(tblClientFollowRecord);
     }
 
     @Override
-    public TblClientFollowRecord queryObject(int id) {
+    public TblClientFollowRecord queryObject(long id) {
         return tblClientFollowRecordDao.queryObject(id);
     }
 }

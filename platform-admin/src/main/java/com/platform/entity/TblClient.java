@@ -29,7 +29,7 @@ public class TblClient extends Model<TblClient> {
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     /**
      * 客户姓名
@@ -141,8 +141,37 @@ public class TblClient extends Model<TblClient> {
      */
     @TableField("updateUser")
     private String updateUser;
+    /**
+     * 状态
+     */
+    @TableField("status")
+    private String status;
+    /**
+     * 跟进时间
+     */
+    @TableField("followTime")
+    private Date followTime;
 
-
+    /**
+     * 签约状态
+     */
+    @TableField("signStatus")
+    private String signStatus;
+    /**
+     * 申请平台
+     */
+    @TableField("applyPlatform")
+    private String applyPlatform;
+    /**
+     * 申请金额
+     */
+    @TableField("applyAmount")
+    private BigDecimal applyAmount;
+    /**
+     * 申请时间
+     */
+    @TableField("applyTime")
+    private Date applyTime;
     @Override
     protected Serializable pkVal() {
         return this.id;

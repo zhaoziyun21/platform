@@ -54,7 +54,7 @@ public class TblClientTelRecordServiceImpl implements TblClientTelRecordService 
         tblClientTelRecordDao.update(tblClientTelRecord);
     }
     @Override
-    public TblClientTelRecord queryObject(int id) {
+    public TblClientTelRecord queryObject(long id) {
         return tblClientTelRecordDao.queryObject(id);
     }
 }

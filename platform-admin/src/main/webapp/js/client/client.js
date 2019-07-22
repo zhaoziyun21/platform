@@ -3,7 +3,9 @@ $(function () {
         url: '../client/list',
         colModel: [
             {label: '客户ID', name: 'id', index: "id", key: true, hidden: true},
-            {label: '客户姓名', name: 'clientName', width: 75},
+            {label: '客户姓名', name: 'clientName', width: 75, formatter: function (value) {
+                return '<a   onclick="vm.del()"></a>'+value+'</a>' ;
+            }},
             {label: '手机号', name: 'clientTel', width: 75},
             {label: '客户类型', name: 'clientType', width: 75, formatter: function (value) {
                 switch (value){
@@ -24,7 +26,7 @@ $(function () {
             {label: '客户经理姓名', name: 'clientManagerName', width: 75},
             {label: '未跟单天数', name: 'noTrackOrder', width: 75},
             {label: '是否上门', name: 'isVisit', width: 75, formatter: function (value) {
-                return value == 0 ? "未上门":"已上门";
+                return value == 0 ? "待上门":"已上门";
             }},
             {label: '是否记入成本', name: 'isRecordCost', width: 75, formatter: function (value) {
                 return value == 0 ? "不计入":"记入";
@@ -37,7 +39,11 @@ $(function () {
             },
             { label: '更新时间', name: 'actionTime', index: "actionTime", width: 80, formatter: function (value) {
                 return transDate(value);
-            }}]
+            }},
+            { label: '操作',  width: 80, formatter: function (value) {
+                return '<button class="btn btn-outline btn-info" onclick="vm.del()"><i class="fa fa-info-circle"></i>&nbsp;修改</button>' ;
+            }}
+            ]
     });
 });
 
@@ -62,7 +68,32 @@ var vm = new Vue({
             ],
             clientTel: [
                 {required: true, message: '手机号不能为空', trigger: 'blur'}
+            ],
+            clientType: [
+                {required: true, message: '客户类型不能为空', trigger: 'blur'}
+            ],
+            socialSecurityPay: [
+                { pattern: /^[0-9]+(\.([0-9]{1,3}))$|^[0-9]+$/,message: '社保个缴金额只能是整数或者小数', trigger: 'change'}
+            ],
+            socialSecurityYears: [
+                { pattern: /^[0-9]+$/,message: '已交社保年限只能是整数', trigger: 'change'}
+            ],
+            gjjPay: [
+                { pattern: /^[0-9]+(\.([0-9]{1,3}))$|^[0-9]+$/,message: '公积金个缴金额只能是整数或者小数', trigger: 'change'}
+            ],
+            gjjYears: [
+                { pattern: /^[0-9]+$/,message: '公积金已交年限只能是整数', trigger: 'change'}
+            ],
+            salaryYears: [
+                { pattern: /^[0-9]+$/,message: '工资联缴年限只能是整数', trigger: 'change'}
+            ],
+            cost: [
+                { pattern: /^[0-9]+(\.([0-9]{1,3}))$|^[0-9]+$/,message: '成本金额只能是整数或者小数', trigger: 'change'}
             ]
+
+
+
+
         }
     },
     methods: {
@@ -149,6 +180,28 @@ var vm = new Vue({
                 title: '贷款记录',
                 type: 2,
                 content: encodeURI('../client/clientLoanRecord.html?clientId=' + id + '&clientName='+clientName)
+            })
+        },signRecord: function () {
+            var id = getSelectedRow("#jqGrid");
+            var clientName = $("#jqGrid").getRowData(id).clientName;
+            if (id == null) {
+                return;
+            }
+            openWindow({
+                title: '签单记录',
+                type: 2,
+                content: encodeURI('../client/clientSignRecord.html?clientId=' + id + '&clientName='+clientName)
+            })
+        },propertyRecord: function () {
+            var id = getSelectedRow("#jqGrid");
+            var clientName = $("#jqGrid").getRowData(id).clientName;
+            if (id == null) {
+                return;
+            }
+            openWindow({
+                title: '资产记录',
+                type: 2,
+                content: encodeURI('../client/clientPropertyRecord.html?clientId=' + id + '&clientName='+clientName)
             })
         },
         reload: function (event) {

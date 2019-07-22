@@ -4,6 +4,7 @@ $(function () {
         colModel: [
             {label: '用户ID', name: 'userId', index: "user_id", key: true, hidden: true},
             {label: '用户名', name: 'username', width: 75},
+            {label: '真实姓名', name: 'realName', width: 75},
             {label: '所属部门', name: 'deptName', width: 75},
             {label: '邮箱', name: 'email', width: 90},
             {label: '手机号', name: 'mobile', width: 100},
