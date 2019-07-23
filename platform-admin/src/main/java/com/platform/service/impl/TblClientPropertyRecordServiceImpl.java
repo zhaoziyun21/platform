@@ -1,8 +1,10 @@
 package com.platform.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.platform.dao.TblClientDao;
 import com.platform.dao.TblClientLoanRecordDao;
 import com.platform.dao.TblClientPropertyRecordDao;
+import com.platform.entity.TblClient;
 import com.platform.entity.TblClientLoanRecord;
 import com.platform.entity.TblClientPropertyRecord;
 import com.platform.service.TblClientPropertyRecordService;
@@ -10,7 +12,9 @@ import com.platform.utils.PageUtilsPlus;
 import com.platform.utils.QueryPlus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -25,6 +29,8 @@ import java.util.Map;
 public class TblClientPropertyRecordServiceImpl implements TblClientPropertyRecordService {
     @Autowired
     private TblClientPropertyRecordDao tblClientPropertyRecordDao;
+    @Autowired
+    private TblClientDao tblClientDao;
     @Override
     public PageUtilsPlus queryPage(Map<String, Object> params) {
         //排序
@@ -40,12 +46,28 @@ public class TblClientPropertyRecordServiceImpl implements TblClientPropertyReco
     }
 
     @Override
+    @Transactional
     public void saveClientPropertyRecord(TblClientPropertyRecord tblClientPropertyRecord) {
+        TblClient tblClient = tblClientDao.queryObject(tblClientPropertyRecord.getClientId());
+        tblClient.setClientManagerId(tblClientPropertyRecord.getClientManagerId());
+        tblClient.setUpdateUser(tblClientPropertyRecord.getClientManagerName());
+        tblClient.setFollowTime(new Date());
+        tblClientDao.update(tblClient);
         tblClientPropertyRecordDao.save(tblClientPropertyRecord);
     }
 
     @Override
+    @Transactional
     public void updateClientPropertyRecord(TblClientPropertyRecord tblClientPropertyRecord) {
-        tblClientPropertyRecordDao.update(tblClientPropertyRecord);
+        TblClient tblClient = tblClientDao.queryObject(tblClientPropertyRecord.getClientId());
+        //有客户记录   更新跟单时间
+        if(tblClient != null){
+            tblClient.setClientManagerId(tblClientPropertyRecord.getClientManagerId());
+            tblClient.setUpdateUser(tblClientPropertyRecord.getClientManagerName());
+            tblClient.setFollowTime(new Date());
+            tblClientDao.update(tblClient);
+            tblClientPropertyRecordDao.update(tblClientPropertyRecord);
+        }
+
     }
 }

@@ -72,7 +72,10 @@
 	<select id="queryByUserName" resultType="com.platform.entity.SysUserEntity">
 		select * from sys_user where username = #{username}
 	</select>
-	
+	<select id="queryAll" resultType="com.platform.entity.SysUserEntity">
+		select * from sys_user
+	</select>
+
 	<insert id="save" parameterType="com.platform.entity.SysUserEntity" useGeneratedKeys="true" keyProperty="userId">
 		insert into sys_user
 		(

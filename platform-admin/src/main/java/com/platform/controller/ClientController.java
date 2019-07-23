@@ -80,6 +80,7 @@ public class ClientController {
         client.setClientManagerName(user.getRealName());
         client.setCreateTime(new Date());
         client.setStatus("1");
+        client.setFollowTime(new Date());
         tblClientService.saveClient(client);
 
         return R.ok();
@@ -96,6 +97,7 @@ public class ClientController {
         client.setClientManagerId(user.getUserId());
         client.setClientManagerName(user.getRealName());
         client.setUpdateUser(user.getUsername());
+        client.setFollowTime(new Date());
         tblClientService.update(client);
         return R.ok();
     }
@@ -137,7 +139,7 @@ public class ClientController {
      */
     @ResponseBody
     @RequestMapping("/divide")
-    @RequiresPermissions("client:divide")
+//    @RequiresPermissions("client:divide")
     public R divide(@RequestParam Map<String, Object> params) {
         SysUserEntity user = UserUtil.getCurUser();
         params.put("updateUser",user.getUsername());

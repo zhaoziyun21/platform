@@ -25,8 +25,10 @@ var vm = new Vue({
                 type: 'POST',
                 successCallback: function () {
                     alert('操作成功', function (index) {
-
-                        vm.reload();
+                        var index = parent.layer.getFrameIndex(window.name);
+                        var layer = parent.layer === undefined ? layui.layer : parent.layer;
+                        parent.vm.reload();
+                        layer.close(index);
                     });
                 }
             });

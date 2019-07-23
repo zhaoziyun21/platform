@@ -141,4 +141,9 @@ public class SysUserServiceImpl implements SysUserService {
         sysUserDao.queryListByBean(userWindowDto);
         return PageHelper.endPage();
     }
+
+    @Override
+    public List<SysUserEntity> queryAll() {
+        return sysUserDao.queryAll();
+    }
 }

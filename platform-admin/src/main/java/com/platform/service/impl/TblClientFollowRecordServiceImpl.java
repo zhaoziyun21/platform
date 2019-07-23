@@ -48,8 +48,6 @@ public class TblClientFollowRecordServiceImpl implements TblClientFollowRecordSe
     @Override
     @Transactional
     public void saveFollowRecord(TblClientFollowRecord tblClientFollowRecord) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("clientId",tblClientFollowRecord.getClientId());
         TblClient tblClient = tblClientDao.queryObject(tblClientFollowRecord.getClientId());
         //有客户记录   更新更新时间
         if(tblClient != null){

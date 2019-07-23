@@ -154,4 +154,14 @@ public class SysUserController extends AbstractController {
 
         return R.ok();
     }
+    /**
+     * 查询所有用户
+     */
+    @RequestMapping("/queryAll")
+    public R queryAll() {
+        List<SysUserEntity> userList = sysUserService.queryAll();
+
+        return R.ok().put("list", userList);
+    }
+
 }

@@ -1,14 +1,18 @@
 package com.platform.service.impl;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.platform.dao.TblClientDao;
 import com.platform.dao.TblClientSignRecordDao;
+import com.platform.entity.TblClient;
 import com.platform.entity.TblClientSignRecord;
 import com.platform.service.TblClientSignRecordService;
 import com.platform.utils.PageUtilsPlus;
 import com.platform.utils.QueryPlus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -23,6 +27,8 @@ import java.util.Map;
 public class TblClientSignRecordServiceImpl  implements TblClientSignRecordService{
     @Autowired
     private TblClientSignRecordDao tblClientSignRecordDao;
+    @Autowired
+    private TblClientDao tblClientDao;
     @Override
     public PageUtilsPlus queryPage(Map<String, Object> params) {
         //排序
@@ -33,12 +39,28 @@ public class TblClientSignRecordServiceImpl  implements TblClientSignRecordServi
     }
 
     @Override
+    @Transactional
     public void saveSignRecord(TblClientSignRecord tblClientSignRecord) {
+        TblClient tblClient = tblClientDao.queryObject(tblClientSignRecord.getClientId());
+        tblClient.setClientManagerId(tblClientSignRecord.getClientManagerId());
+        tblClient.setUpdateUser(tblClientSignRecord.getClientManagerName());
+        tblClient.setFollowTime(new Date());
+        tblClientDao.update(tblClient);
         tblClientSignRecordDao.save(tblClientSignRecord);
     }
     @Override
+    @Transactional
     public void updateSignRecord(TblClientSignRecord tblClientSignRecord) {
-        tblClientSignRecordDao.update(tblClientSignRecord);
+        TblClient tblClient = tblClientDao.queryObject(tblClientSignRecord.getClientId());
+        //有客户记录   更新跟单时间
+        if(tblClient != null){
+            tblClient.setClientManagerId(tblClientSignRecord.getClientManagerId());
+            tblClient.setUpdateUser(tblClientSignRecord.getClientManagerName());
+            tblClient.setFollowTime(new Date());
+            tblClientDao.update(tblClient);
+            tblClientSignRecordDao.update(tblClientSignRecord);
+        }
+
     }
 
     @Override

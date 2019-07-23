@@ -83,4 +83,6 @@ public interface SysUserService {
      * @return
      */
     Page<UserWindowDto> findPage(UserWindowDto userEntity, int pageNum);
+
+    List<SysUserEntity> queryAll();
 }

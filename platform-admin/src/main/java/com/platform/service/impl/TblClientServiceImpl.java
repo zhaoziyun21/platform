@@ -54,24 +54,7 @@ public class TblClientServiceImpl implements TblClientService {
     }
     @Override
     public void saveClient(TblClient client) {
-        Map<String, Object> params = new HashMap<>();
-        params.put("clientId",client.getId());
-        TblClientTelRecord tblClientTelRecord = tblClientTelRecordDao.selectTblClientTelRecordByClientId(params);
         tblClientDao.save(client);
-        //有客户原始记录   更新更新时间
-        if(tblClientTelRecord == null){
-            tblClientTelRecord = new TblClientTelRecord();
-            //没有就插入一条
-            tblClientTelRecord.setUpdateUser(client.getClientManagerName());
-            tblClientTelRecord.setCreateUser(client.getClientManagerName());
-            tblClientTelRecord.setClientManagerId(client.getClientManagerId());
-            tblClientTelRecord.setClientId(client.getId());
-            tblClientTelRecord.setClientName(client.getClientName());
-            tblClientTelRecord.setTel(client.getClientTel());
-            tblClientTelRecord.setCreateTime(new Date());
-            tblClientTelRecord.setStatus("1");//已分配
-            tblClientTelRecordDao.save(tblClientTelRecord);
-        }
     }
     @Override
     public void update(TblClient client) {
