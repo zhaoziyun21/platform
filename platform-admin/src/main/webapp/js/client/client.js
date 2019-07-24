@@ -4,6 +4,7 @@ $(function () {
         colModel: [
             {label: '客户ID', name: 'id', index: "id", key: true, hidden: true},
             {label: '客户姓名', name: 'clientName', width: 75, formatter: function (value, col, row) {
+                         value = value == null ? '暂无' : value;
                 return '<a  onclick="vm.update('+row.id+')">'+value+'</a>' ;
             }},
             {label: '手机号', name: 'clientTel', width: 75},
