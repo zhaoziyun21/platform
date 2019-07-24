@@ -140,7 +140,7 @@ public class ClientController {
     @ResponseBody
     @RequestMapping("/divide")
 //    @RequiresPermissions("client:divide")
-    public R divide(@RequestParam Map<String, Object> params) {
+    public R divide(@RequestBody  Map<String, Object> params) {
         SysUserEntity user = UserUtil.getCurUser();
         params.put("updateUser",user.getUsername());
         params.put("createUser",user.getUsername());

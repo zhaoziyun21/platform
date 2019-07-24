@@ -24,7 +24,7 @@ $(function () {
 });
 
 var vm = new Vue({
-    el: '#rrapp',
+    el: '#clientSignRecord',
     data: {
         showList: true,
         title: null,

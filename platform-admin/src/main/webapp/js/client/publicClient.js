@@ -19,7 +19,7 @@ $(function () {
 
 
 var vm = new Vue({
-    el: '#rrapp',
+    el: '#publicClient',
     data: {
         q: {
             tel: null

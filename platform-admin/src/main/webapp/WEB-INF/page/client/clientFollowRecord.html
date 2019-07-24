@@ -5,26 +5,17 @@
     #parse("sys/header.html")
 </head>
 <body>
-<div id="rrapp" v-cloak>
-    <div v-show="showList">
+<div id="clientFollowRecord" v-cloak>
+    <div v-show="showClientFollowRecordList">
         <Row :gutter="16">
-            #if($shiro.hasPermission("client:save"))
             <i-button type="info" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</i-button>
-            #end
-            #if($shiro.hasPermission("client:update"))
             <i-button type="warning" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</i-button>
-            #end
-            <!--<div class="buttons-group">-->
-                <!--#if($shiro.hasPermission("usercoupon:delete"))-->
-                <!--<i-button type="error" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</i-button>-->
-                <!--#end-->
-            <!--</div>-->
         </Row>
-        <table id="jqGrid"></table>
+        <table id="clientFollowRecordJqGrid"></table>
         <div id="jqGridPager"></div>
     </div>
 
-    <Card v-show="!showList">
+    <Card v-show="!showClientFollowRecordList">
         <p slot="title">{{title}}</p>
         <i-form ref="formValidate" :model="clientFollowRecord" :label-width="80">
             <Form-item prop="clientId">

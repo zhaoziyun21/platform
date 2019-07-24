@@ -3,8 +3,8 @@ $(function () {
         url: '../client/list',
         colModel: [
             {label: '客户ID', name: 'id', index: "id", key: true, hidden: true},
-            {label: '客户姓名', name: 'clientName', width: 75, formatter: function (value) {
-                return '<a   onclick="vm.del()"></a>'+value+'</a>' ;
+            {label: '客户姓名', name: 'clientName', width: 75, formatter: function (value, col, row) {
+                return '<a  onclick="vm.update('+row.id+')">'+value+'</a>' ;
             }},
             {label: '手机号', name: 'clientTel', width: 75},
             {label: '客户类型', name: 'clientType', width: 75, formatter: function (value) {
@@ -39,22 +39,18 @@ $(function () {
             },
             { label: '更新时间', name: 'actionTime', index: "actionTime", width: 80, formatter: function (value) {
                 return transDate(value);
-            }},
-            { label: '操作',  width: 80, formatter: function (value) {
-                return '<button class="btn btn-outline btn-info" onclick="vm.del()"><i class="fa fa-info-circle"></i>&nbsp;修改</button>' ;
-            }}
-            ]
+            }}]
     });
 });
 
 
 var vm = new Vue({
-    el: '#rrapp',
+    el: '#client',
     data: {
         q: {
             clientTel: null
         },
-        showList: true,
+        showClientList: true,
         title: null,
         roleList: {},
         client: {
@@ -101,18 +97,18 @@ var vm = new Vue({
             vm.reload();
         },
         add: function () {
-            vm.showList = false;
+            vm.showClientList = false;
             vm.title = "新增客户";
             vm.client = {status: 1, roleIdList: [], deptId: '', deptName: ''};
 
         },
-        update: function () {
-            var clientId = getSelectedRow("#jqGrid");
-            if (clientId == null) {
-                return;
-            }
+        update: function (clientId) {
+            // var clientId = getSelectedRow("#jqGrid");
+            // if (clientId == null) {
+            //     return;
+            // }
 
-            vm.showList = false;
+            vm.showClientList = false;
             vm.title = "修改";
 
             Ajax.request({
@@ -205,7 +201,7 @@ var vm = new Vue({
             })
         },
         reload: function (event) {
-            vm.showList = true;
+            vm.showClientList = true;
             var page = $("#jqGrid").jqGrid('getGridParam', 'page');
             $("#jqGrid").jqGrid('setGridParam', {
                 postData: {'clientTel': vm.q.clientTel},

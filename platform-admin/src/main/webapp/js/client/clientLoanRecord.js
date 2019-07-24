@@ -24,7 +24,7 @@ $(function () {
 });
 
 var vm = new Vue({
-    el: '#rrapp',
+    el: '#clientLoanRecord',
     data: {
         showList: true,
         title: null,
