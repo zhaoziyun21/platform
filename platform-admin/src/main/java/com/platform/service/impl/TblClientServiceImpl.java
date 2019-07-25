@@ -41,6 +41,15 @@ public class TblClientServiceImpl implements TblClientService {
         Page<TblClient> page = new QueryPlus<TblClient>(params).getPage();
         return new PageUtilsPlus(page.setAscs(order).setRecords(tblClientDao.selectTblClientPage(page, params)));
     }
+    public PageUtilsPlus publishClientPage(Map<String, Object> params) {
+        //排序
+        params.put("sidx", "createTime");
+        params.put("asc", false);
+        List<String> order = new ArrayList<>();
+        order.add("status");
+        Page<TblClient> page = new QueryPlus<TblClient>(params).getPage();
+        return new PageUtilsPlus(page.setAscs(order).setRecords(tblClientDao.publishClientPage(page, params)));
+    }
 
     @Override
     public TblClient queryObject(long id) {

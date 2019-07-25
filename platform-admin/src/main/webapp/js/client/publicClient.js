@@ -1,6 +1,6 @@
 $(function () {
     $("#jqGrid").Grid({
-        url: '../client/list',
+        url: '../client/publishClientList',
         autowidth:true,
         multiselect: false,//复选框
         postData: {

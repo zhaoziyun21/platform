@@ -27,6 +27,7 @@ public interface TblClientDao extends BaseDao<TblClient> {
      * @return
      */
     List<TblClient> selectTblClientPage(IPage page, @Param("params")Map<String, Object> params);
+    List<TblClient> publishClientPage(IPage page, @Param("params")Map<String, Object> params);
 
     int updatePublishClient();
 
