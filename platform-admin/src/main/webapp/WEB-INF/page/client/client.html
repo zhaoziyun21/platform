@@ -33,7 +33,7 @@
 
     <Card v-show="!showClientList">
         <p slot="title">{{title}}</p>
-        <i-form ref="formValidate" :model="client" :rules="ruleValidate" :label-width="80">
+        <i-form ref="formValidate" :model="client" :rules="ruleValidate" :label-width="500" inline>
             <Form-item label="客户姓名" prop="clientName">
                 <i-input v-model="client.clientName" placeholder="客户姓名"/>
             </Form-item>
@@ -47,10 +47,10 @@
                 <i-input v-model="client.applyAmount" placeholder="申请金额"/>
             </Form-item>
             <Form-item label="申请时间" prop="applyTime">
-                <Date-picker v-model="client.applyTime" placeholder="申请时间" format="yyyy-MM-dd HH:mm:ss"></Date-picker>
+                <Date-picker v-model="client.applyTime" placeholder="申请时间" format="yyyy-MM-dd"></Date-picker>
             </Form-item>
-            <Form-item label="工资类型" prop="salaryType">
-                <i-select v-model="client.salaryType" placeholder="工资类型">
+            <Form-item label="工资类型" prop="salaryType" >
+                <i-select v-model="client.salaryType" placeholder="请选择工资类型">
                     <i-option value="1">打卡</i-option>
                     <i-option value="2">现金</i-option>
                 </i-select>
@@ -82,7 +82,6 @@
 
             <Form-item label="客户类型" prop="clientType">
                 <i-select v-model="client.clientType" placeholder="请选择客户类型">
-                    <i-option value="0">--请选择--</i-option>
                     <i-option value="1">A：近期有资质有需求</i-option>
                     <i-option value="2">B：有资质无需求七天回访一次</i-option>
                     <i-option value="3">C：有需求没资质</i-option>
