@@ -47,6 +47,11 @@ $(function () {
             {label: '按揭金额', name: 'mortgageAmount', width: 75},
             {label: '客户经理', name: 'clientManagerName', width: 75},
             {label: '备注', name: 'remark', width: 75},
+            {
+                label: '创建时间', name: 'createTime', index: 'createTime', width: 80, formatter: function (value) {
+                return transDate(value);
+            }
+            },
             { label: '操作',  width: 80, formatter: function (value, col, row) {
                 return   "<a  onclick='vm.updateClientLoanRecord(" + JSON.stringify(row) + ")'>修改</a>";
             }}]
@@ -71,6 +76,11 @@ $(function () {
             }},
             {label: '客户经理', name: 'clientManagerName', width: 75},
             {label: '备注', name: 'remark', width: 75},
+            {
+                label: '创建时间', name: 'createTime', index: 'createTime', width: 80, formatter: function (value) {
+                return transDate(value);
+            }
+            },
             { label: '操作',  width: 80, formatter: function (value, col, row) {
                 return   "<a  onclick='vm.updateClientPropertyRecord(" + JSON.stringify(row) + ")'>修改</a>";
             }}]
@@ -95,6 +105,11 @@ $(function () {
             {label: '客户经理姓名', name: 'clientManagerName', width: 75},
             {label: '签单日期', name: 'createTime', width: 75},
             {label: '备注', name: 'remark', width: 75},
+            {
+                label: '创建时间', name: 'createTime', index: 'createTime', width: 80, formatter: function (value) {
+                return transDate(value);
+            }
+            },
             { label: '操作',  width: 80, formatter: function (value, col, row) {
                 return   "<a  onclick='vm.updateClientSignRecord(" + JSON.stringify(row) + ")'>修改</a>";
             }}]
