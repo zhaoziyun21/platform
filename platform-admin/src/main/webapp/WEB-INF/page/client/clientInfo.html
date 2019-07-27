@@ -88,23 +88,31 @@
         <h2 style="padding: 10px;"><b>跟单记录</b></h2>
         <Row :gutter="16">
             <i-button type="info" @click="addClientFollowRecord"><i class="fa fa-plus"></i>&nbsp;新增</i-button>
-            <i-button type="warning" @click="updateClientFollowRecord"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</i-button>
         </Row>
         <table id="clientFollowRecordJqGrid"></table>
         <div id="clientFollowRecordJqGridPager"></div>
     </div>
     <div>
         <h2 style="padding: 10px;"><b>贷款记录</b></h2>
+        <Row :gutter="16">
+            <i-button type="info" @click="addClientLoanRecord"><i class="fa fa-plus"></i>&nbsp;新增</i-button>
+        </Row>
         <table id="clientLoanRecordJqGrid"></table>
         <div id="clientLoanRecordJqGridPager"></div>
     </div>
     <div>
         <h2 style="padding: 10px;"><b>资产记录</b></h2>
+        <Row :gutter="16">
+            <i-button type="info" @click="addClientPropertyRecord"><i class="fa fa-plus"></i>&nbsp;新增</i-button>
+        </Row>
         <table id="clientPropertyRecordJqGrid"></table>
         <div id="clientPropertyRecordJqGridPager"></div>
     </div>
     <div>
         <h2 style="padding: 10px;"><b>签单记录</b></h2>
+        <Row :gutter="16">
+            <i-button type="info" @click="addClientSignRecord"><i class="fa fa-plus"></i>&nbsp;新增</i-button>
+        </Row>
         <table id="clientSignRecordJqGrid"></table>
         <div id="clientSignRecordJqGridPager"></div>
     </div>

@@ -89,10 +89,10 @@
             <if test="clientManagerName != null">`clientManagerName` = #{clientManagerName},</if>
             <if test="clientManagerId != null">`clientManagerId` = #{clientManagerId},</if>
             <if test="remark != null">`remark` = #{remark},</if>
-            <if test="loanAmount != null">`remark` = #{loanAmount},</if>
-            <if test="servicePoint != null">`remark` = #{servicePoint},</if>
-            <if test="mortgageNums != null">`remark` = #{mortgageNums},</if>
-            <if test="mortgageAmount != null">`remark` = #{mortgageAmount},</if>
+            <if test="loanAmount != null">`loanAmount` = #{loanAmount},</if>
+            <if test="servicePoint != null">`servicePoint` = #{servicePoint},</if>
+            <if test="mortgageNums != null">`mortgageNums` = #{mortgageNums},</if>
+            <if test="mortgageAmount != null">`mortgageAmount` = #{mortgageAmount},</if>
             `actionTime` = now()
         </set>
         where id = #{id}

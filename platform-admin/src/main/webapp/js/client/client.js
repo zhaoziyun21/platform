@@ -4,6 +4,7 @@ $(function () {
         postData: {
             status: "1"
         },
+        multiselect: false,//复选框
         colModel: [
             {label: '客户ID', name: 'id', index: "id", key: true, hidden: true},
             {label: '客户姓名', name: 'clientName', index: "clientNameHide", hidden: true},
@@ -32,7 +33,7 @@ $(function () {
             }},
             {label: '客户经理姓名', name: 'clientManagerName', width: 75},
             {label: '未跟单天数', name: 'followTime', width: 75, formatter: function (value) {
-                value = value.replace(/-/g,'/');
+                value = value.toString().replace(/-/g,'/');
                 var timestamp = new Date(value).getTime();
                 var time_diff =new Date().getTime() - timestamp ; //时间差的毫秒数
                 //计算出相差天数

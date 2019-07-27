@@ -1,8 +1,10 @@
 var clientId;
 var clientName;
+var clientFollowRecordId;
 $(function () {
     clientId = getQueryString("clientId");
     clientName = getQueryStringNew("clientName");
+
     var url = '../clientFollowRecord/list';
     if (clientId) {
         url += '?clientId=' + clientId ;
@@ -30,6 +32,21 @@ var vm = new Vue({
         title: null,
         clientFollowRecord: {
         }
+    },beforeCreate() {
+        this.$nextTick(function () {
+            vm.clientFollowRecord = {
+                clientId :getQueryString("clientId"),
+                clientName :getQueryStringNew("clientName")};
+            if(getQueryStringNew("clientFollowRecordId") != undefined){
+                Ajax.request({
+                    url: "../clientFollowRecord/info/" + getQueryStringNew("clientFollowRecordId"),
+                    async: false,
+                    successCallback: function (r) {
+                        vm.clientFollowRecord = r.tblClientFollowRecord;
+                    }
+                });
+            }
+        })
     },
     methods: {
         query: function () {
@@ -62,7 +79,9 @@ var vm = new Vue({
                 params: JSON.stringify(vm.clientFollowRecord),
                 successCallback: function (r) {
                     alert('操作成功', function (index) {
-                        vm.reload();
+                        window.parent.vm.reload();
+                        var index  = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
                     });
                 }
             });
@@ -97,21 +116,18 @@ var vm = new Vue({
                 }
             });
         },
+        returnBack: function () {
+            window.parent.vm.reload();
+            var index  = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
+        },
         reload: function (event) {
-            vm.showClientFollowRecordList = true;
-            var page = $("#clientFollowRecordJqGrid").jqGrid('getGridParam', 'page');
-            $("#clientFollowRecordJqGrid").jqGrid('setGridParam', {
-                // postData: {'userName': vm.q.userName, 'couponName': vm.q.couponName},
-                page: page
-            }).trigger("reloadGrid");
-            vm.handleReset('formValidate');
+            parent.vm.reload();
+            parent.vm.handleReset('formValidate');
         },handleSubmit: function (name) {
             handleSubmitValidate(this, name, function () {
                 vm.saveOrUpdate()
             });
-        },
-        handleReset: function (name) {
-            handleResetForm(this, name);
         }
     }
 });

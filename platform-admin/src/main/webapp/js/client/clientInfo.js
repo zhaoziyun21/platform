@@ -12,6 +12,7 @@ $(function () {
 
     $("#clientFollowRecordJqGrid").Grid({
         url: clientFollowRecordUrl,
+        multiselect: false,//复选框
         colModel: [
             {label: 'id', name: 'id', index: 'id', key: true, hidden: true},
             {label: '客户名字', name: 'clientName', index: 'clientName', width: 80},
@@ -21,7 +22,10 @@ $(function () {
                 label: '创建时间', name: 'createTime', index: 'createTime', width: 80, formatter: function (value) {
                 return transDate(value);
             }
-            }]
+            },
+            { label: '操作',  width: 80, formatter: function (value, col, row) {
+                return   "<a  onclick='vm.updateClientFollowRecord(" + JSON.stringify(row) + ")'>修改</a>";
+            }}]
     });
     $("#clientFollowRecordJqGrid").jqGrid("setGridHeight", "auto");
 
@@ -31,6 +35,7 @@ $(function () {
     }
     $("#clientLoanRecordJqGrid").Grid({
         url: clientLoanRecordUrl,
+        multiselect: false,//复选框
         colModel: [
             {label: '贷款记录ID', name: 'id', index: "id", key: true, hidden: true},
             {label: '客户姓名', name: 'clientName', width: 75},
@@ -41,7 +46,10 @@ $(function () {
             {label: '按揭期数', name: 'mortgageNums', width: 75},
             {label: '按揭金额', name: 'mortgageAmount', width: 75},
             {label: '客户经理', name: 'clientManagerName', width: 75},
-            {label: '备注', name: 'remark', width: 75}]
+            {label: '备注', name: 'remark', width: 75},
+            { label: '操作',  width: 80, formatter: function (value, col, row) {
+                return   "<a  onclick='vm.updateClientLoanRecord(" + JSON.stringify(row) + ")'>修改</a>";
+            }}]
     });
     $("#clientLoanRecordJqGrid").jqGrid("setGridHeight", "auto");
 
@@ -51,6 +59,7 @@ $(function () {
     }
     $("#clientPropertyRecordJqGrid").Grid({
         url: clientPropertyRecordUrl,
+        multiselect: false,//复选框
         colModel: [
             {label: '资产记录ID', name: 'id', index: "id", key: true, hidden: true},
             {label: '客户姓名', name: 'clientName', width: 75},
@@ -61,7 +70,10 @@ $(function () {
                 return value == null ? '' : value.split(' ')[0];
             }},
             {label: '客户经理', name: 'clientManagerName', width: 75},
-            {label: '备注', name: 'remark', width: 75}]
+            {label: '备注', name: 'remark', width: 75},
+            { label: '操作',  width: 80, formatter: function (value, col, row) {
+                return   "<a  onclick='vm.updateClientPropertyRecord(" + JSON.stringify(row) + ")'>修改</a>";
+            }}]
     });
     $("#clientPropertyRecordJqGrid").jqGrid("setGridHeight", "auto");
 
@@ -71,6 +83,7 @@ $(function () {
     }
     $("#clientSignRecordJqGrid").Grid({
         url: clientSignRecordUrl,
+        multiselect: false,//复选框
         colModel: [
             {label: '签单记录ID', name: 'id', index: "id", key: true, hidden: true},
             {label: '客户姓名', name: 'clientName', width: 75},
@@ -81,7 +94,10 @@ $(function () {
             {label: '按揭金额', name: 'mortgageAmount', width: 75},
             {label: '客户经理姓名', name: 'clientManagerName', width: 75},
             {label: '签单日期', name: 'createTime', width: 75},
-            {label: '备注', name: 'remark', width: 75}]
+            {label: '备注', name: 'remark', width: 75},
+            { label: '操作',  width: 80, formatter: function (value, col, row) {
+                return   "<a  onclick='vm.updateClientSignRecord(" + JSON.stringify(row) + ")'>修改</a>";
+            }}]
     });
     $("#clientSignRecordJqGrid").jqGrid("setGridHeight", "auto");
 });
@@ -106,9 +122,17 @@ var vm = new Vue({
     },
     methods: {
         reload: function (event) {
-            var page = $("#clientFollowRecordJqGrid").jqGrid('getGridParam', 'page');
             $("#clientFollowRecordJqGrid").jqGrid('setGridParam', {
-                page: page
+                page: $("#clientFollowRecordJqGrid").jqGrid('getGridParam', 'page')
+            }).trigger("reloadGrid");
+            $("#clientLoanRecordJqGrid").jqGrid('setGridParam', {
+                page: $("#clientLoanRecordJqGrid").jqGrid('getGridParam', 'page')
+            }).trigger("reloadGrid");
+            $("#clientSignRecordJqGrid").jqGrid('setGridParam', {
+                page: $("#clientSignRecordJqGrid").jqGrid('getGridParam', 'page')
+            }).trigger("reloadGrid");
+            $("#clientPropertyRecordJqGrid").jqGrid('setGridParam', {
+                page: $("#clientPropertyRecordJqGrid").jqGrid('getGridParam', 'page')
             }).trigger("reloadGrid");
         },
         addClientFollowRecord: function () {
@@ -118,25 +142,66 @@ var vm = new Vue({
                 content: encodeURI('../client/clientFollowRecord.html?clientId=' + clientId + '&clientName='+clientName)
             })
         },
-        updateClientFollowRecord: function (event) {
-            var id = getSelectedRow("#clientFollowRecordJqGrid");
-            if (id == null) {
-                return;
-            }
+        updateClientFollowRecord: function (row) {
+            var id =row.id;
+            var clientId =row.clientId;
+            var clientName =row.realName;
             openWindow({
                 title: '修改跟单记录',
                 type: 2,
                 content: encodeURI('../client/clientFollowRecord.html?clientId=' + clientId + '&clientName='+clientName + '&clientFollowRecordId='+ id)
             })
         },
-        getClientFollowRecordInfo: function (id) {
-            Ajax.request({
-                url: "../clientFollowRecord/info/" + id,
-                async: true,
-                successCallback: function (r) {
-                    vm.clientFollowRecord = r.tblClientFollowRecord;
-                }
-            });
+        addClientLoanRecord: function () {
+            openWindow({
+                title: '新增贷款记录',
+                type: 2,
+                content: encodeURI('../client/clientLoanRecord.html?clientId=' + clientId + '&clientName='+clientName)
+            })
+        },
+        updateClientLoanRecord: function (row) {
+            var id =row.id;
+            var clientId =row.clientId;
+            var clientName =row.realName;
+            openWindow({
+                title: '修改贷款记录',
+                type: 2,
+                content: encodeURI('../client/clientLoanRecord.html?clientId=' + clientId + '&clientName='+clientName + '&clientLoanRecordId='+ id)
+            })
+        },
+        addClientPropertyRecord: function () {
+            openWindow({
+                title: '新增资产记录',
+                type: 2,
+                content: encodeURI('../client/clientPropertyRecord.html?clientId=' + clientId + '&clientName='+clientName)
+            })
+        },
+        updateClientPropertyRecord: function (row) {
+            var id =row.id;
+            var clientId =row.clientId;
+            var clientName =row.realName;
+            openWindow({
+                title: '修改资产记录',
+                type: 2,
+                content: encodeURI('../client/clientPropertyRecord.html?clientId=' + clientId + '&clientName='+clientName + '&clientPropertyRecordId='+ id)
+            })
+        },
+        addClientSignRecord: function () {
+            openWindow({
+                title: '新增签单记录',
+                type: 2,
+                content: encodeURI('../client/clientSignRecord.html?clientId=' + clientId + '&clientName='+clientName)
+            })
+        },
+        updateClientSignRecord: function (row) {
+            var id =row.id;
+            var clientId =row.clientId;
+            var clientName =row.realName;
+            openWindow({
+                title: '修改签单记录',
+                type: 2,
+                content: encodeURI('../client/clientSignRecord.html?clientId=' + clientId + '&clientName='+clientName + '&clientSignRecordId='+ id)
+            })
         },
         handleReset: function (name) {
             handleResetForm(this, name);
