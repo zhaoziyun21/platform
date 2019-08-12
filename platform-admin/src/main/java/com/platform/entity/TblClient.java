@@ -44,7 +44,7 @@ public class TblClient extends Model<TblClient> {
     private String clientTel;
 
     /**
-     * 客户类型
+     * 客户类型0:默认  1：重点客户  2：放弃客户
      */
     @TableField("clientType")
     private String clientType;
@@ -61,17 +61,18 @@ public class TblClient extends Model<TblClient> {
     @TableField("clientManagerName")
     private String clientManagerName;
 
-    /**
-     * 未跟单天数
-     */
-    @TableField("noTrackOrder")
-    private Integer noTrackOrder;
 
     /**
      * 是否上门
      */
     @TableField("isVisit")
     private String isVisit;
+
+    /**
+     * 是否有社保   0：没有， 1：有
+     */
+    @TableField("isSocialSecurity")
+    private BigDecimal isSocialSecurity;
 
     /**
      * 社保个缴金额
@@ -83,7 +84,7 @@ public class TblClient extends Model<TblClient> {
      * 已交社保年限
      */
     @TableField("socialSecurityYears")
-    private Integer socialSecurityYears;
+    private String socialSecurityYears;
 
     /**
      * 公积金个缴金额
@@ -95,7 +96,7 @@ public class TblClient extends Model<TblClient> {
      * 公积金已交年限
      */
     @TableField("gjjYears")
-    private Integer gjjYears;
+    private String gjjYears;
 
     /**
      * 工资类型
@@ -104,21 +105,17 @@ public class TblClient extends Model<TblClient> {
     private String salaryType;
 
     /**
+     * 工资类型
+     */
+    @TableField("salaryMoney")
+    private BigDecimal salaryMoney;
+
+    /**
      * 工资联缴年限
      */
     @TableField("salaryYears")
     private Integer salaryYears;
 
-    /**
-     * 是否记入成本
-     */
-    @TableField("isRecordCost")
-    private String isRecordCost;
-
-    /**
-     * 成本金额
-     */
-    private BigDecimal cost;
 
     /**
      * 创建时间
@@ -172,6 +169,119 @@ public class TblClient extends Model<TblClient> {
      */
     @TableField("applyTime")
     private Date applyTime;
+    /**
+     * 微粒贷  默认没有0      1有
+     */
+    @TableField("isParticleLoan")
+    private int isParticleLoan;
+    /**
+     * 微粒贷金额
+     */
+    @TableField("particleLoanAmount")
+    private BigDecimal particleLoanAmount;
+    /**
+     * 默认0  1*  ~  5*
+     */
+    @TableField("clientStar")
+    private String clientStar;
+    /**
+     * 默认0  是否有公积金
+     */
+    @TableField("isGjj")
+    private int isGjj;
+    /**
+     * 默认0  房子类型 0无  1：全款本地房  2：全款外地方  3：按揭本地房  4：按揭外地房
+     */
+    @TableField("houseType")
+    private int houseType;
+    /**
+     * 月供
+     */
+    @TableField("houseMonthPay")
+    private int houseMonthPay;
+    /**
+     * 月供多少月
+     */
+    @TableField("houseYears")
+    private int houseYears;
+    /**
+     * 是否北京车牌   0 默认不是
+     */
+    @TableField("isBjCarNo")
+    private int isBjCarNo;
+    /**
+     * 车的价值
+     */
+    @TableField("carAmount")
+    private BigDecimal carAmount;
+    /**
+     * 保单年缴
+     */
+    @TableField("insureBillYearPay")
+    private BigDecimal insureBillYearPay;
+    /**
+     * 保单年缴次数
+     */
+    @TableField("insureBillYearCount")
+    private int insureBillYearCount;
+    /**
+     * 保单月缴
+     */
+    @TableField("insureBillMonthPay")
+    private BigDecimal insureBillMonthPay;
+    /**
+     * 保单月缴次数
+     */
+    @TableField("insureBillMonthCount")
+    private int insureBillMonthCount;
+    /**
+     * 工作单位性质
+     */
+    @TableField("workPlace")
+    private String workPlace;
+    /**
+     * 备注
+     */
+    @TableField("remark")
+    private int remark;
+    /**
+     * 身份证号
+     */
+    @TableField("idCard")
+    private String idCard;
+    /**
+     * 生日
+     */
+    @TableField("birthdate")
+    private String birthdate;
+    /**
+     * 性别
+     */
+    @TableField("sex")
+    private String sex;
+    /**
+     * 省份
+     */
+    @TableField("province")
+    private String province;
+    /**
+     * 城市
+     */
+    @TableField("city")
+    private String city;
+    /**
+     * 年龄
+     */
+    @TableField("age")
+    private int age;
+    /**
+     * 信用卡
+     */
+    @TableField("creditCard")
+    private String creditCard;
+
+
+
     @Override
     protected Serializable pkVal() {
         return this.id;

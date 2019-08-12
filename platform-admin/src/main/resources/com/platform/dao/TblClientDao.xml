@@ -10,16 +10,16 @@
         <result column="clientType" property="clientType" />
         <result column="clientManagerId" property="clientManagerId" />
         <result column="clientManagerName" property="clientManagerName" />
-        <result column="noTrackOrder" property="noTrackOrder" />
         <result column="isVisit" property="isVisit" />
         <result column="socialSecurityPay" property="socialSecurityPay" />
         <result column="socialSecurityYears" property="socialSecurityYears" />
         <result column="gjjPay" property="gjjPay" />
+        <result column="isGjj" property="isGjj" />
         <result column="gjjYears" property="gjjYears" />
+        <result column="clientStar" property="clientStar" />
         <result column="salaryType" property="salaryType" />
+        <result column="salaryMoney" property="salaryMoney" />
         <result column="salaryYears" property="salaryYears" />
-        <result column="isRecordCost" property="isRecordCost" />
-        <result column="cost" property="cost" />
         <result column="createTime" property="createTime" />
         <result column="actionTime" property="actionTime" />
         <result column="createUser" property="createUser" />
@@ -30,15 +30,38 @@
         <result column="applyPlatform" property="applyPlatform" />
         <result column="applyAmount" property="applyAmount" />
         <result column="applyTime" property="applyTime" />
+        <result column="isParticleLoan" property="isParticleLoan" />
+        <result column="particleLoanAmount" property="particleLoanAmount" />
+        <result column="houseType" property="houseType" />
+        <result column="houseMonthPay" property="houseMonthPay" />
+        <result column="houseYears" property="houseYears" />
+        <result column="isBjCarNo" property="isBjCarNo" />
+        <result column="carAmount" property="carAmount" />
+        <result column="insureBillYearPay" property="insureBillYearPay" />
+        <result column="insureBillYearCount" property="insureBillYearCount" />
+        <result column="insureBillMonthPay" property="insureBillMonthPay" />
+        <result column="insureBillMonthCount" property="insureBillMonthCount" />
+        <result column="workPlace" property="workPlace" />
+        <result column="birthdate" property="birthdate" />
+        <result column="idCard" property="idCard" />
+        <result column="sex" property="sex" />
+        <result column="province" property="province" />
+        <result column="city" property="city" />
+        <result column="age" property="age" />
+        <result column="creditCard" property="creditCard" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        id, clientName, clientTel, clientType, clientManagerId, clientManagerName, noTrackOrder, isVisit,
+        id, clientName, clientTel, clientType, clientManagerId, clientManagerName, isVisit,
         socialSecurityPay, socialSecurityYears, gjjPay,
-        gjjYears, salaryType, salaryYears, isRecordCost, cost, createTime,
+        gjjYears, clientStar,salaryType, salaryMoney,salaryYears, createTime,
          actionTime,createUser,updateUser,tbl_client.status,followTime,
-         signStatus,applyPlatform,applyAmount,applyTime
+         signStatus,applyPlatform,applyAmount,applyTime,
+         isParticleLoan,particleLoanAmount,isGjj,houseType,houseMonthPay,houseYears,
+         isBjCarNo,carAmount,insureBillYearPay,insureBillYearCount,insureBillMonthPay,
+         insureBillMonthCount,workPlace,remark,birthdate,idCard,sex,province,city,
+         age,creditCard
     </sql>
 
     <select id="selectTblClientPage" resultType="com.platform.entity.TblClient">
@@ -67,6 +90,7 @@
          from tbl_client where id = #{value}
     </select>
 
+
     <insert id="save" useGeneratedKeys="true" keyProperty="id" parameterType="com.platform.entity.TblClient" >
         insert into tbl_client
         (
@@ -75,16 +99,15 @@
         `clientType`,
         `clientManagerId`,
         `clientManagerName`,
-        `noTrackOrder`,
         `isVisit`,
         `socialSecurityPay`,
         `socialSecurityYears`,
         `gjjPay`,
         `gjjYears`,
+        `clientStar`,
         `salaryType`,
+        `salaryMoney`,
         `salaryYears`,
-        `isRecordCost`,
-        `cost`,
         `createTime`,
         `updateUser`,
         `createUser`,
@@ -93,7 +116,28 @@
         `signStatus`,
         `applyPlatform`,
         `applyAmount`,
-        `applyTime`
+        `applyTime`,
+        `isParticleLoan`,
+        `particleLoanAmount`,
+        `isGjj`,
+        `houseMonthPay`,
+        `houseType`,
+        `houseYears`,
+        `isBjCarNo`,
+        `carAmount`,
+        `insureBillYearPay`,
+        `insureBillYearCount`,
+        `insureBillMonthPay`,
+        `insureBillMonthCount`,
+        `workPlace`,
+        `remark`,
+        `birthdate`,
+        `idCard`,
+        `sex`,
+        `province`,
+        `city`,
+        `age`,
+        `creditCard`
         )
         values
         (
@@ -102,16 +146,15 @@
         #{clientType},
         #{clientManagerId},
         #{clientManagerName},
-        #{noTrackOrder},
         #{isVisit},
         #{socialSecurityPay},
         #{socialSecurityYears},
         #{gjjPay},
         #{gjjYears},
+        #{clientStar},
         #{salaryType},
+        #{salaryMoney},
         #{salaryYears},
-        #{isRecordCost},
-        #{cost},
         #{createTime},
         #{clientManagerName},
         #{clientManagerName},
@@ -120,7 +163,28 @@
         #{signStatus},
         #{applyPlatform},
         #{applyAmount},
-        #{applyTime}
+        #{applyTime},
+        #{isParticleLoan},
+        #{particleLoanAmount},
+        #{isGjj},
+        #{houseMonthPay},
+        #{houseType},
+        #{houseYears},
+        #{isBjCarNo},
+        #{carAmount},
+        #{insureBillYearPay},
+        #{insureBillYearCount},
+        #{insureBillMonthPay},
+        #{insureBillMonthCount},
+        #{workPlace},
+        #{remark},
+        #{birthdate},
+        #{idCard},
+        #{sex},
+        #{province},
+        #{city},
+        #{age},
+        #{creditCard}
         )
     </insert>
     <update id="update" parameterType="com.platform.entity.TblClient">
@@ -131,15 +195,15 @@
             <if test="clientType != null">`clientType` = #{clientType},</if>
             <if test="clientManagerId != null">`clientManagerId` = #{clientManagerId},</if>
             <if test="clientManagerName != null">`clientManagerName` = #{clientManagerName},</if>
-            <if test="noTrackOrder != null">`noTrackOrder` = #{noTrackOrder},</if>
             <if test="isVisit != null">`isVisit` = #{isVisit},</if>
             <if test="socialSecurityPay != null">`socialSecurityPay` = #{socialSecurityPay},</if>
             <if test="socialSecurityYears != null">`socialSecurityYears` = #{socialSecurityYears},</if>
             <if test="gjjPay != null">`gjjPay` = #{gjjPay},</if>
             <if test="gjjYears != null">`gjjYears` = #{gjjYears},</if>
+            <if test="clientStar != null">`clientStar` = #{clientStar},</if>
             <if test="salaryType != null">`salaryType` = #{salaryType},</if>
+            <if test="salaryMoney != null">`salaryMoney` = #{salaryMoney},</if>
             <if test="salaryYears != null">`salaryYears` = #{salaryYears},</if>
-            <if test="cost != null">`cost` = #{cost},</if>
             <if test="updateUser != null">`updateUser` = #{updateUser},</if>
             <if test="status != null">`status` = #{status},</if>
             <if test="followTime != null">`followTime` = #{followTime},</if>
@@ -147,6 +211,27 @@
             <if test="applyPlatform != null">`applyPlatform` = #{applyPlatform},</if>
             <if test="applyAmount != null">`applyAmount` = #{applyAmount},</if>
             <if test="applyTime != null">`applyTime` = #{applyTime},</if>
+            <if test="isParticleLoan != null">`isParticleLoan` = #{isParticleLoan},</if>
+            <if test="particleLoanAmount != null">`particleLoanAmount` = #{particleLoanAmount},</if>
+            <if test="isGjj != null">`isGjj` = #{isGjj},</if>
+            <if test="houseMonthPay != null">`houseMonthPay` = #{houseMonthPay},</if>
+            <if test="houseType != null">`houseType` = #{houseType},</if>
+            <if test="houseYears != null">`houseYears` = #{houseYears},</if>
+            <if test="isBjCarNo != null">`isBjCarNo` = #{isBjCarNo},</if>
+            <if test="carAmount != null">`carAmount` = #{carAmount},</if>
+            <if test="insureBillYearPay != null">`insureBillYearPay` = #{insureBillYearPay},</if>
+            <if test="insureBillYearCount != null">`insureBillYearCount` = #{insureBillYearCount},</if>
+            <if test="insureBillMonthPay != null">`insureBillMonthPay` = #{insureBillMonthPay},</if>
+            <if test="insureBillMonthCount != null">`insureBillMonthCount` = #{insureBillMonthCount},</if>
+            <if test="workPlace != null">`workPlace` = #{workPlace},</if>
+            <if test="remark != null">`remark` = #{remark},</if>
+            <if test="birthdate != null">`birthdate` = #{birthdate},</if>
+            <if test="idCard != null">`idCard` = #{idCard},</if>
+            <if test="sex != null">`sex` = #{sex},</if>
+            <if test="province != null">`province` = #{province},</if>
+            <if test="city != null">`city` = #{city},</if>
+            <if test="age != null">`age` = #{age},</if>
+            <if test="creditCard != null">`creditCard` = #{creditCard},</if>
             `actionTime` = now()
         </set>
         where id = #{id}
