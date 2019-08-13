@@ -49,6 +49,9 @@
         <result column="city" property="city" />
         <result column="age" property="age" />
         <result column="creditCard" property="creditCard" />
+        <result column="haveHouse" property="haveHouse" />
+        <result column="haveCar" property="haveCar" />
+        <result column="haveInsure" property="haveInsure" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -61,7 +64,7 @@
          isParticleLoan,particleLoanAmount,isGjj,houseType,houseMonthPay,houseYears,
          isBjCarNo,carAmount,insureBillYearPay,insureBillYearCount,insureBillMonthPay,
          insureBillMonthCount,workPlace,remark,birthdate,idCard,sex,province,city,
-         age,creditCard
+         age,creditCard,haveHouse,haveCar,haveInsure
     </sql>
 
     <select id="selectTblClientPage" resultType="com.platform.entity.TblClient">
@@ -87,7 +90,7 @@
     <select id="queryObject" resultType="com.platform.entity.TblClient">
         select
         <include refid="Base_Column_List"/>
-         from tbl_client where id = #{value}
+        from tbl_client where id = #{value}
     </select>
 
 
@@ -137,7 +140,10 @@
         `province`,
         `city`,
         `age`,
-        `creditCard`
+        `creditCard`,
+        `haveHouse`,
+        `haveCar`,
+        `haveInsure`
         )
         values
         (
@@ -184,7 +190,10 @@
         #{province},
         #{city},
         #{age},
-        #{creditCard}
+        #{creditCard},
+        #{haveHouse},
+        #{haveCar},
+        #{haveInsure}
         )
     </insert>
     <update id="update" parameterType="com.platform.entity.TblClient">
@@ -232,6 +241,9 @@
             <if test="city != null">`city` = #{city},</if>
             <if test="age != null">`age` = #{age},</if>
             <if test="creditCard != null">`creditCard` = #{creditCard},</if>
+            <if test="haveCar != null">`haveCar` = #{haveCar},</if>
+            <if test="haveHouse != null">`haveHouse` = #{haveHouse},</if>
+            <if test="haveInsure != null">`haveInsure` = #{haveInsure},</if>
             `actionTime` = now()
         </set>
         where id = #{id}
