@@ -280,6 +280,11 @@ public class TblClient extends Model<TblClient> {
     @TableField("creditCard")
     private String creditCard;
     /**
+     * 信用卡额度
+     */
+    @TableField("creditCardAmount")
+    private String creditCardAmount;
+    /**
      * 是否有房 0无,1、有房无贷款，2有房有贷、
      */
     @TableField("haveHouse")

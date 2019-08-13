@@ -52,6 +52,7 @@
         <result column="haveHouse" property="haveHouse" />
         <result column="haveCar" property="haveCar" />
         <result column="haveInsure" property="haveInsure" />
+        <result column="creditCardAmount" property="creditCardAmount" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -64,7 +65,7 @@
          isParticleLoan,particleLoanAmount,isGjj,houseType,houseMonthPay,houseYears,
          isBjCarNo,carAmount,insureBillYearPay,insureBillYearCount,insureBillMonthPay,
          insureBillMonthCount,workPlace,remark,birthdate,idCard,sex,province,city,
-         age,creditCard,haveHouse,haveCar,haveInsure
+         age,creditCard,haveHouse,haveCar,haveInsure,creditCardAmount
     </sql>
 
     <select id="selectTblClientPage" resultType="com.platform.entity.TblClient">
@@ -143,7 +144,8 @@
         `creditCard`,
         `haveHouse`,
         `haveCar`,
-        `haveInsure`
+        `haveInsure`,
+        `creditCardAmount`
         )
         values
         (
@@ -193,7 +195,8 @@
         #{creditCard},
         #{haveHouse},
         #{haveCar},
-        #{haveInsure}
+        #{haveInsure},
+        #{creditCardAmount}
         )
     </insert>
     <update id="update" parameterType="com.platform.entity.TblClient">
@@ -244,6 +247,7 @@
             <if test="haveCar != null">`haveCar` = #{haveCar},</if>
             <if test="haveHouse != null">`haveHouse` = #{haveHouse},</if>
             <if test="haveInsure != null">`haveInsure` = #{haveInsure},</if>
+            <if test="creditCardAmount != null">`creditCardAmount` = #{creditCardAmount},</if>
             `actionTime` = now()
         </set>
         where id = #{id}
