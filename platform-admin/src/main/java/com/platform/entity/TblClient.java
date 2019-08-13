@@ -279,6 +279,21 @@ public class TblClient extends Model<TblClient> {
      */
     @TableField("creditCard")
     private String creditCard;
+    /**
+     * 是否有房 0无,1、有房无贷款，2有房有贷、
+     */
+    @TableField("haveHouse")
+    private String haveHouse;
+    /**
+     * 是否有车 0：无车产，1、有车无贷，2、有车有贷
+     */
+    @TableField("haveCar")
+    private String haveCar;
+    /**
+     * 是否有保单  默认0没有  1有
+     */
+    @TableField("haveInsure")
+    private String haveInsure;
 
 
 
