@@ -62,7 +62,7 @@ public class ClientLoanRecordController {
      */
     @SysLog("保存客户贷款记录")
     @RequestMapping("/save")
-    @RequiresPermissions("clientLoanRecord:save")
+    @RequiresPermissions("client:save")
     public R save(@RequestBody TblClientLoanRecord tblClientLoanRecord) {
         ValidatorUtils.validateEntity(tblClientLoanRecord);
         SysUserEntity user = UserUtil.getCurUser();
@@ -79,7 +79,7 @@ public class ClientLoanRecordController {
      * 修改
      */
     @RequestMapping("/update")
-    @RequiresPermissions("clientLoanRecord:update")
+    @RequiresPermissions("client:update")
     public R update(@RequestBody TblClientLoanRecord tblClientLoanRecord) {
         ValidatorUtils.validateEntity(tblClientLoanRecord);
         SysUserEntity user = UserUtil.getCurUser();

@@ -14,10 +14,7 @@ import com.platform.utils.QueryPlus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * <p>
@@ -39,8 +36,19 @@ public class TblClientServiceImpl implements TblClientService {
         //排序
         params.put("sidx", "createTime");
         params.put("asc", false);
+        List<String> order = new ArrayList<>();
+        order.add("status");
         Page<TblClient> page = new QueryPlus<TblClient>(params).getPage();
-        return new PageUtilsPlus(page.setRecords(tblClientDao.selectTblClientPage(page, params)));
+        return new PageUtilsPlus(page.setAscs(order).setRecords(tblClientDao.selectTblClientPage(page, params)));
+    }
+    public PageUtilsPlus publishClientPage(Map<String, Object> params) {
+        //排序
+        params.put("sidx", "createTime");
+        params.put("asc", false);
+        List<String> order = new ArrayList<>();
+        order.add("status");
+        Page<TblClient> page = new QueryPlus<TblClient>(params).getPage();
+        return new PageUtilsPlus(page.setAscs(order).setRecords(tblClientDao.publishClientPage(page, params)));
     }
 
     @Override

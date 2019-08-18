@@ -1,5 +1,6 @@
 var clientId;
 var clientName;
+var clientSignRecordId;
 $(function () {
     clientId = getQueryString("clientId");
     clientName = getQueryStringNew("clientName");
@@ -24,26 +25,40 @@ $(function () {
 });
 
 var vm = new Vue({
-    el: '#rrapp',
+    el: '#clientSignRecord',
     data: {
-        showList: true,
-        title: null,
-        roleList: {},
-        clientSignRecord: {
-        },ruleValidate: {
-            signAmount: [
-                { pattern: /^[0-9]+(\.([0-9]{1,3}))$|^[0-9]+$/,message: '签单金额只能是整数或者小数', trigger: 'change'}
-            ],
-            servicePoint: [
-                { pattern: /^[0-9]+(\.([0-9]{1,3}))$|^[0-9]+$/,message: '服务费点位只能是整数或者小数', trigger: 'change'}
-            ],
-            mortgageNums: [
-                { pattern: /^[0-9]+$/,message: '按揭期数只能是整数', trigger: 'change'}
-            ],
-            mortgageAmount: [
-                { pattern: /^[0-9]+(\.([0-9]{1,3}))$|^[0-9]+$/,message: '按揭金额只能是整数或者小数', trigger: 'change'}
-            ]
-        }
+            title: null,
+            roleList: {},
+            clientSignRecord: {
+            },ruleValidate: {
+                signAmount: [
+                    { pattern: /^[0-9]+(\.([0-9]{1,3}))$|^[0-9]+$/,message: '签单金额只能是整数或者小数', trigger: 'change'}
+                ],
+                servicePoint: [
+                    { pattern: /^[0-9]+(\.([0-9]{1,3}))$|^[0-9]+$/,message: '服务费点位只能是整数或者小数', trigger: 'change'}
+                ],
+                mortgageNums: [
+                    { pattern: /^[0-9]+$/,message: '按揭期数只能是整数', trigger: 'change'}
+                ],
+                mortgageAmount: [
+                    { pattern: /^[0-9]+(\.([0-9]{1,3}))$|^[0-9]+$/,message: '按揭金额只能是整数或者小数', trigger: 'change'}
+                ]
+            }
+        },beforeCreate() {
+        this.$nextTick(function () {
+            vm.clientSignRecord = {
+                clientId :getQueryString("clientId"),
+                clientName :getQueryStringNew("clientName")};
+            if(getQueryStringNew("clientSignRecordId") != undefined){
+                Ajax.request({
+                    url: "../clientSignRecord/info/" + getQueryStringNew("clientSignRecordId"),
+                    async: false,
+                    successCallback: function (r) {
+                        vm.clientSignRecord = r.tblClientSignRecord;
+                    }
+                });
+            }
+        })
     },
     methods: {
         query: function () {
@@ -84,27 +99,26 @@ var vm = new Vue({
                 type: 'POST',
                 successCallback: function () {
                     alert('操作成功', function (index) {
-                        vm.reload();
+                        window.parent.vm.reload();
+                        var index  = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
                     });
                 }
             });
         },
         reload: function (event) {
-            vm.showList = true;
-            var page = $("#jqGrid").jqGrid('getGridParam', 'page');
-            $("#jqGrid").jqGrid('setGridParam', {
-                // postData: {'clientTel': vm.q.clientTel},
-                page: page
-            }).trigger("reloadGrid");
-            vm.handleReset('formValidate');
+            parent.vm.reload();
+            parent.vm.handleReset('formValidate');
+        },
+        returnBack: function () {
+            window.parent.vm.reload();
+            var index  = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
         },
         handleSubmit: function (name) {
             handleSubmitValidate(this, name, function () {
                 vm.saveOrUpdate()
             });
-        },
-        handleReset: function (name) {
-            handleResetForm(this, name);
         }
     }
 });

@@ -27,6 +27,7 @@ public interface TblClientService {
      * @return
      */
     PageUtilsPlus queryPage(Map<String, Object> params);
+    PageUtilsPlus publishClientPage(Map<String, Object> params);
 
 
     TblClient queryObject(long clientId);

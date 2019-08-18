@@ -87,6 +87,20 @@
             AND tbl_client.status  =  '${params.status}'
         </if>
     </select>
+    <select id="publishClientPage" resultType="com.platform.entity.TblClient">
+        select
+        <include refid="Base_Column_List"/>
+        from tbl_client
+        LEFT JOIN sys_user ON tbl_client.clientManagerId = sys_user.user_id
+        where  1=1
+        <if test="params.clientTel != null and params.clientTel.trim() != ''">
+            AND clientTel =  '${params.clientTel}'
+        </if>
+
+        <if test="params.status != null and params.status.trim() != ''">
+            AND tbl_client.status  =  '${params.status}'
+        </if>
+    </select>
 
     <select id="queryObject" resultType="com.platform.entity.TblClient">
         select
@@ -265,19 +279,19 @@
     <update id="divide" parameterType="java.util.Map">
         update tbl_client
         <set>
-            <if test="updateUser != null">`updateUser` = #{updateUser},</if>
-            <if test="clientManagerId != null">`clientManagerId` = #{clientManagerId},</if>
-            <if test="createTime != null">`createTime` = #{createTime},</if>
-            <if test="createUser != null">`createUser` = #{createUser},</if>
-            <if test="clientTel != null">`clientTel` = #{clientTel},</if>
-            <if test="clientName != null">`clientName` = #{clientName},</if>
-            <if test="status != null">`status` = #{status},</if>
-            <if test="clientManagerName != null">`clientManagerName` = #{clientManagerName},</if>
-            <if test="followTime != null">`followTime` = #{followTime},</if>
+            <if test="params.updateUser != null">`updateUser` = #{params.updateUser},</if>
+            <if test="params.clientManagerId != null">`clientManagerId` = #{params.clientManagerId},</if>
+            <if test="params.createTime != null">`createTime` = #{params.createTime},</if>
+            <if test="params.createUser != null">`createUser` = #{params.createUser},</if>
+            <if test="params.clientTel != null">`clientTel` = #{params.clientTel},</if>
+            <if test="params.clientName != null">`clientName` = #{params.clientName},</if>
+            <if test="params.status != null">`status` = #{params.status},</if>
+            <if test="params.clientManagerName != null">`clientManagerName` = #{params.clientManagerName},</if>
+            <if test="params.followTime != null">`followTime` = #{params.followTime},</if>
             `actionTime` = now()
         </set>
         where id in
-        <foreach  collection="idList"  item="id" index="index" open="(" separator="," close=")">
+        <foreach  collection="params.idList"  item="id" index="index" open="(" separator="," close=")">
             #{id}
         </foreach>
     </update>

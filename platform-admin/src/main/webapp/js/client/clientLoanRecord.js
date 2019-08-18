@@ -1,5 +1,6 @@
 var clientId;
 var clientName;
+var clientLoanRecordId;
 $(function () {
     clientId = getQueryString("clientId");
     clientName = getQueryStringNew("clientName");
@@ -24,9 +25,8 @@ $(function () {
 });
 
 var vm = new Vue({
-    el: '#rrapp',
+    el: '#clientLoanRecord',
     data: {
-        showList: true,
         title: null,
         roleList: {},
         clientLoanRecord: {
@@ -49,13 +49,27 @@ var vm = new Vue({
 
 
         }
+    },beforeCreate() {
+        this.$nextTick(function () {
+            vm.clientLoanRecord = {
+                clientId :getQueryString("clientId"),
+                clientName :getQueryStringNew("clientName")};
+            if(getQueryStringNew("clientLoanRecordId") != undefined){
+                Ajax.request({
+                    url: "../clientLoanRecord/info/" + getQueryStringNew("clientLoanRecordId"),
+                    async: true,
+                    successCallback: function (r) {
+                        vm.clientLoanRecord = r.tblClientLoanRecord;
+                    }
+                });
+            }
+        })
     },
     methods: {
         query: function () {
             vm.reload();
         },
         add: function () {
-            vm.showList = false;
             vm.title = "新增";
             vm.clientLoanRecord = {
                 clientId :clientId,
@@ -68,7 +82,6 @@ var vm = new Vue({
                 return;
             }
 
-            vm.showList = false;
             vm.title = "修改";
 
             Ajax.request({
@@ -89,27 +102,21 @@ var vm = new Vue({
                 type: 'POST',
                 successCallback: function () {
                     alert('操作成功', function (index) {
-                        vm.reload();
+                        window.parent.vm.reload();
+                        var index  = parent.layer.getFrameIndex(window.name);
+                        parent.layer.close(index);
                     });
                 }
             });
-        },
-        reload: function (event) {
-            vm.showList = true;
-            var page = $("#jqGrid").jqGrid('getGridParam', 'page');
-            $("#jqGrid").jqGrid('setGridParam', {
-                // postData: {'clientTel': vm.q.clientTel},
-                page: page
-            }).trigger("reloadGrid");
-            vm.handleReset('formValidate');
+        },returnBack: function () {
+            window.parent.vm.reload();
+            var index  = parent.layer.getFrameIndex(window.name);
+            parent.layer.close(index);
         },
         handleSubmit: function (name) {
             handleSubmitValidate(this, name, function () {
                 vm.saveOrUpdate()
             });
-        },
-        handleReset: function (name) {
-            handleResetForm(this, name);
         }
     }
 });

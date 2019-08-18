@@ -5,7 +5,13 @@
     #parse("sys/header.html")
 </head>
 <body>
+
 <div id="rrapp" v-cloak>
+    <Card id="divideDiv" v-show="showDivide">
+        <i-select  :label-in-value="true" @on-change="choice">
+            <i-option  v-for="user in users" :value="user.userId" :key="user.userId" >{{user.realName}}</i-option>
+        </i-select>
+    </Card>
     <div v-show="showList">
         <Row :gutter="16">
             <div class="search-group">
@@ -51,6 +57,8 @@
             </Form-item>
         </i-form>
     </Card>
+
+
 </div>
 
 <script src="${rc.contextPath}/js/client/originClient.js?_${date.systemTime}"></script>

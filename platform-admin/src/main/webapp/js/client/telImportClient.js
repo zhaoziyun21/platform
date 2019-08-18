@@ -1,7 +1,7 @@
 
 
 var vm = new Vue({
-    el: '#rrapp',
+    el: '#telImportRecord',
     data: {
         showList: true,
         title: null,
