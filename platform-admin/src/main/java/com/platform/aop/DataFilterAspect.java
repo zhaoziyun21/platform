@@ -100,6 +100,12 @@ public class DataFilterAspect {
                     filterSql.append("' ");
                 }
                 filterSql.append(" ) ");
+            }else{
+                filterSql.append(" and ");
+                filterSql.append(userAlias);
+                filterSql.append("='");
+                filterSql.append(user.getUserId());
+                filterSql.append("' ");
             }
         } else if (StringUtils.isNotBlank(userAlias)) {
             filterSql.append(" and ");

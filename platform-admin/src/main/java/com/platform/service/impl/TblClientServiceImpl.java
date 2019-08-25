@@ -41,6 +41,17 @@ public class TblClientServiceImpl implements TblClientService {
         Page<TblClient> page = new QueryPlus<TblClient>(params).getPage();
         return new PageUtilsPlus(page.setAscs(order).setRecords(tblClientDao.selectTblClientPage(page, params)));
     }
+    @Override
+    @DataFilter(userAlias = "tbl_client.clientManagerId")
+    public PageUtilsPlus queryOwnerPage(Map<String, Object> params) {
+        //排序
+        params.put("sidx", "createTime");
+        params.put("asc", false);
+        List<String> order = new ArrayList<>();
+        order.add("status");
+        Page<TblClient> page = new QueryPlus<TblClient>(params).getPage();
+        return new PageUtilsPlus(page.setAscs(order).setRecords(tblClientDao.selectOwnerTblClientPage(page, params)));
+    }
     public PageUtilsPlus publishClientPage(Map<String, Object> params) {
         //排序
         params.put("sidx", "createTime");
@@ -70,8 +81,8 @@ public class TblClientServiceImpl implements TblClientService {
     }
 
     @Override
-    public int updatePublishClient() {
-        return tblClientDao.updatePublishClient();
+    public int updatePublishClient(Long userID,List clientIDs) {
+        return tblClientDao.updatePublishClient(userID,clientIDs);
     }
 
     @Override
@@ -87,5 +98,10 @@ public class TblClientServiceImpl implements TblClientService {
     @Override
     public void batchSave(List<TblClient> tblClients) {
         tblClientDao.batchSave(tblClients);
+    }
+
+    @Override
+    public List<TblClient> queryClientByStatus(String status) {
+        return tblClientDao.queryClientByStatus(status);
     }
 }

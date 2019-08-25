@@ -1,7 +1,8 @@
 $(function () {
     vm.getCurUser();
+
     $("#jqGrid").Grid({
-        url: '../client/list',
+        url: '../client/ownerlist',
         postData: {
             status: "1"
         },
@@ -68,13 +69,13 @@ $(function () {
             }},
             { label: '操作',  width: 160, formatter: function (value, col, row) {
                 // return '<button class="btn btn-outline btn-info" onclick="vm.update(' + JSON.stringify(row) + ')"><i class="fa fa-info-circle"></i>&nbsp;修改</button>' ;
-                    var str = "<a  onclick='vm.getClientInfo(" + JSON.stringify(row) + ")'>查看</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+                var str = "<a  onclick='vm.getClientInfo(" + JSON.stringify(row) + ")'>查看</a>&nbsp;&nbsp;&nbsp;&nbsp;";
                     if(vm.user.userId == row.clientManagerId){
-                        str +=  "<a  onclick='vm.update(" + JSON.stringify(row) + ")'>修改</a>&nbsp;&nbsp;&nbsp;&nbsp;" +
-                            "<a  onclick='vm.giveUpClient(" + JSON.stringify(row) + ")'>放弃客户</a>&nbsp;&nbsp;&nbsp;&nbsp;" +
-                            "<a  onclick='vm.majorClient(" + JSON.stringify(row) + ")'>重点客户</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+                       str +=  "<a  onclick='vm.update(" + JSON.stringify(row) + ")'>修改</a>&nbsp;&nbsp;&nbsp;&nbsp;" +
+                           "<a  onclick='vm.giveUpClient(" + JSON.stringify(row) + ")'>放弃客户</a>&nbsp;&nbsp;&nbsp;&nbsp;" +
+                           "<a  onclick='vm.majorClient(" + JSON.stringify(row) + ")'>重点客户</a>&nbsp;&nbsp;&nbsp;&nbsp;";
                     }
-                    return str;
+                return str;
             }}
             ]
     });
@@ -171,15 +172,6 @@ var vm = new Vue({
             vm.title = "新增客户";
             vm.client = {status: 1, roleIdList: [], deptId: '', deptName: ''};
 
-        },getCurUser: function () {
-            Ajax.request({
-                url: "../client/getCurUser/",
-                async: false,
-                successCallback: function (r) {
-                    vm.user = r.user;
-                }
-            });
-
         },
         update: function (row) {
             vm.showClientList = false;
@@ -191,6 +183,15 @@ var vm = new Vue({
                 async: true,
                 successCallback: function (r) {
                     vm.client = r.client;
+                    vm.user = r.user;
+                }
+            });
+
+        }, getCurUser: function () {
+            Ajax.request({
+                url: "../client/getCurUser/",
+                async: false,
+                successCallback: function (r) {
                     vm.user = r.user;
                 }
             });

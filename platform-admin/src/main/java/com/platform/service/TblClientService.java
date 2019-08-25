@@ -21,12 +21,19 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface TblClientService {
     /**
-     * queryPage
+     * 团队客户
      *
      * @param params
      * @return
      */
     PageUtilsPlus queryPage(Map<String, Object> params);
+
+    /**
+     * 我的客户
+     * @param params
+     * @return
+     */
+    PageUtilsPlus queryOwnerPage(Map<String, Object> params);
     PageUtilsPlus publishClientPage(Map<String, Object> params);
 
 
@@ -44,7 +51,7 @@ public interface TblClientService {
      */
     void update(TblClient client);
 
-    int updatePublishClient();
+    int updatePublishClient(Long userID,List clientIDs);
 
     void secondKill(TblClient client);
 
@@ -52,4 +59,6 @@ public interface TblClientService {
     public void divideTelRecord(Map<String, Object> params);
 
     void batchSave(List<TblClient> tblClients);
+
+    List<TblClient> queryClientByStatus(String status);
 }

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
 import static com.platform.utils.ShiroUtils.getUserId;
@@ -55,6 +56,25 @@ public class ClientController {
         return page;
     }
     @ResponseBody
+    @RequestMapping("/ownerlist")
+    public R ownerlist(@RequestParam Map<String, Object> params) {
+
+        SysUserEntity curUser = UserUtil.getCurUser();
+        params.put("clientManagerId",curUser.getUserId());
+        //查询列表数据查询列表数据
+        PageUtilsPlus pageUtil = tblClientService.queryOwnerPage(params);
+        R page = R.ok().put("page", pageUtil);
+        return page;
+    }
+
+    @ResponseBody
+    @RequestMapping("/getCurUser")
+    public R getCurUser(@RequestParam Map<String, Object> params) {
+        SysUserEntity curUser = UserUtil.getCurUser();
+        R page = R.ok().put("user", curUser);
+        return page;
+    }
+    @ResponseBody
     @RequestMapping("/publishClientList")
     public R publishClientList(@RequestParam Map<String, Object> params) {
 
@@ -73,8 +93,8 @@ public class ClientController {
     @RequestMapping("/info/{id}")
     public R info(@PathVariable("id") long id) {
         TblClient tblClient = tblClientService.queryObject(id);
-
-        return R.ok().put("client", tblClient);
+        SysUserEntity user = UserUtil.getCurUser();
+        return R.ok().put("client", tblClient).put("user",user);
     }
 
 
@@ -112,6 +132,38 @@ public class ClientController {
         tblClientService.update(client);
         return R.ok();
     }
+    /**
+     * 放弃客户
+     */
+    @RequestMapping("/giveUpClient")
+    public R giveUpClient(@RequestParam long clientId) {
+        SysUserEntity user = UserUtil.getCurUser();
+        TblClient client = new TblClient();
+        client.setId(clientId);
+        client.setClientManagerId(user.getUserId());
+        client.setClientManagerName(user.getRealName());
+        client.setUpdateUser(user.getUsername());
+        client.setFollowTime(new Date());
+        client.setClientType("2");
+        tblClientService.update(client);
+        return R.ok();
+    }
+    /**
+     * 重点客户
+     */
+    @RequestMapping("/majorClient")
+    public R majorClient(@RequestParam long clientId) {
+        SysUserEntity user = UserUtil.getCurUser();
+        TblClient client = new TblClient();
+        client.setId(clientId);
+        client.setClientManagerId(user.getUserId());
+        client.setClientManagerName(user.getRealName());
+        client.setUpdateUser(user.getUsername());
+        client.setFollowTime(new Date());
+        client.setClientType("1");
+        tblClientService.update(client);
+        return R.ok();
+    }
 
 
     /**
@@ -122,24 +174,32 @@ public class ClientController {
     public R secondKill(@RequestBody TblClient client) {
         ValidatorUtils.validateEntity(client);
         SysUserEntity user = UserUtil.getCurUser();
-        client.setStatus("1");
+        client.setClientType("0");
         client.setUpdateUser(user.getUsername());
         client.setClientManagerId(user.getUserId());
+        client.setClientManagerName(user.getRealName());
         ReentrantLock lock = new ReentrantLock();
-        lock.lock();
         try {
-            TblClient clientNew = tblClientService.queryObject(client.getId());
-            if(!"2".equals(clientNew.getStatus())){
-                return R.error();
+            if(lock.tryLock(2, TimeUnit.SECONDS)){
+                try {
+                    TblClient clientNew = tblClientService.queryObject(client.getId());
+                    if(!"2".equals(clientNew.getClientType())){
+                        return R.error();
+                    }
+                    tblClientService.secondKill(client);
+                }catch (Exception e){
+                    logger.error(e.getMessage(), e);
+                    return R.error();
+                }finally {
+                    lock.unlock();
+                }
+            }else{
+                return R.error("抢夺客户记录失败，请重试");
             }
-            tblClientService.secondKill(client);
-        }catch (Exception e){
+        } catch (InterruptedException e) {
             logger.error(e.getMessage(), e);
-            return R.error();
-        }finally {
-            lock.unlock();
+            return R.error("抢夺客户记录失败，请重试");
         }
-
         return R.ok();
     }
 

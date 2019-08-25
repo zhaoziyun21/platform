@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.*;
 
 /**
@@ -28,30 +29,40 @@ public class ClientTask {
 
     @Autowired
     private TblClientService tblClientService;
+    @Autowired
+    private SysUserService sysUserService;
 
     public void updatePublishClient() {
         logger.info("定时分配员工给员工，当前时间为：" + DateUtils.format(new Date(),DateUtils.DATE_TIME_PATTERN));
-        Map<Long,String> map = new HashMap<>();
+        Map<Long,List<Long>> map = new HashMap<>();
         //查询所有员工放入list ，随机排序
-        List<SysUserEntity> userList = new ArrayList<>();
+        List<SysUserEntity> userList = sysUserService.queryAllUser();
         Collections.shuffle(userList);
         //查询所有的新对接客户
-        List<TblClient> clientList = new ArrayList<>();
+        List<TblClient> clientList = tblClientService.queryClientByStatus("0");
         if(clientList != null && clientList.size() > 0){
             for(int i=0; i<= clientList.size() -1;i++){
                 int index = i % userList.size();
                 Long userID = userList.get(index).getUserId();
                 Long clientID = clientList.get(i).getId();
                 if(map.get(userID) != null){
-                    String clientIds = String.valueOf(map.get(userID)) +clientID +",";
-                    map.put(userID,clientIds);
+                    List<Long> list = map.get(userID);
+                    list.add(clientID);
+                    map.put(userID,list);
                 }else{
-                    map.put(userID,clientID+",");
+                    List<Long> list = new ArrayList<>();
+                    list.add(clientID);
+                    map.put(userID,list);
                 }
             }
         }
         //批量更新给员工
-        int rows = tblClientService.updatePublishClient();
-        logger.info("定时分配员工给员工，受影响更新条数："+ rows +",当前时间为：" + DateUtils.format(new Date(),DateUtils.DATE_TIME_PATTERN));
+        if(map.size() > 0){
+            int rows = 0;
+            for(Map.Entry<Long,List<Long>> entry : map.entrySet()){
+                rows += tblClientService.updatePublishClient(entry.getKey(),entry.getValue());
+            }
+            logger.info("定时分配员工给员工，受影响更新条数："+ rows +",当前时间为：" + DateUtils.format(new Date(),DateUtils.DATE_TIME_PATTERN));
+        }
     }
 }

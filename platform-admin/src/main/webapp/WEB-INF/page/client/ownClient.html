@@ -6,87 +6,109 @@
 </head>
 <body>
 <div id="client"  v-cloak>
+    <div v-show="showClientList">
+        <Row :gutter="16">
+            <div class="search-group">
+                <i-col span="4">
+                    <i-input v-model="q.clientTel" @on-enter="query" placeholder="手机号"/>
+                </i-col>
+                <i-button @click="query">查询</i-button>
+            </div>
+            <div class="buttons-group">
+                #if($shiro.hasPermission("client:save"))
+                <i-button type="info" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</i-button>
+                #end
+            </div>
+        </Row>
+        <table id="jqGrid"></table>
+        <div id="jqGridPager"></div>
+    </div>
 
-    <Card>
-        <i-form ref="formValidate" :model="client"  :label-width="400" inline>
+    <Card v-show="!showClientList">
+        <p slot="title">{{title}}</p>
+        <i-form ref="formValidate" :model="client" :rules="ruleValidate" :label-width="500" inline>
             <Form-item label="客户姓名" prop="clientName">
-                <i-input v-model="client.clientName" disabled placeholder="客户姓名"/>
+                <i-input v-model="client.clientName" placeholder="客户姓名"/>
             </Form-item>
             <Form-item label="性别" prop="sex">
-                <Radio-group v-model="client.sex" >
-                    <Radio label="0" disabled>
+                <Radio-group v-model="client.sex">
+                    <Radio label="0">
                         <span>不清楚</span>
                     </Radio>
-                    <Radio label="1" disabled>
+                    <Radio label="1">
                         <span>男</span>
                     </Radio>
-                    <Radio label="2" disabled>
+                    <Radio label="2">
                         <span>女</span>
                     </Radio>
                 </Radio-group>
             </Form-item>
-
             <Form-item label="手机号" prop="clientTel">
-                <i-input v-model="client.clientTel" v-if="client.clientManagerId == user.userId" disabled placeholder="手机号"/>
+
+                <i-input v-model="client.clientTel" v-if="client.clientManagerId == user.userId" placeholder="手机号"/>
+
             </Form-item>
             <Form-item label="身份证号" prop="idCard">
-                <i-input v-model="client.idCard" disabled placeholder="身份证号"/>
+                <i-input v-model="client.idCard" placeholder="身份证号"/>
             </Form-item>
             <Form-item label="省" prop="province">
-                <i-input v-model="client.province" disabled placeholder="省"/>
+                <i-input v-model="client.province" placeholder="省"/>
             </Form-item>
             <Form-item label="市" prop="city">
-                <i-input v-model="client.city" disabled placeholder="市"/>
+                <i-input v-model="client.city" placeholder="市"/>
             </Form-item>
             <Form-item label="申请平台" prop="applyPlatform">
-                <i-input v-model="client.applyPlatform" disabled placeholder="申请平台"/>
+                <i-input v-model="client.applyPlatform" placeholder="申请平台"/>
             </Form-item>
             <Form-item label="申请金额" prop="applyAmount">
-                <i-input v-model="client.applyAmount" disabled placeholder="申请金额"/>
+                <i-input v-model="client.applyAmount" placeholder="申请金额"/>
             </Form-item>
             <Form-item label="申请时间" prop="applyTime">
-                <Date-picker v-model="client.applyTime" disabled placeholder="申请时间" format="yyyy-MM-dd"></Date-picker>
+                <Date-picker v-model="client.applyTime" placeholder="申请时间" format="yyyy-MM-dd"></Date-picker>
             </Form-item>
             <Form-item label="工资类型" prop="salaryType" >
-                <i-select v-model="client.salaryType" disabled placeholder="请选择工资类型" style="width:150px">
+                <i-select v-model="client.salaryType" placeholder="请选择工资类型" style="width:150px">
                     <i-option value="1">打卡</i-option>
                     <i-option value="2">现金</i-option>
+                    <i-option value="3">转账</i-option>
                 </i-select>
             </Form-item>
             <Form-item label="工资金额" prop="salaryMoney" >
-                <i-input v-model="client.salaryMoney" disabled  placeholder="工资金额"/>
+                <i-input v-model="client.salaryMoney" placeholder="工资金额"/>
             </Form-item>
             <Form-item label="工资联缴年限（月）" prop="salaryYears">
-                <i-input v-model="client.salaryYears" disabled placeholder="工资联缴年限"/>
+                <i-input v-model="client.salaryYears" placeholder="工资联缴年限"/>
             </Form-item>
 
+
             <Form-item label="是否有微粒贷" prop="isParticleLoan">
-                <Radio-group v-model="client.isParticleLoan" disabled>
-                    <Radio label="0" disabled>
+                <Radio-group v-model="client.isParticleLoan">
+                    <Radio label="0">
                         <span>不清楚</span>
                     </Radio>
-                    <Radio label="1" disabled>
+                    <Radio label="1">
                         <span>没有</span>
                     </Radio>
-                    <Radio label="2" disabled>
+                    <Radio label="2">
                         <span>有</span>
                     </Radio>
                 </Radio-group>
             </Form-item>
 
             <Form-item label="微粒贷金额" prop="particleLoanAmount">
-                <i-input v-model="client.particleLoanAmount" disabled placeholder="微粒贷金额"/>
+                <i-input v-model="client.particleLoanAmount" placeholder="微粒贷金额"/>
             </Form-item>
             <Form-item label="是否有房" prop="haveHouse">
-                <i-select v-model="client.houseType" disabled placeholder="是否有房" style="width:150px">
+                <i-select v-model="client.houseType" placeholder="是否有房" style="width:150px">
                     <i-option value="0">无</i-option>
                     <i-option value="1">有房无贷款</i-option>
                     <i-option value="2">有房有贷</i-option>
                 </i-select>
             </Form-item>
 
+
             <Form-item label="房子类型" prop="houseType">
-                <i-select v-model="client.houseType" disabled placeholder="房子类型" style="width:150px">
+                <i-select v-model="client.houseType" placeholder="房子类型" style="width:150px">
                     <i-option value="0">无</i-option>
                     <i-option value="1">全款本地房</i-option>
                     <i-option value="2">全款外地方</i-option>
@@ -95,34 +117,34 @@
                 </i-select>
             </Form-item>
             <Form-item label="房子月供（元）" prop="houseMonthPay">
-                <i-input v-model="client.houseMonthPay" disabled  placeholder="房子月供"/>
+                <i-input v-model="client.houseMonthPay"  placeholder="房子月供"/>
             </Form-item>
             <Form-item label="房子月供时间" prop="houseYears">
-                <i-input v-model="client.houseYears" disabled placeholder="房子月供时间"/>
+                <i-input v-model="client.houseYears"  placeholder="房子月供时间"/>
             </Form-item>
             <Form-item label="是否京牌车" prop="isBjCarNo">
-                <Radio-group v-model="client.isBjCarNo" disabled>
-                    <Radio label="0" disabled>
+                <Radio-group v-model="client.isBjCarNo">
+                    <Radio label="0">
                         <span>不是</span>
                     </Radio>
-                    <Radio label="1" disabled>
+                    <Radio label="1">
                         <span>是</span>
                     </Radio>
                 </Radio-group>
             </Form-item>
             <Form-item label="是否有车" prop="haveCar">
-                <i-select v-model="client.haveCar"  disabled placeholder="是否有车">
+                <i-select v-model="client.haveCar" placeholder="是否有车">
                     <i-option value="0">无车产</i-option>
                     <i-option value="1">有车无贷</i-option>
                     <i-option value="2">有车有贷</i-option>
                 </i-select>
             </Form-item>
             <Form-item label="车的价值（元）" prop="carAmount">
-                <i-input v-model="client.carAmount" disabled  placeholder="车的价值"/>
+                <i-input v-model="client.carAmount"  placeholder="车的价值"/>
             </Form-item>
 
             <Form-item label="是否有保单" prop="haveInsure">
-                <i-select v-model="client.haveInsure" disabled placeholder="是否有保单">
+                <i-select v-model="client.haveInsure" placeholder="是否有保单">
                     <i-option value="0">不清楚</i-option>
                     <i-option value="1">有保单</i-option>
                     <i-option value="2">无保单</i-option>
@@ -130,22 +152,22 @@
             </Form-item>
 
             <Form-item label="保单年缴（元）" prop="insureBillYearPay">
-                <i-input v-model="client.insureBillYearPay" disabled  placeholder="保单年缴"/>
+                <i-input v-model="client.insureBillYearPay"  placeholder="保单年缴"/>
             </Form-item>
             <Form-item label="保单年缴次数" prop="insureBillYearCount">
-                <i-input v-model="client.insureBillYearCount" disabled  placeholder="保单年缴次数"/>
+                <i-input v-model="client.insureBillYearCount"  placeholder="保单年缴次数"/>
             </Form-item>
             <Form-item label="保单月缴" prop="insureBillMonthPay">
-                <i-input v-model="client.insureBillMonthPay" disabled  placeholder="保单月缴"/>
+                <i-input v-model="client.insureBillMonthPay"  placeholder="保单月缴"/>
             </Form-item>
             <Form-item label="保单月缴次数" prop="insureBillMonthCount">
-                <i-input v-model="client.insureBillMonthCount" disabled  placeholder="保单月缴次数"/>
+                <i-input v-model="client.insureBillMonthCount"  placeholder="保单月缴次数"/>
             </Form-item>
             <Form-item label="信用卡额度" prop="creditCardAmount">
-                <i-input v-model="client.creditCardAmount" disabled  placeholder="信用卡额度"/>
+                <i-input v-model="client.creditCardAmount"  placeholder="信用卡额度"/>
             </Form-item>
             <Form-item label="有无信用卡" prop="creditCard">
-                <i-select v-model="client.creditCard" disabled placeholder="有无信用卡">
+                <i-select v-model="client.creditCard" placeholder="有无信用卡">
                     <i-option value="0">不清楚</i-option>
                     <i-option value="1">无信用卡</i-option>
                     <i-option value="2">有信用卡</i-option>
@@ -153,7 +175,9 @@
             </Form-item>
 
 
-            <Form-item label="单位性质" disabled prop="workPlace">
+
+
+            <Form-item label="单位性质" prop="workPlace">
                 <i-select v-model="client.workPlace" placeholder="单位性质">
                     <i-option value="0">无</i-option>
                     <i-option value="1">国企</i-option>
@@ -164,33 +188,39 @@
             </Form-item>
 
 
-
-
-
             <Form-item label="社保个缴金额（元）" prop="socialSecurityPay">
-                <i-input v-model="client.socialSecurityPay" disabled placeholder="社保个缴金额"/>
+                <i-input v-model="client.socialSecurityPay"  placeholder="社保个缴金额"/>
             </Form-item>
             <Form-item label="已交社保年限（月）" prop="socialSecurityYears">
-                <i-input v-model="client.socialSecurityYears" disabled placeholder="已交社保年限"/>
+                <i-input v-model="client.socialSecurityYears" placeholder="已交社保年限"/>
             </Form-item>
             <Form-item label="公积金个缴金额（元）" prop="gjjPay">
-                <i-input v-model="client.gjjPay" disabled placeholder="公积金个缴金额"/>
+                <i-input v-model="client.gjjPay" placeholder="公积金个缴金额"/>
             </Form-item>
             <Form-item label="公积金已交年限（月）" prop="gjjYears">
-                <i-input v-model="client.gjjYears" disabled placeholder="公积金已交年限"/>
+                <i-input v-model="client.gjjYears" placeholder="公积金已交年限"/>
             </Form-item>
             <Form-item label="是否记入成本" prop="isRecordCost">
-                <i-select v-model="client.isRecordCost" disabled placeholder="是否记入成本">
+                <i-select v-model="client.isRecordCost" placeholder="是否记入成本">
                     <i-option value="0">是</i-option>
                     <i-option value="1">否</i-option>
                 </i-select>
             </Form-item>
             <Form-item label="成本金额" prop="cost">
-                <i-input v-model="client.cost" disabled placeholder="成本金额"/>
+                <i-input v-model="client.cost" placeholder="成本金额"/>
             </Form-item>
 
+<!--            <Form-item label="客户类型" prop="clientType">-->
+<!--                <i-select v-model="client.clientType" placeholder="请选择客户类型">-->
+<!--                    <i-option value="1">A：近期有资质有需求</i-option>-->
+<!--                    <i-option value="2">B：有资质无需求七天回访一次</i-option>-->
+<!--                    <i-option value="3">C：有需求没资质</i-option>-->
+<!--                    <i-option value="4">D：没资质没需求</i-option>-->
+<!--                    <i-option value="5">E类客户为淘汰资源</i-option>-->
+<!--                </i-select>-->
+<!--            </Form-item>-->
             <Form-item label="客户星级" prop="clientStar">
-                <i-select v-model="client.clientStar" disabled placeholder="请选择客户星级" style="width:150px">
+                <i-select v-model="client.clientStar" placeholder="请选择客户星级" style="width:150px">
                     <i-option value="1">一星：无资质</i-option>
                     <i-option value="2">二星：有资质近期不需要</i-option>
                     <i-option value="3">三星：可小贷近期有需要</i-option>
@@ -200,61 +230,37 @@
             </Form-item>
 
             <Form-item label="是否上门" prop="isVisit">
-                <Radio-group v-model="client.isVisit" disabled>
-                    <Radio label="0" disabled>
+                <Radio-group v-model="client.isVisit">
+                    <Radio label="0">
                         <span>待上门</span>
                     </Radio>
-                    <Radio label="1" disabled>
+                    <Radio label="1">
                         <span>已上门</span>
                     </Radio>
                 </Radio-group>
             </Form-item>
+            <Form-item label="备注" prop="remark">
+                <i-input v-model="client.remark"  placeholder="备注"/>
+            </Form-item>
+
             <Form-item label="签约状态" prop="signStatus">
-                <i-select v-model="client.signStatus" disabled placeholder="请选择签约状态">
+                <i-select v-model="client.signStatus" placeholder="请选择签约状态">
                     <i-option value="0">--请选择--</i-option>
                     <i-option value="1">未签约</i-option>
                     <i-option value="2">已签约</i-option>
                 </i-select>
             </Form-item>
-            <Form-item label="备注" prop="remark">
-                <i-input v-model="client.remark" disabled placeholder="备注"/>
+            <Form-item>
+                <i-button type="primary" @click="handleSubmit('formValidate')">提交</i-button>
+                <i-button type="warning" @click="reload" style="margin-left: 8px">返回</i-button>
+                <i-button type="ghost" @click="handleReset('formValidate')" style="margin-left: 8px">重置</i-button>
             </Form-item>
+
         </i-form>
     </Card>
-    <div>
-        <h2 style="padding: 10px;"><b>跟单记录</b></h2>
-        <Row :gutter="16">
-            <i-button type="info" @click="addClientFollowRecord"><i class="fa fa-plus"></i>&nbsp;新增</i-button>
-        </Row>
-        <table id="clientFollowRecordJqGrid"></table>
-        <div id="clientFollowRecordJqGridPager"></div>
-    </div>
-<!--    <div>-->
-<!--        <h2 style="padding: 10px;"><b>贷款记录</b></h2>-->
-<!--        <Row :gutter="16">-->
-<!--            <i-button type="info" @click="addClientLoanRecord"><i class="fa fa-plus"></i>&nbsp;新增</i-button>-->
-<!--        </Row>-->
-<!--        <table id="clientLoanRecordJqGrid"></table>-->
-<!--        <div id="clientLoanRecordJqGridPager"></div>-->
-<!--    </div>-->
-<!--    <div>-->
-<!--        <h2 style="padding: 10px;"><b>资产记录</b></h2>-->
-<!--        <Row :gutter="16">-->
-<!--            <i-button type="info" @click="addClientPropertyRecord"><i class="fa fa-plus"></i>&nbsp;新增</i-button>-->
-<!--        </Row>-->
-<!--        <table id="clientPropertyRecordJqGrid"></table>-->
-<!--        <div id="clientPropertyRecordJqGridPager"></div>-->
-<!--    </div>-->
-<!--    <div>-->
-<!--        <h2 style="padding: 10px;"><b>签单记录</b></h2>-->
-<!--        <Row :gutter="16">-->
-<!--            <i-button type="info" @click="addClientSignRecord"><i class="fa fa-plus"></i>&nbsp;新增</i-button>-->
-<!--        </Row>-->
-<!--        <table id="clientSignRecordJqGrid"></table>-->
-<!--        <div id="clientSignRecordJqGridPager"></div>-->
-<!--    </div>-->
+
 </div>
 
-<script src="${rc.contextPath}/js/client/clientInfo.js?_${date.systemTime}"></script>
+<script src="${rc.contextPath}/js/client/ownClient.js?_${date.systemTime}"></script>
 </body>
 </html>

@@ -122,6 +122,9 @@ var vm = new Vue({
     el: '#client',
     data: {
         client: {
+        },
+        user:{
+
         }
     },
     beforeCreate() {
@@ -131,6 +134,7 @@ var vm = new Vue({
                     async: false,
                     successCallback: function (r) {
                         vm.client = r.client;
+                        vm.user = r.user;
                     }
                 });
         })

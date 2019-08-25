@@ -8692,7 +8692,7 @@ code, kbd, pre, samp {
 }
 
 .ivu-radio-wrapper {
-    font-size: 12px;
+    font-size: 16px;
     vertical-align: middle;
     display: inline-block;
     position: relative;
@@ -11052,7 +11052,7 @@ textarea.ivu-page-options-elevator input {
     display: block;
     height: 30px;
     line-height: 30px;
-    font-size: 12px;
+    font-size: 16px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -11170,7 +11170,7 @@ textarea.ivu-page-options-elevator input {
     padding: 7px 16px;
     clear: both;
     color: #495060;
-    font-size: 12px !important;
+    font-size: 16px !important;
     white-space: nowrap;
     list-style: none;
     cursor: pointer;
@@ -11690,7 +11690,7 @@ textarea.ivu-page-options-elevator input {
     height: 32px;
     line-height: 1.5;
     padding: 4px 7px;
-    font-size: 12px;
+    font-size: 16px;
     border: 1px solid #dddee1;
     border-radius: 4px;
     color: #495060;
@@ -14243,7 +14243,7 @@ span.ivu-date-picker-cells-cell-disabled.ivu-date-picker-cells-cell-selected em 
     text-align: right;
     vertical-align: middle;
     float: left;
-    font-size: 12px;
+    font-size: 16px;
     color: #495060;
     line-height: 1;
     padding: 10px 12px 10px 0;

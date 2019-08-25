@@ -4,12 +4,12 @@ $(function () {
         autowidth:true,
         multiselect: false,//复选框
         postData: {
-            status: "2"
+            clientType: "2"
         },
         colModel: [
             {label: '客户ID', name: 'clientId', index: "clientId", key: true, hidden: true},
             {label: '客户姓名', name: 'clientName', width: 75},
-            {label: '手机号', name: 'clientTel', width: 75},
+            // {label: '手机号', name: 'clientTel', width: 75},
             {
                 label: '操作', width: 160, align: 'center', sortable: false, formatter: function (value, col, row) {
                     a=1;
@@ -18,7 +18,7 @@ $(function () {
             }
             }]
     });
-    $("#jqGrid").jqGrid("setGridHeight", "100%");
+    // $("#jqGrid").jqGrid("setGridHeight", "auto");
 });
 
 

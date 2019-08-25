@@ -44,4 +44,5 @@ public interface SysUserDao extends BaseDao<SysUserEntity> {
     List<UserWindowDto> queryListByBean(UserWindowDto userWindowDto);
 
     List<SysUserEntity> queryAll();
+    List<SysUserEntity> queryAllUser();
 }

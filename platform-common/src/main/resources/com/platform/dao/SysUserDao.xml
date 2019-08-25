@@ -75,6 +75,9 @@
 	<select id="queryAll" resultType="com.platform.entity.SysUserEntity">
 		select * from sys_user
 	</select>
+	<select id="queryAllUser" resultType="com.platform.entity.SysUserEntity">
+		select * from sys_user where username != 'admin'
+	</select>
 
 	<insert id="save" parameterType="com.platform.entity.SysUserEntity" useGeneratedKeys="true" keyProperty="userId">
 		insert into sys_user

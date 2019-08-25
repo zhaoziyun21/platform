@@ -146,4 +146,8 @@ public class SysUserServiceImpl implements SysUserService {
     public List<SysUserEntity> queryAll() {
         return sysUserDao.queryAll();
     }
+    @Override
+    public List<SysUserEntity> queryAllUser() {
+        return sysUserDao.queryAllUser();
+    }
 }
