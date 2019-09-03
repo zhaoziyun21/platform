@@ -4,13 +4,23 @@
     <title>客户列表</title>
     #parse("sys/header.html")
 </head>
+<style>
+    .ui-jqgrid .ui-jqgrid-btable tbody tr.jqgrow td{
+        white-space:nowrap;
+        font-size:15px;
+    }
+</style>
 <body>
 <div id="client"  v-cloak>
     <div v-show="showClientList">
         <Row :gutter="16">
             <div class="search-group">
                 <i-col span="4">
-                    <i-input v-model="q.clientTel" @on-enter="query" placeholder="手机号"/>
+                    <i-select v-model="q.clientType" @on-enter="query" placeholder="请选择客户类型">
+                        <i-option value="">全部</i-option>
+                        <i-option value="0">普通客户</i-option>
+                        <i-option value="1">重点客户</i-option>
+                    </i-select>
                 </i-col>
                 <i-button @click="query">查询</i-button>
             </div>

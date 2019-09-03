@@ -26,4 +26,12 @@ public interface TblClientFollowRecordDao extends  BaseDao<TblClientFollowRecord
      * @return
      */
     List<TblClientFollowRecord> selectTblClientFollowRecordPage(IPage page, @Param("params")Map<String, Object> params);
+
+    /**
+     * 自定义分页查询
+     *
+     * @param params
+     * @return
+     */
+    List<TblClientFollowRecord> selectTblClientFollowRecordPageLimit(@Param("params")Map<String, Object> params);
 }

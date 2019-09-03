@@ -78,9 +78,8 @@
         <if test="params.filterSql != null and params.filterSql.trim() != ''">
             ${params.filterSql}
         </if>
-
-        <if test="params.clientTel != null and params.clientTel.trim() != ''">
-            AND clientTel =  '${params.clientTel}'
+        <if test="params.clientType != null and params.clientType.trim() != ''">
+            AND clientType =  '${params.clientType}'
         </if>
             AND clientType != 2
 <!--        <if test="params.status != null and params.status.trim() != ''">-->
@@ -101,8 +100,22 @@
         <if test="params.clientTel != null and params.clientTel.trim() != ''">
             AND clientTel =  '${params.clientTel}'
         </if>
-            AND clientType != 2
+        <if test="params.clientType != null and params.clientType.trim() != ''">
+            AND clientType =  '${params.clientType}'  AND clientType != 2
+        </if>
+
     </select>
+    <select id="queryClientByManageID" resultType="com.platform.entity.TblClient">
+        select
+        <include refid="Base_Column_List"/>
+        from tbl_client
+        LEFT JOIN sys_user ON tbl_client.clientManagerId = sys_user.user_id
+        where   clientType != 2
+    </select>
+
+
+
+
     <select id="publishClientPage" resultType="com.platform.entity.TblClient">
         select
         <include refid="Base_Column_List"/>
@@ -257,7 +270,7 @@
             <if test="salaryYears != null">`salaryYears` = #{salaryYears},</if>
             <if test="updateUser != null">`updateUser` = #{updateUser},</if>
             <if test="status != null">`status` = #{status},</if>
-            <if test="followTime != null">`followTime` = #{followTime},</if>
+            `followTime` = #{followTime},
             <if test="signStatus != null">`signStatus` = #{signStatus},</if>
             <if test="applyPlatform != null">`applyPlatform` = #{applyPlatform},</if>
             <if test="applyAmount != null">`applyAmount` = #{applyAmount},</if>

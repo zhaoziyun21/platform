@@ -45,4 +45,6 @@ public interface SysUserDao extends BaseDao<SysUserEntity> {
 
     List<SysUserEntity> queryAll();
     List<SysUserEntity> queryAllUser();
+
+    List<SysUserEntity> queryByFilter();
 }

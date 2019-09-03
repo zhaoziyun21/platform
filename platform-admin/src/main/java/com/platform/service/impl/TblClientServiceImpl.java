@@ -3,8 +3,10 @@ package com.platform.service.impl;
 
 import com.platform.annotation.DataFilter;
 import com.platform.dao.TblClientDao;
+import com.platform.dao.TblClientFollowRecordDao;
 import com.platform.dao.TblClientTelRecordDao;
 import com.platform.entity.TblClient;
+import com.platform.entity.TblClientFollowRecord;
 import com.platform.entity.TblClientTelRecord;
 import com.platform.service.TblClientService;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -29,6 +31,8 @@ public class TblClientServiceImpl implements TblClientService {
     @Autowired
     private TblClientDao tblClientDao;
     @Autowired
+    private TblClientFollowRecordDao tblClientFollowRecordDao;
+    @Autowired
     private TblClientTelRecordDao tblClientTelRecordDao;
     @Override
     @DataFilter(userAlias = "tbl_client.clientManagerId", deptAlias = "sys_user.dept_id")
@@ -39,7 +43,14 @@ public class TblClientServiceImpl implements TblClientService {
         List<String> order = new ArrayList<>();
         order.add("status");
         Page<TblClient> page = new QueryPlus<TblClient>(params).getPage();
-        return new PageUtilsPlus(page.setAscs(order).setRecords(tblClientDao.selectTblClientPage(page, params)));
+        List<TblClient> tblClientLists = tblClientDao.selectOwnerTblClientPage(page, params);
+        for (TblClient tblClient : tblClientLists){
+            Map<String, Object> m = new HashMap<>();
+            m.put("clientId",tblClient.getId());
+            List<TblClientFollowRecord> tblClientFollowRecords = tblClientFollowRecordDao.selectTblClientFollowRecordPageLimit(m);
+            tblClient.setFollowRecordList(tblClientFollowRecords);
+        }
+        return new PageUtilsPlus(page.setAscs(order).setRecords(tblClientLists));
     }
     @Override
     @DataFilter(userAlias = "tbl_client.clientManagerId")
@@ -50,7 +61,14 @@ public class TblClientServiceImpl implements TblClientService {
         List<String> order = new ArrayList<>();
         order.add("status");
         Page<TblClient> page = new QueryPlus<TblClient>(params).getPage();
-        return new PageUtilsPlus(page.setAscs(order).setRecords(tblClientDao.selectOwnerTblClientPage(page, params)));
+        List<TblClient> tblClientLists = tblClientDao.selectOwnerTblClientPage(page, params);
+        for (TblClient tblClient : tblClientLists){
+            Map<String, Object> m = new HashMap<>();
+            m.put("clientId",tblClient.getId());
+            List<TblClientFollowRecord> tblClientFollowRecords = tblClientFollowRecordDao.selectTblClientFollowRecordPageLimit(m);
+            tblClient.setFollowRecordList(tblClientFollowRecords);
+        }
+        return new PageUtilsPlus(page.setAscs(order).setRecords(tblClientLists));
     }
     public PageUtilsPlus publishClientPage(Map<String, Object> params) {
         //排序
@@ -104,4 +122,17 @@ public class TblClientServiceImpl implements TblClientService {
     public List<TblClient> queryClientByStatus(String status) {
         return tblClientDao.queryClientByStatus(status);
     }
+
+    @Override
+    public PageUtilsPlus queryClientByManageID(Map<String, Object> params) {
+        //排序
+        params.put("sidx", "createTime");
+        params.put("asc", false);
+        List<String> order = new ArrayList<>();
+        order.add("status");
+        Page<TblClient> page = new QueryPlus<TblClient>(params).getPage();
+        List<TblClient> tblClientLists = tblClientDao.queryClientByManageID(page, params);
+        return new PageUtilsPlus(page.setAscs(order).setRecords(tblClientLists));
+    }
+
 }

@@ -58,7 +58,18 @@ $(function () {
             // }},
             // {label: '成本金额', name: 'cost', width: 75},
             {label: '申请金额', name: 'applyAmount', width: 75},
-            {label: '跟进状态', name: 'status', width: 75},
+            {label: '跟进状态', name: 'followRecordList', width: 75,formatter: function (value) {
+                if(value != undefined && value.length > 0){
+                    var str = '';
+                    value.forEach(function(value,index){
+                        str += (index+1)+'、'+value.followRemark + ' \n';
+                    });
+                    return str;
+                }else{
+                    return "";
+                }
+
+            }},
             {
                 label: '创建时间', name: 'createTime', index: "createTime", width: 80, formatter: function (value) {
                 return transDate(value);
@@ -79,6 +90,8 @@ $(function () {
             }}
             ]
     });
+
+
 });
 
 
@@ -86,7 +99,7 @@ var vm = new Vue({
     el: '#client',
     data: {
         q: {
-            clientTel: null
+            clientType: null
         },
         showClientList: true,
         title: null,
@@ -316,11 +329,15 @@ var vm = new Vue({
         reload: function (event) {
             vm.showClientList = true;
             var page = $("#jqGrid").jqGrid('getGridParam', 'page');
+            if(vm.q.clientType == '' || vm.q.clientType == undefined){
+                delete $("#jqGrid").getGridParam().postData.clientType
+            }
             $("#jqGrid").jqGrid('setGridParam', {
-                postData: {'clientTel': vm.q.clientTel},
+                postData: {'clientType': vm.q.clientType},
                 page: page
             }).trigger("reloadGrid");
             vm.handleReset('formValidate');
+
         },
         handleSubmit: function (name) {
             handleSubmitValidate(this, name, function () {

@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -47,7 +48,7 @@ public class TblClient extends Model<TblClient> {
      * 客户类型0:默认  1：重点客户  2：放弃客户
      */
     @TableField("clientType")
-    private String clientType;
+    private String clientType = "0";
 
     /**
      * 客户经理id
@@ -66,55 +67,55 @@ public class TblClient extends Model<TblClient> {
      * 是否上门
      */
     @TableField("isVisit")
-    private String isVisit;
+    private String isVisit="0";
 
     /**
      * 是否有社保   0：没有， 1：有
      */
     @TableField("isSocialSecurity")
-    private BigDecimal isSocialSecurity;
+    private BigDecimal isSocialSecurity=BigDecimal.ZERO;
 
     /**
      * 社保个缴金额
      */
     @TableField("socialSecurityPay")
-    private BigDecimal socialSecurityPay;
+    private BigDecimal socialSecurityPay=BigDecimal.ZERO;
 
     /**
      * 已交社保年限
      */
     @TableField("socialSecurityYears")
-    private String socialSecurityYears;
+    private String socialSecurityYears ="0";
 
     /**
      * 公积金个缴金额
      */
     @TableField("gjjPay")
-    private BigDecimal gjjPay;
+    private BigDecimal gjjPay=BigDecimal.ZERO;
 
     /**
      * 公积金已交年限
      */
     @TableField("gjjYears")
-    private String gjjYears;
+    private String gjjYears="0";
 
     /**
      * 工资类型
      */
     @TableField("salaryType")
-    private String salaryType;
+    private String salaryType="0";
 
     /**
      * 工资类型
      */
     @TableField("salaryMoney")
-    private BigDecimal salaryMoney;
+    private BigDecimal salaryMoney=BigDecimal.ZERO;
 
     /**
      * 工资联缴年限
      */
     @TableField("salaryYears")
-    private Integer salaryYears;
+    private Integer salaryYears=0;
 
 
     /**
@@ -142,7 +143,7 @@ public class TblClient extends Model<TblClient> {
      * 状态
      */
     @TableField("status")
-    private String status;
+    private String status="0";
     /**
      * 跟进时间
      */
@@ -153,7 +154,7 @@ public class TblClient extends Model<TblClient> {
      * 签约状态
      */
     @TableField("signStatus")
-    private String signStatus;
+    private String signStatus="0";
     /**
      * 申请平台
      */
@@ -163,7 +164,7 @@ public class TblClient extends Model<TblClient> {
      * 申请金额
      */
     @TableField("applyAmount")
-    private BigDecimal applyAmount;
+    private BigDecimal applyAmount=BigDecimal.ZERO;
     /**
      * 申请时间
      */
@@ -173,72 +174,72 @@ public class TblClient extends Model<TblClient> {
      * 微粒贷  默认没有0      1有
      */
     @TableField("isParticleLoan")
-    private int isParticleLoan;
+    private int isParticleLoan=0;
     /**
      * 微粒贷金额
      */
     @TableField("particleLoanAmount")
-    private BigDecimal particleLoanAmount;
+    private BigDecimal particleLoanAmount=BigDecimal.ZERO;
     /**
      * 默认0  1*  ~  5*
      */
     @TableField("clientStar")
-    private String clientStar;
+    private String clientStar="0";
     /**
      * 默认0  是否有公积金
      */
     @TableField("isGjj")
-    private int isGjj;
+    private int isGjj=0;
     /**
      * 默认0  房子类型 0无  1：全款本地房  2：全款外地方  3：按揭本地房  4：按揭外地房
      */
     @TableField("houseType")
-    private int houseType;
+    private int houseType=0;
     /**
      * 月供
      */
     @TableField("houseMonthPay")
-    private int houseMonthPay;
+    private int houseMonthPay=0;
     /**
      * 月供多少月
      */
     @TableField("houseYears")
-    private int houseYears;
+    private int houseYears=0;
     /**
      * 是否北京车牌   0 默认不是
      */
     @TableField("isBjCarNo")
-    private int isBjCarNo;
+    private int isBjCarNo=0;
     /**
      * 车的价值
      */
     @TableField("carAmount")
-    private BigDecimal carAmount;
+    private BigDecimal carAmount=BigDecimal.ZERO;
     /**
      * 保单年缴
      */
     @TableField("insureBillYearPay")
-    private BigDecimal insureBillYearPay;
+    private BigDecimal insureBillYearPay=BigDecimal.ZERO;
     /**
      * 保单年缴次数
      */
     @TableField("insureBillYearCount")
-    private int insureBillYearCount;
+    private int insureBillYearCount=0;
     /**
      * 保单月缴
      */
     @TableField("insureBillMonthPay")
-    private BigDecimal insureBillMonthPay;
+    private BigDecimal insureBillMonthPay=BigDecimal.ZERO;
     /**
      * 保单月缴次数
      */
     @TableField("insureBillMonthCount")
-    private int insureBillMonthCount;
+    private int insureBillMonthCount=0;
     /**
      * 工作单位性质
      */
     @TableField("workPlace")
-    private String workPlace;
+    private String workPlace="0";
     /**
      * 备注
      */
@@ -258,7 +259,7 @@ public class TblClient extends Model<TblClient> {
      * 性别
      */
     @TableField("sex")
-    private String sex;
+    private String sex="-1";
     /**
      * 省份
      */
@@ -288,20 +289,20 @@ public class TblClient extends Model<TblClient> {
      * 是否有房 0无,1、有房无贷款，2有房有贷、
      */
     @TableField("haveHouse")
-    private String haveHouse;
+    private String haveHouse="0";
     /**
      * 是否有车 0：无车产，1、有车无贷，2、有车有贷
      */
     @TableField("haveCar")
-    private String haveCar;
+    private String haveCar="0";
     /**
      * 是否有保单  默认0没有  1有
      */
     @TableField("haveInsure")
-    private String haveInsure;
+    private String haveInsure="0";
 
 
-
+    private List<TblClientFollowRecord> followRecordList;
     @Override
     protected Serializable pkVal() {
         return this.id;

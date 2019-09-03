@@ -163,5 +163,15 @@ public class SysUserController extends AbstractController {
 
         return R.ok().put("list", userList);
     }
+    @ResponseBody
+    @RequestMapping("/managerList")
+    public R ownerlist(@RequestParam Map<String, Object> params) {
 
+        SysUserEntity curUser = UserUtil.getCurUser();
+        params.put("clientManagerId",curUser.getUserId());
+        //查询客户经理列表数据
+        PageUtilsPlus pageUtil = sysUserService.queryUserByFilter(params);
+        R page = R.ok().put("page", pageUtil);
+        return page;
+    }
 }

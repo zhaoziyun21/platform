@@ -1,5 +1,7 @@
 package com.platform.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.platform.annotation.DataFilter;
 import com.platform.dao.SysUserDao;
 import com.platform.entity.SysUserEntity;
 import com.platform.entity.UserWindowDto;
@@ -9,6 +11,8 @@ import com.platform.service.SysRoleService;
 import com.platform.service.SysUserRoleService;
 import com.platform.service.SysUserService;
 import com.platform.utils.Constant;
+import com.platform.utils.PageUtilsPlus;
+import com.platform.utils.QueryPlus;
 import com.platform.utils.RRException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.crypto.hash.Sha256Hash;
@@ -16,10 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -149,5 +150,16 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public List<SysUserEntity> queryAllUser() {
         return sysUserDao.queryAllUser();
+    }
+
+    @Override
+    @DataFilter(userAlias = "u.user_id", deptAlias = "u.dept_id")
+    public PageUtilsPlus queryUserByFilter(Map<String, Object> params) {
+        //排序
+        params.put("sidx", "create_time");
+        params.put("asc", false);
+        com.baomidou.mybatisplus.extension.plugins.pagination.Page<SysUserEntity> page = new QueryPlus<SysUserEntity>(params).getPage();
+        List<SysUserEntity> sysUserLists = sysUserDao.queryByFilter();
+        return new PageUtilsPlus(page.setRecords(sysUserLists));
     }
 }

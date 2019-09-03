@@ -30,6 +30,17 @@
             AND clientId  =  '${params.clientId}'
         </if>
     </select>
+    <select id="selectTblClientFollowRecordPageLimit" resultType="com.platform.entity.TblClientFollowRecord">
+        select
+        <include refid="Base_Column_List"/>
+        from tbl_client_follow_record
+        where 1 = 1
+        <if test="params.clientId != null">
+            AND clientId  =  '${params.clientId}'
+        </if>
+        order by createTime
+        limit 0, 5
+    </select>
 
     <insert id="save" parameterType="com.platform.entity.TblClient">
         insert into tbl_client_follow_record

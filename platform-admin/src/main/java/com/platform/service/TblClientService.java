@@ -61,4 +61,6 @@ public interface TblClientService {
     void batchSave(List<TblClient> tblClients);
 
     List<TblClient> queryClientByStatus(String status);
+
+    PageUtilsPlus queryClientByManageID(Map<String, Object> params);
 }

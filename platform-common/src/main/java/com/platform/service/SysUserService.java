@@ -1,8 +1,10 @@
 package com.platform.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.platform.entity.SysUserEntity;
 import com.platform.entity.UserWindowDto;
 import com.platform.page.Page;
+import com.platform.utils.PageUtilsPlus;
 
 import java.util.List;
 import java.util.Map;
@@ -86,4 +88,6 @@ public interface SysUserService {
 
     List<SysUserEntity> queryAll();
     List<SysUserEntity> queryAllUser();
+
+    PageUtilsPlus queryUserByFilter(Map<String, Object> params);
 }

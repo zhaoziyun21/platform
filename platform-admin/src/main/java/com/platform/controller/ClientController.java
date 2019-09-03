@@ -143,7 +143,7 @@ public class ClientController {
         client.setClientManagerId(user.getUserId());
         client.setClientManagerName(user.getRealName());
         client.setUpdateUser(user.getUsername());
-        client.setFollowTime(new Date());
+        client.setFollowTime(null);
         client.setClientType("2");
         tblClientService.update(client);
         return R.ok();
@@ -248,4 +248,17 @@ public class ClientController {
         }
         return R.ok();
     }
+
+    @ResponseBody
+    @RequestMapping("/queryClientByManageID")
+    public R queryClientByManageID(@RequestParam Map<String, Object> params) {
+
+        SysUserEntity curUser = UserUtil.getCurUser();
+        params.put("clientManagerId",curUser.getUserId());
+        //查询列表数据查询列表数据
+        PageUtilsPlus pageUtil = tblClientService.queryClientByManageID(params);
+        R page = R.ok().put("page", pageUtil);
+        return page;
+    }
+
 }
