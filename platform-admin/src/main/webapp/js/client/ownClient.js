@@ -13,12 +13,15 @@ $(function () {
             {label: '客户姓名', name: 'clientName', width: 75, formatter: function (value, col, row) {
                           value == null ? '暂无' : value;
                     if(row.clientType == 1){
-                        return "<font color='red'>"+row.clientName+"</font> "
+                        return "<font color='red'><b>"+row.clientName+"</b></font> "
                     }else{
-                        return "<font>"+row.clientName+"</font> "
+                        if(row.status == 0 || row.clientManagerName == ''){
+                            return "<font><b>"+row.clientName+"</b></font> "
+                        }else{
+                            return "<font>"+row.clientName+"</font> "
+                        }
+
                     }
-                // return "<a  onclick='vm.update(" + JSON.stringify(row) + ")'>"+value+"</a>" ;
-                // return "<a  onclick='vm.getClientInfo(" + JSON.stringify(row) + ")'>"+value+"</a>" ;
                 return value ;
             }},
             {label: '客户类型', name: 'clientStar', width: 75, formatter: function (value) {

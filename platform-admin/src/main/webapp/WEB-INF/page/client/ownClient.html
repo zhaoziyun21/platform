@@ -188,8 +188,8 @@
 
 
 
-            <Form-item label="单位性质" prop="workPlace">
-                <i-select v-model="client.workPlace" placeholder="单位性质">
+            <Form-item label="单位性质" prop="workPlace" >
+                <i-select v-model="client.workPlace" placeholder="单位性质" style="width: 200px">
                     <i-option value="0">无</i-option>
                     <i-option value="1">国企</i-option>
                     <i-option value="2">私企</i-option>
@@ -221,17 +221,8 @@
                 <i-input v-model="client.cost" placeholder="成本金额"/>
             </Form-item>
 
-<!--            <Form-item label="客户类型" prop="clientType">-->
-<!--                <i-select v-model="client.clientType" placeholder="请选择客户类型">-->
-<!--                    <i-option value="1">A：近期有资质有需求</i-option>-->
-<!--                    <i-option value="2">B：有资质无需求七天回访一次</i-option>-->
-<!--                    <i-option value="3">C：有需求没资质</i-option>-->
-<!--                    <i-option value="4">D：没资质没需求</i-option>-->
-<!--                    <i-option value="5">E类客户为淘汰资源</i-option>-->
-<!--                </i-select>-->
-<!--            </Form-item>-->
             <Form-item label="客户星级" prop="clientStar">
-                <i-select v-model="client.clientStar" placeholder="请选择客户星级" style="width:150px">
+                <i-select v-model="client.clientStar" placeholder="请选择客户星级" style="width:200px">
                     <i-option value="1">一星：无资质</i-option>
                     <i-option value="2">二星：有资质近期不需要</i-option>
                     <i-option value="3">三星：可小贷近期有需要</i-option>
