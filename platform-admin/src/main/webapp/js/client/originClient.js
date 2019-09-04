@@ -102,7 +102,7 @@ var vm = new Vue({
             vm.clientIds = id;
             vm.showDivide = true;
             Ajax.request({
-                url: "../sys/user/queryAll",
+                url: "../sys/user/managerList",
                 async: true,
                 successCallback: function (r) {
                     vm.users = r.list;

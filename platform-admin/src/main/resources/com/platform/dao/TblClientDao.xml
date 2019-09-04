@@ -101,9 +101,9 @@
             AND clientTel =  '${params.clientTel}'
         </if>
         <if test="params.clientType != null and params.clientType.trim() != ''">
-            AND clientType =  '${params.clientType}'  AND clientType != 2
+            AND clientType =  '${params.clientType}'
         </if>
-
+        AND clientType != 2
     </select>
     <select id="queryClientByManageID" resultType="com.platform.entity.TblClient">
         select
