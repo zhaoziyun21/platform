@@ -216,8 +216,8 @@
                     <i-option value="2">已签约</i-option>
                 </i-select>
             </Form-item>
-            <Form-item label="备注" prop="remark">
-                <i-input v-model="client.remark" disabled placeholder="备注"/>
+            <Form-item label="备注" prop="remark" style="width:1150px">
+                <i-input type="textarea" :rows="4" v-model="client.remark" disabled  placeholder="备注"/>
             </Form-item>
         </i-form>
     </Card>

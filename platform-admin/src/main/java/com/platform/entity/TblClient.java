@@ -244,7 +244,7 @@ public class TblClient extends Model<TblClient> {
      * 备注
      */
     @TableField("remark")
-    private int remark;
+    private String remark;
     /**
      * 身份证号
      */

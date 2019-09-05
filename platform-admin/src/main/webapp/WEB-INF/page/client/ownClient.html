@@ -241,9 +241,6 @@
                     </Radio>
                 </Radio-group>
             </Form-item>
-            <Form-item label="备注" prop="remark">
-                <i-input v-model="client.remark"  placeholder="备注"/>
-            </Form-item>
 
             <Form-item label="签约状态" prop="signStatus">
                 <i-select v-model="client.signStatus" placeholder="请选择签约状态">
@@ -252,6 +249,10 @@
                     <i-option value="2">已签约</i-option>
                 </i-select>
             </Form-item>
+            <Form-item label="备注" prop="remark" style="width:1150px">
+                <i-input type="textarea" :rows="4" v-model="client.remark"  placeholder="备注"/>
+            </Form-item>
+
             <Form-item>
                 <i-button type="primary" @click="handleSubmit('formValidate')">提交</i-button>
                 <i-button type="warning" @click="reload" style="margin-left: 8px">返回</i-button>
