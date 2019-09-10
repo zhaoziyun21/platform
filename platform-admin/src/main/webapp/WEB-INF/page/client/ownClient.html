@@ -22,6 +22,12 @@
                         <i-option value="1">重点客户</i-option>
                     </i-select>
                 </i-col>
+                <i-col span="4">
+                    <i-input v-model="q.clientTel" @on-enter="query" placeholder="手机号"/>
+                </i-col>
+                <i-col span="4">
+                    <i-input v-model="q.clientName" @on-enter="query" placeholder="客户姓名"/>
+                </i-col>
                 <i-button @click="query">查询</i-button>
             </div>
             <div class="buttons-group">
@@ -73,7 +79,7 @@
             </Form-item>
             <Form-item label="申请金额" prop="applyAmount">
                 <i-input v-model="client.applyAmount" placeholder="申请金额"/>
-            </Form-item>
+            </Form-item>万
             <Form-item label="申请时间" prop="applyTime">
                 <Date-picker v-model="client.applyTime" placeholder="申请时间" format="yyyy-MM-dd"></Date-picker>
             </Form-item>
@@ -223,11 +229,11 @@
 
             <Form-item label="客户星级" prop="clientStar">
                 <i-select v-model="client.clientStar" placeholder="请选择客户星级" style="width:200px">
-                    <i-option value="1">一星：无资质</i-option>
-                    <i-option value="2">二星：有资质近期不需要</i-option>
-                    <i-option value="3">三星：可小贷近期有需要</i-option>
-                    <i-option value="4">四星：可银行贷</i-option>
-                    <i-option value="5">五星：可银行近期有需要</i-option>
+                    <i-option value="1">1星：无资质</i-option>
+                    <i-option value="2">2星：有资质近期不需要</i-option>
+                    <i-option value="3">3星：可小贷近期有需要</i-option>
+                    <i-option value="4">4星：可银行贷</i-option>
+                    <i-option value="5">5星：可银行近期有需要</i-option>
                 </i-select>
             </Form-item>
 
@@ -247,6 +253,12 @@
                     <i-option value="0">--请选择--</i-option>
                     <i-option value="1">未签约</i-option>
                     <i-option value="2">已签约</i-option>
+                </i-select>
+            </Form-item>
+            <Form-item label="是否异地申请" prop="isOtherPlace">
+                <i-select v-model="client.isOtherPlace" placeholder="是否异地申请" style="width:150px">
+                    <i-option value="0">不是</i-option>
+                    <i-option value="1">是</i-option>
                 </i-select>
             </Form-item>
             <Form-item label="备注" prop="remark" style="width:1150px">

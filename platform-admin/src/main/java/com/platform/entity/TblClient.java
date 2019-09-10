@@ -300,6 +300,11 @@ public class TblClient extends Model<TblClient> {
      */
     @TableField("haveInsure")
     private String haveInsure="0";
+    /**
+     * 是否异地  默认0本地  1异地
+     */
+    @TableField("isOtherPlace")
+    private int isOtherPlace = 0;
 
 
     private List<TblClientFollowRecord> followRecordList;

@@ -148,8 +148,8 @@ public class SysUserServiceImpl implements SysUserService {
         return sysUserDao.queryAll();
     }
     @Override
-    public List<SysUserEntity> queryAllUser() {
-        return sysUserDao.queryAllUser();
+    public List<SysUserEntity> queryAllOnJobUser() {
+        return sysUserDao.queryAllOnJobUser(0);
     }
 
     @Override
@@ -159,7 +159,7 @@ public class SysUserServiceImpl implements SysUserService {
         params.put("sidx", "create_time");
         params.put("asc", false);
         com.baomidou.mybatisplus.extension.plugins.pagination.Page<SysUserEntity> page = new QueryPlus<SysUserEntity>(params).getPage();
-        List<SysUserEntity> sysUserLists = sysUserDao.queryByFilter();
+        List<SysUserEntity> sysUserLists = sysUserDao.queryByFilter(params);
         return new PageUtilsPlus(page.setRecords(sysUserLists));
     }
 }

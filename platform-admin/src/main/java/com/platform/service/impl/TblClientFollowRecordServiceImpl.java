@@ -52,6 +52,7 @@ public class TblClientFollowRecordServiceImpl implements TblClientFollowRecordSe
         //有客户记录   更新更新时间
         if(tblClient != null){
             tblClient.setClientManagerId(tblClientFollowRecord.getClientManagerId());
+            tblClient.setClientManagerName(tblClientFollowRecord.getClientManagerName());
             tblClient.setUpdateUser(tblClientFollowRecord.getClientManagerName());
             tblClient.setFollowTime(new Date());
             tblClientDao.update(tblClient);
@@ -64,6 +65,7 @@ public class TblClientFollowRecordServiceImpl implements TblClientFollowRecordSe
     public void updateFollowRecord(TblClientFollowRecord tblClientFollowRecord) {
         TblClient tblClient = tblClientDao.queryObject(tblClientFollowRecord.getClientId());
         tblClient.setClientManagerId(tblClientFollowRecord.getClientManagerId());
+        tblClient.setClientManagerName(tblClientFollowRecord.getClientManagerName());
         tblClient.setUpdateUser(tblClientFollowRecord.getClientManagerName());
         tblClient.setFollowTime(new Date());
         tblClientDao.update(tblClient);

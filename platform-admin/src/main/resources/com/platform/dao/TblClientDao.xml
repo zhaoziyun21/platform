@@ -53,6 +53,7 @@
         <result column="haveCar" property="haveCar" />
         <result column="haveInsure" property="haveInsure" />
         <result column="creditCardAmount" property="creditCardAmount" />
+        <result column="isOtherPlace" property="isOtherPlace" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -65,7 +66,7 @@
          isParticleLoan,particleLoanAmount,isGjj,houseType,houseMonthPay,houseYears,
          isBjCarNo,carAmount,insureBillYearPay,insureBillYearCount,insureBillMonthPay,
          insureBillMonthCount,workPlace,remark,birthdate,idCard,sex,province,city,
-         age,creditCard,haveHouse,haveCar,haveInsure,creditCardAmount
+         age,creditCard,haveHouse,haveCar,haveInsure,creditCardAmount,isOtherPlace
     </sql>
 
     <select id="selectTblClientPage" resultType="com.platform.entity.TblClient">
@@ -78,8 +79,14 @@
         <if test="params.filterSql != null and params.filterSql.trim() != ''">
             ${params.filterSql}
         </if>
+        <if test="params.clientTel != null and params.clientTel.trim() != ''">
+            AND clientTel =  '${params.clientTel}'
+        </if>
         <if test="params.clientType != null and params.clientType.trim() != ''">
             AND clientType =  '${params.clientType}'
+        </if>
+        <if test="params.clientName != null and params.clientName.trim() != ''">
+            AND clientName like  '%${params.clientName}%'
         </if>
             AND clientType != 2
 <!--        <if test="params.status != null and params.status.trim() != ''">-->
@@ -102,6 +109,9 @@
         </if>
         <if test="params.clientType != null and params.clientType.trim() != ''">
             AND clientType =  '${params.clientType}'
+        </if>
+        <if test="params.clientName != null and params.clientName.trim() != ''">
+            AND clientName like  '%${params.clientName}%'
         </if>
         AND clientType != 2
     </select>
@@ -197,7 +207,8 @@
         `haveHouse`,
         `haveCar`,
         `haveInsure`,
-        `creditCardAmount`
+        `creditCardAmount`,
+        `isOtherPlace`
         )
         values
         (
@@ -248,7 +259,8 @@
         #{haveHouse},
         #{haveCar},
         #{haveInsure},
-        #{creditCardAmount}
+        #{creditCardAmount},
+        #{isOtherPlace}
         )
     </insert>
     <update id="update" parameterType="com.platform.entity.TblClient">
@@ -300,6 +312,7 @@
             <if test="haveHouse != null">`haveHouse` = #{haveHouse},</if>
             <if test="haveInsure != null">`haveInsure` = #{haveInsure},</if>
             <if test="creditCardAmount != null">`creditCardAmount` = #{creditCardAmount},</if>
+            <if test="isOtherPlace != null">`isOtherPlace` = #{isOtherPlace},</if>
             `actionTime` = now()
         </set>
         where id = #{id}
@@ -317,7 +330,8 @@
         update tbl_client
         <set>
             `status` = '1',
-            `clientManagerId` = #{userID}
+            `clientManagerId` = #{userID},
+            `clientManagerName` = #{realName}
         </set>
         where   status =   '0'
         <if test="clientIDs != null">
@@ -375,4 +389,9 @@
             </trim>
         </foreach>
     </insert>
+
+
+    <delete id="delete">
+		delete from tbl_client where id = #{value}
+	</delete>
 </mapper>

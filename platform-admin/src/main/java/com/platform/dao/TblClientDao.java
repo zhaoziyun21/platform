@@ -30,11 +30,13 @@ public interface TblClientDao extends BaseDao<TblClient> {
     List<TblClient> selectOwnerTblClientPage(IPage page, @Param("params")Map<String, Object> params);
     List<TblClient> publishClientPage(IPage page, @Param("params")Map<String, Object> params);
     List<TblClient> queryClientByStatus(@Param("status")String status);
-    int updatePublishClient(@Param("userID")Long userID,@Param("clientIDs")List clientIDs);
+    int updatePublishClient(@Param("userID")Long userID,@Param("clientIDs")List clientIDs,@Param("realName")String realName);
 
     void divide(@Param("params") Map<String, Object> params);
 
     void batchSave(@Param("records")List<TblClient> tblClients);
 
     List<TblClient> queryClientByManageID(IPage page, @Param("params")Map<String, Object> params);
+
+    void delete(@Param("records")List<TblClient> tblClients);
 }

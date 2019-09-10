@@ -2,6 +2,7 @@ package com.platform.dao;
 
 import com.platform.entity.SysUserEntity;
 import com.platform.entity.UserWindowDto;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -44,7 +45,7 @@ public interface SysUserDao extends BaseDao<SysUserEntity> {
     List<UserWindowDto> queryListByBean(UserWindowDto userWindowDto);
 
     List<SysUserEntity> queryAll();
-    List<SysUserEntity> queryAllUser();
+    List<SysUserEntity> queryAllOnJobUser(@Param("onJobStatus")int onJobStatus);
 
-    List<SysUserEntity> queryByFilter();
+    List<SysUserEntity> queryByFilter(@Param("params")Map<String, Object> params);
 }

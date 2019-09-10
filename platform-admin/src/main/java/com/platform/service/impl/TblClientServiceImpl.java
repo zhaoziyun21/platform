@@ -99,8 +99,8 @@ public class TblClientServiceImpl implements TblClientService {
     }
 
     @Override
-    public int updatePublishClient(Long userID,List clientIDs) {
-        return tblClientDao.updatePublishClient(userID,clientIDs);
+    public int updatePublishClient(Long userID,List clientIDs,String realName) {
+        return tblClientDao.updatePublishClient(userID,clientIDs,realName);
     }
 
     @Override
@@ -133,6 +133,11 @@ public class TblClientServiceImpl implements TblClientService {
         Page<TblClient> page = new QueryPlus<TblClient>(params).getPage();
         List<TblClient> tblClientLists = tblClientDao.queryClientByManageID(page, params);
         return new PageUtilsPlus(page.setAscs(order).setRecords(tblClientLists));
+    }
+
+    @Override
+    public void deleteClient(Long clientID) {
+        tblClientDao.delete(clientID);
     }
 
 }

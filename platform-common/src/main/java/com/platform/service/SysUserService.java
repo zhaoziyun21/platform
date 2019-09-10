@@ -87,7 +87,7 @@ public interface SysUserService {
     Page<UserWindowDto> findPage(UserWindowDto userEntity, int pageNum);
 
     List<SysUserEntity> queryAll();
-    List<SysUserEntity> queryAllUser();
+    List<SysUserEntity> queryAllOnJobUser();
 
     PageUtilsPlus queryUserByFilter(Map<String, Object> params);
 }

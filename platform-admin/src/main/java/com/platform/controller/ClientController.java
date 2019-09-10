@@ -1,28 +1,22 @@
 package com.platform.controller;
 
 import com.platform.annotation.SysLog;
-import com.platform.entity.SysConfigEntity;
-import com.platform.entity.SysDeptEntity;
 import com.platform.entity.SysUserEntity;
 import com.platform.entity.TblClient;
 import com.platform.service.TblClientService;
 import com.platform.util.UserUtil;
 import com.platform.utils.*;
 import com.platform.validator.ValidatorUtils;
-import com.platform.validator.group.AddGroup;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
-import static com.platform.utils.ShiroUtils.getUserId;
 
 /**
  * 系统日志Controller
@@ -138,8 +132,7 @@ public class ClientController {
     @RequestMapping("/giveUpClient")
     public R giveUpClient(@RequestParam long clientId) {
         SysUserEntity user = UserUtil.getCurUser();
-        TblClient client = new TblClient();
-        client.setId(clientId);
+        TblClient client = tblClientService.queryObject(clientId);
         client.setClientManagerId(user.getUserId());
         client.setClientManagerName(user.getRealName());
         client.setUpdateUser(user.getUsername());
@@ -154,7 +147,7 @@ public class ClientController {
     @RequestMapping("/majorClient")
     public R majorClient(@RequestParam long clientId) {
         SysUserEntity user = UserUtil.getCurUser();
-        TblClient client = new TblClient();
+        TblClient client = tblClientService.queryObject(clientId);
         client.setId(clientId);
         client.setClientManagerId(user.getUserId());
         client.setClientManagerName(user.getRealName());
@@ -171,21 +164,21 @@ public class ClientController {
      */
     @SysLog("抢夺客户记录")
     @RequestMapping("/secondKill")
-    public R secondKill(@RequestBody TblClient client) {
-        ValidatorUtils.validateEntity(client);
+    public R secondKill(@RequestBody TblClient tblClient) {
+        ValidatorUtils.validateEntity(tblClient);
         SysUserEntity user = UserUtil.getCurUser();
-        client.setClientType("0");
-        client.setUpdateUser(user.getUsername());
-        client.setClientManagerId(user.getUserId());
-        client.setClientManagerName(user.getRealName());
+        TblClient client = tblClientService.queryObject(tblClient.getId());
         ReentrantLock lock = new ReentrantLock();
         try {
             if(lock.tryLock(2, TimeUnit.SECONDS)){
                 try {
-                    TblClient clientNew = tblClientService.queryObject(client.getId());
-                    if(!"2".equals(clientNew.getClientType())){
+                    if(!"2".equals(client.getClientType())){
                         return R.error();
                     }
+                    client.setUpdateUser(user.getUsername());
+                    client.setClientManagerId(user.getUserId());
+                    client.setClientManagerName(user.getRealName());
+                    client.setClientType("0");
                     tblClientService.secondKill(client);
                 }catch (Exception e){
                     logger.error(e.getMessage(), e);
@@ -259,6 +252,16 @@ public class ClientController {
         PageUtilsPlus pageUtil = tblClientService.queryClientByManageID(params);
         R page = R.ok().put("page", pageUtil);
         return page;
+    }
+
+    /**
+     * 删除
+     */
+    @SysLog("删除客户记录")
+    @RequestMapping("/del")
+    public R delete(@RequestBody long id) {
+        tblClientService.deleteClient(id);
+        return R.ok();
     }
 
 }

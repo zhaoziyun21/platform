@@ -51,7 +51,7 @@ public interface TblClientService {
      */
     void update(TblClient client);
 
-    int updatePublishClient(Long userID,List clientIDs);
+    int updatePublishClient(Long userID,List clientIDs,String realName);
 
     void secondKill(TblClient client);
 
@@ -63,4 +63,6 @@ public interface TblClientService {
     List<TblClient> queryClientByStatus(String status);
 
     PageUtilsPlus queryClientByManageID(Map<String, Object> params);
+
+    void deleteClient(Long clientID);
 }

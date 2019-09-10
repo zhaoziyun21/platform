@@ -27,15 +27,15 @@ $(function () {
             {label: '客户类型', name: 'clientStar', width: 75, formatter: function (value) {
                 switch (value){
                     case '1':
-                        value = "一星";break;
+                        value = "1星";break;
                     case '2':
-                        value = "二星";break;
+                        value = "2星";break;
                     case '3':
-                        value = "三星";break;
+                        value = "3星";break;
                     case '4':
-                        value = "四星";break;
+                        value = "4星";break;
                     case '5':
-                        value = "五星";break;
+                        value = "5星";break;
                     default:value = "暂无";
                 }
                 return value;
@@ -60,7 +60,15 @@ $(function () {
             //     return value == 0 ? "不计入":"记入";
             // }},
             // {label: '成本金额', name: 'cost', width: 75},
-            {label: '申请金额', name: 'applyAmount', width: 75},
+            {label: '申请金额', name: 'applyAmount', width: 75,formatter: function (value) {
+                    if(value  > 0){
+                        var str = value+'万';
+                        return str;
+                    }else{
+                        return 0;
+                    }
+
+                }},
             {label: '跟进状态', name: 'followRecordList', width: 75,formatter: function (value) {
                 if(value != undefined && value.length > 0){
                     var str = '';
@@ -89,6 +97,9 @@ $(function () {
                            "<a  onclick='vm.giveUpClient(" + JSON.stringify(row) + ")'>放弃客户</a>&nbsp;&nbsp;&nbsp;&nbsp;" +
                            "<a  onclick='vm.majorClient(" + JSON.stringify(row) + ")'>重点客户</a>&nbsp;&nbsp;&nbsp;&nbsp;";
                     }
+                    if(vm.user.userId == 1 || vm.user.userName == 'admin'){
+                        str +=  "<a  onclick='vm.del(" + JSON.stringify(row) + ")'>删除</a>";
+                    }
                 return str;
             }}
             ]
@@ -102,7 +113,9 @@ var vm = new Vue({
     el: '#client',
     data: {
         q: {
-            clientType: null
+            clientType: null,
+            clientTel: null,
+            clientName: null
         },
         showClientList: true,
         title: null,
@@ -196,7 +209,7 @@ var vm = new Vue({
             var clientName =row.realName;
             Ajax.request({
                 url: "../client/info/" + clientId+"?clientId="+clientId+"&clientName="+clientName,
-                async: true,
+                async: false,
                 successCallback: function (r) {
                     vm.client = r.client;
                     vm.user = r.user;
@@ -213,16 +226,16 @@ var vm = new Vue({
             });
 
         },
-        del: function () {
-            var clientIds = getSelectedRows("#jqGrid");
-            if (clientIds == null) {
-                return;
-            }
+        del: function (row) {
+            // var clientIds = getSelectedRows("#jqGrid");
+            // if (clientIds == null) {
+            //     return;
+            // }
 
             confirm('确定要删除选中的记录？', function () {
                 Ajax.request({
-                    url: "../client/delete",
-                    params: JSON.stringify(clientIds),
+                    url: "../client/del",
+                    params: JSON.stringify(row.id),
                     contentType: "application/json",
                     type: 'POST',
                     successCallback: function () {
@@ -335,8 +348,15 @@ var vm = new Vue({
             if(vm.q.clientType == '' || vm.q.clientType == undefined){
                 delete $("#jqGrid").getGridParam().postData.clientType
             }
+            if(vm.q.clientTel == '' || vm.q.clientTel == undefined){
+                delete $("#jqGrid").getGridParam().postData.clientTel
+            }
+            if(vm.q.clientName == '' || vm.q.clientName == undefined){
+                delete $("#jqGrid").getGridParam().postData.clientName
+            }
             $("#jqGrid").jqGrid('setGridParam', {
-                postData: {'clientType': vm.q.clientType},
+                postData: {'clientType': vm.q.clientType,'clientTel':vm.q.clientTel,
+                'clientName': vm.q.clientName},
                 page: page
             }).trigger("reloadGrid");
             vm.handleReset('formValidate');

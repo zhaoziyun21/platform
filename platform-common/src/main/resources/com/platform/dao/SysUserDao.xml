@@ -75,15 +75,18 @@
 	<select id="queryAll" resultType="com.platform.entity.SysUserEntity">
 		select * from sys_user
 	</select>
-	<select id="queryAllUser" resultType="com.platform.entity.SysUserEntity">
+	<select id="queryAllOnJobUser" resultType="com.platform.entity.SysUserEntity">
 		select * from sys_user where username != 'admin'
+		<if test="onJobStatus != null">
+			and `jobStatus` = #{onJobStatus}
+		</if>
 	</select>
 	<select id="queryByFilter" resultType="com.platform.entity.SysUserEntity">
 		select * from sys_user u  where
 		1 = 1
 		<!--  数据过滤  -->
 		<if test="params.filterSql != null and params.filterSql.trim() != ''">
-			${params.filterSql}
+			 ${params.filterSql}
 		</if>
 	</select>
 

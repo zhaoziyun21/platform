@@ -1,5 +1,6 @@
 package com.platform.task;
 
+import com.platform.bean.UserClientBean;
 import com.platform.entity.SysUserEntity;
 import com.platform.entity.TblClient;
 import com.platform.service.SysUserService;
@@ -34,9 +35,9 @@ public class ClientTask {
 
     public void updatePublishClient() {
         logger.info("定时分配员工给员工，当前时间为：" + DateUtils.format(new Date(),DateUtils.DATE_TIME_PATTERN));
-        Map<Long,List<Long>> map = new HashMap<>();
+        Map<Long,UserClientBean> map = new HashMap<>();
         //查询所有员工放入list ，随机排序
-        List<SysUserEntity> userList = sysUserService.queryAllUser();
+        List<SysUserEntity> userList = sysUserService.queryAllOnJobUser();
         Collections.shuffle(userList);
         //查询所有的新对接客户
         List<TblClient> clientList = tblClientService.queryClientByStatus("0");
@@ -44,23 +45,29 @@ public class ClientTask {
             for(int i=0; i<= clientList.size() -1;i++){
                 int index = i % userList.size();
                 Long userID = userList.get(index).getUserId();
+                String userName = userList.get(index).getRealName();
+
                 Long clientID = clientList.get(i).getId();
                 if(map.get(userID) != null){
-                    List<Long> list = map.get(userID);
+                    UserClientBean userClientBean = map.get(userID);
+                    List<Long> list = userClientBean.getClientIds();
                     list.add(clientID);
-                    map.put(userID,list);
+                    map.put(userID,userClientBean);
                 }else{
+                    UserClientBean userClientBean = new UserClientBean();
                     List<Long> list = new ArrayList<>();
                     list.add(clientID);
-                    map.put(userID,list);
+                    userClientBean.setClientIds(list);
+                    userClientBean.setUserRealName(userName);
+                    map.put(userID,userClientBean);
                 }
             }
         }
         //批量更新给员工
         if(map.size() > 0){
             int rows = 0;
-            for(Map.Entry<Long,List<Long>> entry : map.entrySet()){
-                rows += tblClientService.updatePublishClient(entry.getKey(),entry.getValue());
+            for(Map.Entry<Long,UserClientBean> entry : map.entrySet()){
+                rows += tblClientService.updatePublishClient(entry.getKey(),entry.getValue().getClientIds(),entry.getValue().getUserRealName());
             }
             logger.info("定时分配员工给员工，受影响更新条数："+ rows +",当前时间为：" + DateUtils.format(new Date(),DateUtils.DATE_TIME_PATTERN));
         }

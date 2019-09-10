@@ -144,15 +144,15 @@ var vm = new Vue({
             $("#clientFollowRecordJqGrid").jqGrid('setGridParam', {
                 page: $("#clientFollowRecordJqGrid").jqGrid('getGridParam', 'page')
             }).trigger("reloadGrid");
-            $("#clientLoanRecordJqGrid").jqGrid('setGridParam', {
-                page: $("#clientLoanRecordJqGrid").jqGrid('getGridParam', 'page')
-            }).trigger("reloadGrid");
-            $("#clientSignRecordJqGrid").jqGrid('setGridParam', {
-                page: $("#clientSignRecordJqGrid").jqGrid('getGridParam', 'page')
-            }).trigger("reloadGrid");
-            $("#clientPropertyRecordJqGrid").jqGrid('setGridParam', {
-                page: $("#clientPropertyRecordJqGrid").jqGrid('getGridParam', 'page')
-            }).trigger("reloadGrid");
+            // $("#clientLoanRecordJqGrid").jqGrid('setGridParam', {
+            //     page: $("#clientLoanRecordJqGrid").jqGrid('getGridParam', 'page')
+            // }).trigger("reloadGrid");
+            // $("#clientSignRecordJqGrid").jqGrid('setGridParam', {
+            //     page: $("#clientSignRecordJqGrid").jqGrid('getGridParam', 'page')
+            // }).trigger("reloadGrid");
+            // $("#clientPropertyRecordJqGrid").jqGrid('setGridParam', {
+            //     page: $("#clientPropertyRecordJqGrid").jqGrid('getGridParam', 'page')
+            // }).trigger("reloadGrid");
         },
         addClientFollowRecord: function () {
             openWindow({
@@ -171,57 +171,57 @@ var vm = new Vue({
                 content: encodeURI('../client/clientFollowRecord.html?clientId=' + clientId + '&clientName='+clientName + '&clientFollowRecordId='+ id)
             })
         },
-        addClientLoanRecord: function () {
-            openWindow({
-                title: '新增贷款记录',
-                type: 2,
-                content: encodeURI('../client/clientLoanRecord.html?clientId=' + clientId + '&clientName='+clientName)
-            })
-        },
-        updateClientLoanRecord: function (row) {
-            var id =row.id;
-            var clientId =row.clientId;
-            var clientName =row.realName;
-            openWindow({
-                title: '修改贷款记录',
-                type: 2,
-                content: encodeURI('../client/clientLoanRecord.html?clientId=' + clientId + '&clientName='+clientName + '&clientLoanRecordId='+ id)
-            })
-        },
-        addClientPropertyRecord: function () {
-            openWindow({
-                title: '新增资产记录',
-                type: 2,
-                content: encodeURI('../client/clientPropertyRecord.html?clientId=' + clientId + '&clientName='+clientName)
-            })
-        },
-        updateClientPropertyRecord: function (row) {
-            var id =row.id;
-            var clientId =row.clientId;
-            var clientName =row.realName;
-            openWindow({
-                title: '修改资产记录',
-                type: 2,
-                content: encodeURI('../client/clientPropertyRecord.html?clientId=' + clientId + '&clientName='+clientName + '&clientPropertyRecordId='+ id)
-            })
-        },
-        addClientSignRecord: function () {
-            openWindow({
-                title: '新增签单记录',
-                type: 2,
-                content: encodeURI('../client/clientSignRecord.html?clientId=' + clientId + '&clientName='+clientName)
-            })
-        },
-        updateClientSignRecord: function (row) {
-            var id =row.id;
-            var clientId =row.clientId;
-            var clientName =row.realName;
-            openWindow({
-                title: '修改签单记录',
-                type: 2,
-                content: encodeURI('../client/clientSignRecord.html?clientId=' + clientId + '&clientName='+clientName + '&clientSignRecordId='+ id)
-            })
-        },
+        // addClientLoanRecord: function () {
+        //     openWindow({
+        //         title: '新增贷款记录',
+        //         type: 2,
+        //         content: encodeURI('../client/clientLoanRecord.html?clientId=' + clientId + '&clientName='+clientName)
+        //     })
+        // },
+        // updateClientLoanRecord: function (row) {
+        //     var id =row.id;
+        //     var clientId =row.clientId;
+        //     var clientName =row.realName;
+        //     openWindow({
+        //         title: '修改贷款记录',
+        //         type: 2,
+        //         content: encodeURI('../client/clientLoanRecord.html?clientId=' + clientId + '&clientName='+clientName + '&clientLoanRecordId='+ id)
+        //     })
+        // },
+        // addClientPropertyRecord: function () {
+        //     openWindow({
+        //         title: '新增资产记录',
+        //         type: 2,
+        //         content: encodeURI('../client/clientPropertyRecord.html?clientId=' + clientId + '&clientName='+clientName)
+        //     })
+        // },
+        // updateClientPropertyRecord: function (row) {
+        //     var id =row.id;
+        //     var clientId =row.clientId;
+        //     var clientName =row.realName;
+        //     openWindow({
+        //         title: '修改资产记录',
+        //         type: 2,
+        //         content: encodeURI('../client/clientPropertyRecord.html?clientId=' + clientId + '&clientName='+clientName + '&clientPropertyRecordId='+ id)
+        //     })
+        // },
+        // addClientSignRecord: function () {
+        //     openWindow({
+        //         title: '新增签单记录',
+        //         type: 2,
+        //         content: encodeURI('../client/clientSignRecord.html?clientId=' + clientId + '&clientName='+clientName)
+        //     })
+        // },
+        // updateClientSignRecord: function (row) {
+        //     var id =row.id;
+        //     var clientId =row.clientId;
+        //     var clientName =row.realName;
+        //     openWindow({
+        //         title: '修改签单记录',
+        //         type: 2,
+        //         content: encodeURI('../client/clientSignRecord.html?clientId=' + clientId + '&clientName='+clientName + '&clientSignRecordId='+ id)
+        //     })
+        // },
         handleReset: function (name) {
             handleResetForm(this, name);
         }
