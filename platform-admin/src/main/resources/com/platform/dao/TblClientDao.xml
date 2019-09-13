@@ -328,14 +328,6 @@
         where id = #{id}
     </update>
 
-<!--    <update id="updatePublishClient" parameterType="com.platform.entity.TblClient">-->
-<!--        update tbl_client-->
-<!--        <set>-->
-<!--            `status` = 2-->
-<!--        </set>-->
-<!--        where status = 0-->
-<!--        and TIMESTAMPDIFF(SECOND,followTime,DATE_FORMAT(now(), '%Y-%m-%d %H:%i:%s')) >= 259200-->
-<!--    </update>-->
     <update id="updatePublishClient">
         update tbl_client
         <set>

@@ -306,10 +306,10 @@ public class TblClient extends Model<TblClient> {
     @TableField("isOtherPlace")
     private int isOtherPlace = 0;
     /**
-     * 客户职业 0：上班 1：企业法人 2：个体户 3：自由职业
+     * 客户职业 1：上班 2：企业法人 3：个体户 4：自由职业
      */
     @TableField("clientCareer")
-    private int clientCareer;
+    private String clientCareer="0";
 
     private List<TblClientFollowRecord> followRecordList;
     @Override
