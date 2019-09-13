@@ -46,7 +46,7 @@ $(function () {
             }
             }]
     });
-    // $("#jqGrid").jqGrid("setGridHeight", "auto");
+    $("#jqGrid").jqGrid("setGridHeight", "auto");
 });
 
 

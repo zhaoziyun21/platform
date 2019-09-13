@@ -54,6 +54,7 @@
         <result column="haveInsure" property="haveInsure" />
         <result column="creditCardAmount" property="creditCardAmount" />
         <result column="isOtherPlace" property="isOtherPlace" />
+        <result column="clientCareer" property="clientCareer" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -66,7 +67,7 @@
          isParticleLoan,particleLoanAmount,isGjj,houseType,houseMonthPay,houseYears,
          isBjCarNo,carAmount,insureBillYearPay,insureBillYearCount,insureBillMonthPay,
          insureBillMonthCount,workPlace,remark,birthdate,idCard,sex,province,city,
-         age,creditCard,haveHouse,haveCar,haveInsure,creditCardAmount,isOtherPlace
+         age,creditCard,haveHouse,haveCar,haveInsure,creditCardAmount,isOtherPlace,clientCareer
     </sql>
 
     <select id="selectTblClientPage" resultType="com.platform.entity.TblClient">
@@ -84,6 +85,9 @@
         </if>
         <if test="params.clientType != null and params.clientType.trim() != ''">
             AND clientType =  '${params.clientType}'
+        </if>
+        <if test="params.isOtherPlace != null">
+            AND isOtherPlace =  '${params.isOtherPlace}'
         </if>
         <if test="params.clientName != null and params.clientName.trim() != ''">
             AND clientName like  '%${params.clientName}%'
@@ -109,6 +113,9 @@
         </if>
         <if test="params.clientType != null and params.clientType.trim() != ''">
             AND clientType =  '${params.clientType}'
+        </if>
+        <if test="params.isOtherPlace != null">
+            AND isOtherPlace =  '${params.isOtherPlace}'
         </if>
         <if test="params.clientName != null and params.clientName.trim() != ''">
             AND clientName like  '%${params.clientName}%'
@@ -208,7 +215,8 @@
         `haveCar`,
         `haveInsure`,
         `creditCardAmount`,
-        `isOtherPlace`
+        `isOtherPlace`,
+        `clientCareer`
         )
         values
         (
@@ -260,7 +268,8 @@
         #{haveCar},
         #{haveInsure},
         #{creditCardAmount},
-        #{isOtherPlace}
+        #{isOtherPlace},
+        #{clientCareer}
         )
     </insert>
     <update id="update" parameterType="com.platform.entity.TblClient">
@@ -313,6 +322,7 @@
             <if test="haveInsure != null">`haveInsure` = #{haveInsure},</if>
             <if test="creditCardAmount != null">`creditCardAmount` = #{creditCardAmount},</if>
             <if test="isOtherPlace != null">`isOtherPlace` = #{isOtherPlace},</if>
+            <if test="clientCareer != null">`clientCareer` = #{clientCareer},</if>
             `actionTime` = now()
         </set>
         where id = #{id}
@@ -331,6 +341,7 @@
         <set>
             `status` = '1',
             `clientManagerId` = #{userID},
+            `actionTime` = now(),
             `clientManagerName` = #{realName}
         </set>
         where   status =   '0'

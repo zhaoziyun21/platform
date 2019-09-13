@@ -105,7 +105,7 @@ var vm = new Vue({
                 url: "../sys/user/managerList",
                 async: false,
                 successCallback: function (r) {
-                    vm.users = r.list;
+                    vm.users = r.page.list;
                 }
             });
             openWindow({

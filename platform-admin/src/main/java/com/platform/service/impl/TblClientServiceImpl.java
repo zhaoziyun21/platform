@@ -43,7 +43,7 @@ public class TblClientServiceImpl implements TblClientService {
         List<String> order = new ArrayList<>();
         order.add("status");
         Page<TblClient> page = new QueryPlus<TblClient>(params).getPage();
-        List<TblClient> tblClientLists = tblClientDao.selectOwnerTblClientPage(page, params);
+        List<TblClient> tblClientLists = tblClientDao.selectTblClientPage(page, params);
         for (TblClient tblClient : tblClientLists){
             Map<String, Object> m = new HashMap<>();
             m.put("clientId",tblClient.getId());
