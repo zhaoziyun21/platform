@@ -109,7 +109,8 @@ var vm = new Vue({
         q: {
             clientType: null,
             clientTel: null,
-            clientName: null
+            clientName: null,
+            clientFrom: null
         },
         showClientList: true,
         title: null,
@@ -348,9 +349,12 @@ var vm = new Vue({
             if(vm.q.clientName == '' || vm.q.clientName == undefined){
                 delete $("#jqGrid").getGridParam().postData.clientName
             }
+            if(vm.q.clientFrom == '' || vm.q.clientFrom == undefined){
+                delete $("#jqGrid").getGridParam().postData.clientFrom
+            }
             $("#jqGrid").jqGrid('setGridParam', {
                 postData: {'clientType': vm.q.clientType,'clientTel':vm.q.clientTel,
-                    'clientName': vm.q.clientName},
+                    'clientName': vm.q.clientName},'clientFrom': vm.q.clientFrom},
                 page: page
             }).trigger("reloadGrid");
             vm.handleReset('formValidate');

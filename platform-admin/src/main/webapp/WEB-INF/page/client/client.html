@@ -28,6 +28,12 @@
                 <i-col span="4">
                     <i-input v-model="q.clientName" @on-enter="query" placeholder="客户姓名"/>
                 </i-col>
+                <i-col span="4">
+                    <i-select v-model="q.clientFrom" @on-enter="query" placeholder="请选择客户来源">
+                        <i-option value="">全部</i-option>
+                        <i-option value="1">新分享</i-option>
+                    </i-select>
+                </i-col>
                 <i-button @click="query">查询</i-button>
             </div>
         </Row>
