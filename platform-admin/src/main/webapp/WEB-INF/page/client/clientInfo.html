@@ -27,7 +27,7 @@
             </Form-item>
 
             <Form-item label="手机号" prop="clientTel">
-                <i-input v-model="client.clientTel" v-if="client.clientManagerId == user.userId" disabled placeholder="手机号"/>
+                <i-input v-model="client.clientTel" v-if="client.clientManagerId == user.userId || user.userId == 1" disabled placeholder="手机号"/>
             </Form-item>
             <Form-item label="身份证号" prop="idCard">
                 <i-input v-model="client.idCard" disabled placeholder="身份证号"/>

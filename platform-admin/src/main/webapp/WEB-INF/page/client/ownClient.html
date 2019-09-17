@@ -59,10 +59,10 @@
                     </Radio>
                 </Radio-group>
             </Form-item>
-            <Form-item label="手机号" v-if="client.clientManagerId == undefined"  prop="clientTel">
+            <Form-item label="手机号" v-if="client.clientManagerId == undefined || user.userId == 1"  prop="clientTel">
                 <i-input v-model="client.clientTel" placeholder="手机号"/>
             </Form-item>
-            <Form-item label="手机号" v-if="client.clientManagerId == user.userId"  prop="clientTel">
+            <Form-item label="手机号" v-if="client.clientManagerId == user.userId || user.userId == 1"  prop="clientTel">
                 <i-input v-model="client.clientTel" placeholder="手机号"/>
             </Form-item>
             <Form-item label="身份证号" prop="idCard">
