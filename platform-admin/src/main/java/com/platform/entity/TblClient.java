@@ -310,6 +310,11 @@ public class TblClient extends Model<TblClient> {
      */
     @TableField("clientCareer")
     private String clientCareer="0";
+    /**
+     * 客户来源 1：新分享
+     */
+    @TableField("clientFrom")
+    private int clientFrom=0;
 
     private List<TblClientFollowRecord> followRecordList;
     @Override

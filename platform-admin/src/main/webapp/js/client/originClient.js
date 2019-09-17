@@ -4,7 +4,7 @@ $(function () {
         colModel: [
             {label: '客户ID', name: 'id', index: "id", key: true, hidden: true},
             {label: '客户姓名', name: 'clientName', width: 75},
-            {label: '手机号', name: 'clientTel', width: 75},
+            // {label: '手机号', name: 'clientTel', width: 75},
             {label: '客户经理', name: 'clientManagerName', width: 75},
             {label: '状态', name: 'status', width: 75, formatter: function (value) {
                 switch (value){

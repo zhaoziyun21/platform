@@ -55,6 +55,7 @@
         <result column="creditCardAmount" property="creditCardAmount" />
         <result column="isOtherPlace" property="isOtherPlace" />
         <result column="clientCareer" property="clientCareer" />
+        <result column="clientFrom" property="clientFrom" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -67,7 +68,7 @@
          isParticleLoan,particleLoanAmount,isGjj,houseType,houseMonthPay,houseYears,
          isBjCarNo,carAmount,insureBillYearPay,insureBillYearCount,insureBillMonthPay,
          insureBillMonthCount,workPlace,remark,birthdate,idCard,sex,province,city,
-         age,creditCard,haveHouse,haveCar,haveInsure,creditCardAmount,isOtherPlace,clientCareer
+         age,creditCard,haveHouse,haveCar,haveInsure,creditCardAmount,isOtherPlace,clientCareer,clientFrom
     </sql>
 
     <select id="selectTblClientPage" resultType="com.platform.entity.TblClient">
