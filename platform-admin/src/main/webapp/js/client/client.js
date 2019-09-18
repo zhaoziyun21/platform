@@ -354,7 +354,7 @@ var vm = new Vue({
             }
             $("#jqGrid").jqGrid('setGridParam', {
                 postData: {'clientType': vm.q.clientType,'clientTel':vm.q.clientTel,
-                    'clientName': vm.q.clientName},'clientFrom': vm.q.clientFrom},
+                    'clientName': vm.q.clientName,'clientFrom': vm.q.clientFrom},
                 page: page
             }).trigger("reloadGrid");
             vm.handleReset('formValidate');

@@ -93,6 +93,9 @@
         <if test="params.clientName != null and params.clientName.trim() != ''">
             AND clientName like  '%${params.clientName}%'
         </if>
+        <if test="params.clientFrom != null">
+            AND clientFrom =  '${params.clientFrom}'
+        </if>
             AND clientType != 2
 <!--        <if test="params.status != null and params.status.trim() != ''">-->
 <!--            AND tbl_client.status  =  '${params.status}'-->

@@ -68,15 +68,6 @@
             <Form-item label="身份证号" prop="idCard">
                 <i-input v-model="client.idCard" placeholder="身份证号"/>
             </Form-item>
-            <Form-item label="省" prop="province">
-                <i-input v-model="client.province" placeholder="省"/>
-            </Form-item>
-            <Form-item label="市" prop="city">
-                <i-input v-model="client.city" placeholder="市"/>
-            </Form-item>
-            <Form-item label="申请平台" prop="applyPlatform">
-                <i-input v-model="client.applyPlatform" placeholder="申请平台"/>
-            </Form-item>
             <Form-item label="申请金额" prop="applyAmount">
                 <i-input v-model="client.applyAmount" placeholder="申请金额"/>
             </Form-item>万
@@ -106,19 +97,6 @@
             </Form-item>
 
 
-            <Form-item label="是否有微粒贷" prop="isParticleLoan">
-                <Radio-group v-model="client.isParticleLoan">
-                    <Radio label="0">
-                        <span>不清楚</span>
-                    </Radio>
-                    <Radio label="1">
-                        <span>没有</span>
-                    </Radio>
-                    <Radio label="2">
-                        <span>有</span>
-                    </Radio>
-                </Radio-group>
-            </Form-item>
 
             <Form-item label="微粒贷金额" prop="particleLoanAmount">
                 <i-input v-model="client.particleLoanAmount" placeholder="微粒贷金额"/>
@@ -224,15 +202,6 @@
             </Form-item>
             <Form-item label="公积金已交年限（月）" prop="gjjYears">
                 <i-input v-model="client.gjjYears" placeholder="公积金已交年限"/>
-            </Form-item>
-            <Form-item label="是否记入成本" prop="isRecordCost">
-                <i-select v-model="client.isRecordCost" placeholder="是否记入成本">
-                    <i-option value="0">是</i-option>
-                    <i-option value="1">否</i-option>
-                </i-select>
-            </Form-item>
-            <Form-item label="成本金额" prop="cost">
-                <i-input v-model="client.cost" placeholder="成本金额"/>
             </Form-item>
 
             <Form-item label="客户星级" prop="clientStar">
