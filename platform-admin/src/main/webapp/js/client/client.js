@@ -2,6 +2,8 @@ $(function () {
     vm.getCurUser();
     $("#jqGrid").Grid({
         url: '../client/list',
+        rowNum: 15,//默认分页大小
+        rowList: [15,20,30],//分页大小的下拉
         postData: {
             status: "1"
         },
@@ -16,8 +18,6 @@ $(function () {
                     }else{
                         return "<font>"+row.clientName+"</font> "
                     }
-                // return "<a  onclick='vm.update(" + JSON.stringify(row) + ")'>"+value+"</a>" ;
-                // return "<a  onclick='vm.getClientInfo(" + JSON.stringify(row) + ")'>"+value+"</a>" ;
                 return value ;
             }},
             {label: '客户类型', name: 'clientStar', width: 75, formatter: function (value) {
@@ -37,25 +37,6 @@ $(function () {
                 return value;
             }},
             {label: '客户经理姓名', name: 'clientManagerName', width: 75},
-            // {label: '未跟单天数', name: 'followTime', width: 75, formatter: function (value) {
-            //     value = value.toString().replace(/-/g,'/');
-            //     var timestamp = new Date(value).getTime();
-            //     var time_diff =new Date().getTime() - timestamp ; //时间差的毫秒数
-            //     //计算出相差天数
-            //     var days = Math.floor(time_diff / (24 * 3600 * 1000));
-            //     if (days > 0) {
-            //         return days + '天';
-            //     }else{
-            //         return '跟进中';
-            //     }
-            // }},
-            // {label: '是否上门', name: 'isVisit', width: 75, formatter: function (value) {
-            //     return value == 0 ? "待上门":"已上门";
-            // }},
-            // {label: '是否记入成本', name: 'isRecordCost', width: 75, formatter: function (value) {
-            //     return value == 0 ? "不计入":"记入";
-            // }},
-            // {label: '成本金额', name: 'cost', width: 75},
             {label: '申请金额', name: 'applyAmount', width: 75,formatter: function (value) {
                     if(value  > 0){
                         var str = value+'万';
@@ -104,6 +85,7 @@ $(function () {
             }}
             ]
     });
+    $("#jqGrid").jqGrid("setGridHeight", "auto");
 });
 
 
