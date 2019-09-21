@@ -93,7 +93,7 @@
         <if test="params.clientName != null and params.clientName.trim() != ''">
             AND clientName like  '%${params.clientName}%'
         </if>
-        <if test="params.clientFrom != null">
+        <if test="params.clientFrom != null and params.clientFrom.trim() != ''">
             AND clientFrom =  '${params.clientFrom}'
         </if>
             AND clientType != 2

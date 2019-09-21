@@ -94,10 +94,14 @@ $(function () {
                 var str = "<a  onclick='vm.getClientInfo(" + JSON.stringify(row) + ")'>查看</a>&nbsp;&nbsp;&nbsp;&nbsp;";
                     if(vm.user.userId == 1 || vm.user.userId == row.clientManagerId){
                        str +=  "<a  onclick='vm.update(" + JSON.stringify(row) + ")'>修改</a>&nbsp;&nbsp;&nbsp;&nbsp;" +
-                           "<a  onclick='vm.giveUpClient(" + JSON.stringify(row) + ")'>放弃客户</a>&nbsp;&nbsp;&nbsp;&nbsp;" +
-                           "<a  onclick='vm.majorClient(" + JSON.stringify(row) + ")'>重点客户</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+                           "<a  onclick='vm.giveUpClient(" + JSON.stringify(row) + ")'>放弃客户</a>&nbsp;&nbsp;&nbsp;&nbsp;" ;
+                       if(row.clientType == 0){
+                           str +=  "<a  onclick='vm.majorClient(" + JSON.stringify(row) + ")'>重点客户</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+                       }else if(row.clientType == 1){
+                           str +=  "<a  onclick='vm.cancelMajorClient(" + JSON.stringify(row) + ")'>取消重点客户</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+                       }
                     }
-                    if(vm.user.userId == 1 || vm.user.userName == 'admin'){
+                    if(vm.user.userId == 1 ){
                         str +=  "<a  onclick='vm.del(" + JSON.stringify(row) + ")'>删除</a>";
                     }
                 return str;
@@ -283,7 +287,25 @@ var vm = new Vue({
             var clientId =row.id;
             confirm('确定将选中的客户标记为重点客户？', function () {
                 Ajax.request({
-                    url: url+"?clientId="+clientId,
+                    url: url+"?clientId="+clientId+"&clientType=1",
+                    params: JSON.stringify(vm.client),
+                    contentType: "application/json",
+                    type: 'POST',
+                    successCallback: function () {
+                        alert('操作成功', function (index) {
+                            vm.reload();
+                        });
+                    }
+                });
+            });
+
+        },
+        cancelMajorClient: function (row) {
+            var url = "../client/majorClient";
+            var clientId =row.id;
+            confirm('确定将选中的客户取消重点客户？', function () {
+                Ajax.request({
+                    url: url+"?clientId="+clientId+"&clientType=0",
                     params: JSON.stringify(vm.client),
                     contentType: "application/json",
                     type: 'POST',

@@ -63,6 +63,10 @@ public interface SysUserService {
      * 修改用户
      */
     void update(SysUserEntity user);
+    /**
+     * 只修改用户
+     */
+    void updateUser(SysUserEntity user);
 
     /**
      * 删除用户

@@ -78,5 +78,9 @@ public class SysUserEntity implements Serializable {
      * 部门名称
      */
     private String deptName;
+    /**
+     * 在职状态  0在职  1请假
+     */
+    private int jobStatus;
 
 }

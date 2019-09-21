@@ -19,7 +19,18 @@ $(function () {
                 label: '创建时间', name: 'createTime', index: "create_time", width: 80, formatter: function (value) {
                     return transDate(value);
                 }
-            }]
+            },{ label: '操作',  width: 160, formatter: function (value, col, row) {
+                    var str='';
+                    if(vm.user.userId == 1 || vm.user.userId == row.clientManagerId){
+                        if(row.jobStatus == 0){
+                            str +=  "<a  onclick='vm.jobStatus(" + JSON.stringify(row) + ")'>设置请假状态</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+                        }else if(row.jobStatus == 1){
+                            str +=  "<a  onclick='vm.cancelJobStatus(" + JSON.stringify(row) + ")'>取消请假状态</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+                        }
+                    }
+                    return str;
+                }}
+            ]
     });
 });
 
@@ -191,6 +202,41 @@ var vm = new Vue({
         },
         handleReset: function (name) {
             handleResetForm(this, name);
-        }
+        },jobStatus: function (row) {
+            var url = "../sys/user/jobStatus";
+            var userId =row.userId;
+            confirm('确定将选中的客户标记为请假状态？', function () {
+                Ajax.request({
+                    url: url+"?userId="+userId+"&jobStatus=1",
+                    params: JSON.stringify(vm.client),
+                    contentType: "application/json",
+                    type: 'POST',
+                    successCallback: function () {
+                        alert('操作成功', function (index) {
+                            vm.reload();
+                        });
+                    }
+                });
+            });
+
+        },
+        cancelJobStatus: function (row) {
+            var url = "../sys/user/jobStatus";
+            var userId =row.userId;
+            confirm('确定将选中的客户取消请假状态？', function () {
+                Ajax.request({
+                    url: url+"?userId="+userId+"&jobStatus=0",
+                    params: JSON.stringify(vm.client),
+                    contentType: "application/json",
+                    type: 'POST',
+                    successCallback: function () {
+                        alert('操作成功', function (index) {
+                            vm.reload();
+                        });
+                    }
+                });
+            });
+
+        },
     }
 });

@@ -142,10 +142,10 @@ public class ClientController {
         return R.ok();
     }
     /**
-     * 重点客户
+     * 重点客户/取消
      */
     @RequestMapping("/majorClient")
-    public R majorClient(@RequestParam long clientId) {
+    public R majorClient(@RequestParam long clientId,String clientType) {
         SysUserEntity user = UserUtil.getCurUser();
         TblClient client = tblClientService.queryObject(clientId);
         client.setId(clientId);
@@ -153,7 +153,7 @@ public class ClientController {
         client.setClientManagerName(user.getRealName());
         client.setUpdateUser(user.getUsername());
         client.setFollowTime(new Date());
-        client.setClientType("1");
+        client.setClientType(clientType);
         tblClientService.update(client);
         return R.ok();
     }

@@ -174,4 +174,15 @@ public class SysUserController extends AbstractController {
         R page = R.ok().put("page", pageUtil);
         return page;
     }
+
+    /**
+     * 请假状态
+     */
+    @RequestMapping("/jobStatus")
+    public R jobStatus(@RequestParam long userId,int jobStatus) {
+        SysUserEntity user = sysUserService.queryObject(userId);
+        user.setJobStatus(jobStatus);
+        sysUserService.updateUser(user);
+        return R.ok();
+    }
 }
