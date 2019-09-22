@@ -75,7 +75,7 @@
         select
         <include refid="Base_Column_List"/>
         from tbl_client
-        LEFT JOIN sys_user u ON tbl_client.clientManagerId = u.user_id
+        LEFT JOIN sys_user  ON tbl_client.clientManagerId = sys_user.user_id
         where  1=1
         <!--  数据过滤  -->
         <if test="params.filterSql != null and params.filterSql.trim() != ''">
