@@ -1,5 +1,6 @@
 $(function () {
     vm.getCurUser();
+    vm.getManagerList();
     $("#jqGrid").Grid({
         url: '../client/list',
         rowNum: 15,//默认分页大小
@@ -96,8 +97,10 @@ var vm = new Vue({
             clientType: null,
             clientTel: null,
             clientName: null,
-            clientFrom: null
+            clientFrom: null,
+            clientManagerId: null
         },
+        managerList:{},
         showClientList: true,
         title: null,
         roleList: {},
@@ -191,7 +194,17 @@ var vm = new Vue({
                 }
             });
 
+        },getManagerList: function () {
+            Ajax.request({
+                url: "../sys/user/managerList/",
+                async: false,
+                successCallback: function (r) {
+                    vm.managerList = r.page.list;
+                }
+            });
+
         },
+
         update: function (row) {
             vm.showClientList = false;
             vm.title = "修改";
@@ -356,9 +369,14 @@ var vm = new Vue({
             if(vm.q.clientFrom == '' || vm.q.clientFrom == undefined){
                 delete $("#jqGrid").getGridParam().postData.clientFrom
             }
+            if(vm.q.clientManagerId == '' || vm.q.clientManagerId == undefined){
+                delete $("#jqGrid").getGridParam().postData.clientManagerId
+            }
             $("#jqGrid").jqGrid('setGridParam', {
                 postData: {'clientType': vm.q.clientType,'clientTel':vm.q.clientTel,
-                    'clientName': vm.q.clientName,'clientFrom': vm.q.clientFrom},
+                    'clientName': vm.q.clientName,'clientFrom': vm.q.clientFrom,
+                    'clientManagerId': vm.q.clientManagerId
+                },
                 page: page
             }).trigger("reloadGrid");
             vm.handleReset('formValidate');

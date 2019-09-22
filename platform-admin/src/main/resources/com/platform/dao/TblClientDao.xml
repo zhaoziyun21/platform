@@ -75,7 +75,7 @@
         select
         <include refid="Base_Column_List"/>
         from tbl_client
-        LEFT JOIN sys_user ON tbl_client.clientManagerId = sys_user.user_id
+        LEFT JOIN sys_user u ON tbl_client.clientManagerId = u.user_id
         where  1=1
         <!--  数据过滤  -->
         <if test="params.filterSql != null and params.filterSql.trim() != ''">
@@ -96,10 +96,10 @@
         <if test="params.clientFrom != null and params.clientFrom.trim() != ''">
             AND clientFrom =  '${params.clientFrom}'
         </if>
+        <if test="params.clientManagerId != null and params.clientManagerId != ''">
+            AND clientManagerId =  '${params.clientManagerId}'
+        </if>
             AND clientType != 2
-<!--        <if test="params.status != null and params.status.trim() != ''">-->
-<!--            AND tbl_client.status  =  '${params.status}'-->
-<!--        </if>-->
     </select>
     <select id="selectOwnerTblClientPage" resultType="com.platform.entity.TblClient">
         select

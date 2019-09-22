@@ -43,7 +43,7 @@ public class ClientController {
     public R list(@RequestParam Map<String, Object> params) {
 
         SysUserEntity curUser = UserUtil.getCurUser();
-        params.put("clientManagerId",curUser.getUserId());
+//        params.put("clientManagerId",curUser.getUserId());
         //查询列表数据查询列表数据
         PageUtilsPlus pageUtil = tblClientService.queryPage(params);
         R page = R.ok().put("page", pageUtil);
