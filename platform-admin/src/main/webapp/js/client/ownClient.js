@@ -74,9 +74,11 @@ $(function () {
             }},
             { label: '操作',  width: 160, formatter: function (value, col, row) {
                 // return '<button class="btn btn-outline btn-info" onclick="vm.update(' + JSON.stringify(row) + ')"><i class="fa fa-info-circle"></i>&nbsp;修改</button>' ;
-                var str = "<a  onclick='vm.getClientInfo(" + JSON.stringify(row) + ")'>查看</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+                // var str = "<a  onclick='vm.getClientInfo(" + JSON.stringify(row) + ")'>查看</a>&nbsp;&nbsp;&nbsp;&nbsp;";
+                    var str = "";
                     if(vm.user.userId == 1 || vm.user.userId == row.clientManagerId){
-                       str +=  "<a  onclick='vm.update(" + JSON.stringify(row) + ")'>修改</a>&nbsp;&nbsp;&nbsp;&nbsp;" +
+                       // str +=  "<a  onclick='vm.update(" + JSON.stringify(row) + ")'>修改</a>&nbsp;&nbsp;&nbsp;&nbsp;" +
+                       str += "<a  onclick='vm.updateNew(" + JSON.stringify(row) + ")'>修改</a>&nbsp;&nbsp;&nbsp;&nbsp;"+
                            "<a  onclick='vm.giveUpClient(" + JSON.stringify(row) + ")'>放弃客户</a>&nbsp;&nbsp;&nbsp;&nbsp;" ;
                        if(row.clientType == 0){
                            str +=  "<a  onclick='vm.majorClient(" + JSON.stringify(row) + ")'>重点客户</a>&nbsp;&nbsp;&nbsp;&nbsp;";
@@ -203,7 +205,14 @@ var vm = new Vue({
                 }
             });
 
-        }, getCurUser: function () {
+        },
+        updateNew: function (row) {
+            var clientId =row.id;
+            var clientName =row.clientName;
+            var url = '../client/clientInfo.html?clientId=' + clientId + '&clientName='+clientName;
+            location.href = url;
+
+        },getCurUser: function () {
             Ajax.request({
                 url: "../client/getCurUser/",
                 async: false,

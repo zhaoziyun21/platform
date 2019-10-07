@@ -34,6 +34,68 @@ var vm = new Vue({
         },
         user:{
 
+        },ruleValidate: {
+            clientName: [
+                {required: true, message: '姓名不能为空', trigger: 'blur'}
+            ],
+            clientTel: [
+                {required: true, message: '手机号不能为空', trigger: 'blur'}
+            ],
+            clientType: [
+                {required: true, message: '客户类型不能为空', trigger: 'blur'}
+            ],
+            applyAmount: [
+                { pattern: /^[0-9]+(\.([0-9]{1,3}))$|^[0-9]+$/,message: '申请金额只能是整数或者小数', trigger: 'change'}
+            ],
+            salaryMoney: [
+                { pattern: /^[0-9]+(\.([0-9]{1,3}))$|^[0-9]+$/,message: '工资金额只能是整数或者小数', trigger: 'change'}
+            ],
+            socialSecurityPay: [
+                { pattern: /^[0-9]+(\.([0-9]{1,3}))$|^[0-9]+$/,message: '社保个缴金额只能是整数或者小数', trigger: 'change'}
+            ],
+            socialSecurityYears: [
+                { pattern: /^[0-9]+$/,message: '已交社保年限只能是整数', trigger: 'change'}
+            ],
+            gjjPay: [
+                { pattern: /^[0-9]+(\.([0-9]{1,3}))$|^[0-9]+$/,message: '公积金个缴金额只能是整数或者小数', trigger: 'change'}
+            ],
+            particleLoanAmount: [
+                { pattern: /^[0-9]+(\.([0-9]{1,3}))$|^[0-9]+$/,message: '微粒贷金额只能是整数或者小数', trigger: 'change'}
+            ],
+            houseMonthPay: [
+                { pattern: /^[0-9]+(\.([0-9]{1,3}))$|^[0-9]+$/,message: '房子月供金额只能是整数或者小数', trigger: 'change'}
+            ],
+            carAmount: [
+                { pattern: /^[0-9]+(\.([0-9]{1,3}))$|^[0-9]+$/,message: '车的价值金额只能是整数或者小数', trigger: 'change'}
+            ],
+            insureBillYearPay: [
+                { pattern: /^[0-9]+(\.([0-9]{1,3}))$|^[0-9]+$/,message: '保单年缴只能是整数或者小数', trigger: 'change'}
+            ],
+            insureBillMonthPay: [
+                { pattern: /^[0-9]+(\.([0-9]{1,3}))$|^[0-9]+$/,message: '保单月缴只能是整数或者小数', trigger: 'change'}
+            ],
+            insureBillYearCount: [
+                { pattern: /^[0-9]+$/,message: '保单年缴次数只能是整数', trigger: 'change'}
+            ],
+            insureBillMonthCount: [
+                { pattern: /^[0-9]+$/,message: '保单月缴次数只能是整数', trigger: 'change'}
+            ],
+            creditCardAmount: [
+                { pattern: /^[0-9]+(\.([0-9]{1,3}))$|^[0-9]+$/,message: '信用卡额度只能是整数或者小数', trigger: 'change'}
+            ],
+            // gjjYears: [
+            //     { pattern: /^[0-9]+$/,message: '公积金已交年限只能是整数', trigger: 'change'}
+            // ],
+            // salaryYears: [
+            //     { pattern: /^[0-9]+$/,message: '工资联缴年限只能是整数', trigger: 'change'}
+            // ],
+            cost: [
+                { pattern: /^[0-9]+(\.([0-9]{1,3}))$|^[0-9]+$/,message: '成本金额只能是整数或者小数', trigger: 'change'}
+            ]
+
+
+
+
         }
     },
     beforeCreate() {
@@ -75,6 +137,26 @@ var vm = new Vue({
         },
         handleReset: function (name) {
             handleResetForm(this, name);
+        },returnBack:function(){
+            var url = "../client/client.html";
+            location.href = url;
+        },handleSubmit: function (name) {
+            handleSubmitValidate(this, name, function () {
+                vm.saveOrUpdate()
+            });
+        },saveOrUpdate: function () {
+            var url = vm.client.id == null ? "../client/save" : "../client/update";
+            Ajax.request({
+                url: url,
+                params: JSON.stringify(vm.client),
+                contentType: "application/json",
+                type: 'POST',
+                successCallback: function () {
+                    alert('操作成功', function (index) {
+                        vm.returnBack();
+                    });
+                }
+            });
         }
     }
 });
