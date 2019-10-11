@@ -103,6 +103,8 @@ public class ClientController {
         SysUserEntity user = UserUtil.getCurUser();
         client.setClientManagerId(user.getUserId());
         client.setClientManagerName(user.getRealName());
+        client.setCreateUser(user.getUsername());
+        client.setUpdateUser(user.getUsername());
         client.setCreateTime(new Date());
         client.setStatus("1");
         client.setFollowTime(new Date());
@@ -119,8 +121,8 @@ public class ClientController {
     public R update(@RequestBody TblClient client) {
         ValidatorUtils.validateEntity(client);
         SysUserEntity user = UserUtil.getCurUser();
-        client.setClientManagerId(user.getUserId());
-        client.setClientManagerName(user.getRealName());
+//        client.setClientManagerId(user.getUserId());
+//        client.setClientManagerName(user.getRealName());
         client.setUpdateUser(user.getUsername());
         client.setFollowTime(new Date());
         tblClientService.update(client);
@@ -133,8 +135,6 @@ public class ClientController {
     public R giveUpClient(@RequestParam long clientId) {
         SysUserEntity user = UserUtil.getCurUser();
         TblClient client = tblClientService.queryObject(clientId);
-        client.setClientManagerId(user.getUserId());
-        client.setClientManagerName(user.getRealName());
         client.setUpdateUser(user.getUsername());
         client.setFollowTime(null);
         client.setClientType("2");
@@ -149,8 +149,6 @@ public class ClientController {
         SysUserEntity user = UserUtil.getCurUser();
         TblClient client = tblClientService.queryObject(clientId);
         client.setId(clientId);
-        client.setClientManagerId(user.getUserId());
-        client.setClientManagerName(user.getRealName());
         client.setUpdateUser(user.getUsername());
         client.setFollowTime(new Date());
         client.setClientType(clientType);
