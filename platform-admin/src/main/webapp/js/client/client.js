@@ -1,8 +1,10 @@
 $(function () {
     vm.getCurUser();
     vm.getManagerList();
+    var page = getQueryStringNew("page") == null ? 1:getQueryStringNew("page");
     $("#jqGrid").Grid({
         url: '../client/list',
+        page:page,
         rowNum: 15,//默认分页大小
         rowList: [15,20,30],//分页大小的下拉
         postData: {
@@ -222,9 +224,10 @@ var vm = new Vue({
 
         },
         updateNew: function (row) {
+            var page = $("#jqGrid").getGridParam().page;
             var clientId =row.id;
             var clientName =row.clientName;
-            var url = '../client/clientInfo.html?clientId=' + clientId + '&clientName='+clientName;
+            var url = '../client/clientInfo.html?clientId=' + clientId + '&clientName='+clientName+'&page='+page;
             location.href = url;
 
         },

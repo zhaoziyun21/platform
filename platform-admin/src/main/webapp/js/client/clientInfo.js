@@ -1,5 +1,6 @@
 var clientId;
 var clientName;
+var page = 1;
 $(function () {
     var clientFollowRecordUrl = '../clientFollowRecord/list';
     if (clientId) {
@@ -101,6 +102,7 @@ var vm = new Vue({
     beforeCreate() {
         clientId = getQueryString("clientId");
         clientName = getQueryStringNew("clientName");
+        page = getQueryStringNew("page");
         this.$nextTick(function () {
                 Ajax.request({
                     url: "../client/info/" + clientId+"?clientId="+clientId,
@@ -138,7 +140,7 @@ var vm = new Vue({
         handleReset: function (name) {
             handleResetForm(this, name);
         },returnBack:function(){
-            var url = "../client/client.html";
+            var url = "../client/client.html?page="+page;
             location.href = url;
         },handleSubmit: function (name) {
             handleSubmitValidate(this, name, function () {
