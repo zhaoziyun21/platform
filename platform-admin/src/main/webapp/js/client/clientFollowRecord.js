@@ -52,6 +52,11 @@ var vm = new Vue({
         query: function () {
             vm.reload();
         },
+        change: function (opt) {
+            var str = $("#record textarea").val();
+            $("#record textarea").val(str+opt+';');
+            vm.clientFollowRecord.followRemark = $("#record textarea").val();
+        },
         add: function () {
             vm.showClientFollowRecordList = false;
             vm.title = "新增";

@@ -16,7 +16,17 @@
                 <i-input v-model="clientFollowRecord.clientName" disabled  placeholder="客户姓名"/>
             </Form-item>
             <Form-item label="跟单记录" prop="followRemark">
-                <i-input type = "textarea" v-model="clientFollowRecord.followRemark" placeholder="跟单记录"/>
+                <i-input  id="record" type = "textarea" v-model="clientFollowRecord.followRemark" placeholder="跟单记录" />
+            </Form-item>
+            <Form-item>
+                <i-select   @on-change="change" placeholder="常用语" style="width:150px">
+                    <i-option value="未接电话">未接电话</i-option>
+                    <i-option value="空号">空号</i-option>
+                    <i-option value="无法接通">无法接通</i-option>
+                    <i-option value="客户挂机">客户挂机</i-option>
+                    <i-option value="客户关机">客户关机</i-option>
+                    <i-option value="异地申请">异地申请</i-option>
+                </i-select>
             </Form-item>
             <Form-item>
                 <i-button type="primary" @click="handleSubmit('formValidate')">提交</i-button>
