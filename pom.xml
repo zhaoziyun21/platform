@@ -46,7 +46,7 @@
         <kaptcha.version>2.3.2</kaptcha.version>
         <j2cache.version>2.7.2-release</j2cache.version>
         <ehcache.version>2.10.4</ehcache.version>
-        <jgroups.version>3.6.13.Final</jgroups.version>
+        <jgroups.version>4.0.0.Final</jgroups.version>
         <weixin-java-mp.version>3.2.0</weixin-java-mp.version>
         <lombok.version>1.18.4</lombok.version>
         <mybatis-plus.version>3.1.0</mybatis-plus.version>
